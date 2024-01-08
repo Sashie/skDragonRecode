@@ -1,0 +1,99 @@
+
+------Simple Effects------
+
+Astroid (2D)
+	extra(1), density(1), axis, rotation, velocity, solid
+
+Circle (2D)
+	radius(2), density(1), axis, rotation, velocity, solid
+
+Sphere (3D)
+	radius(1), density(1), axis, rotation, velocity, solid
+
+Epicycloid (2D)
+	extra(2), density(1), axis, rotation, velocity, solid
+	
+Hypocycloid (2D)
+	extra(2), density(1), axis, rotation, velocity, solid
+
+Hypotrochoid (3D)
+	extra(3), density(1), axis, rotation, velocity, solid
+
+Lissajous (3D)
+	extra(2), density(1), axis, rotation, velocity, solid
+
+Spiral (3D)
+	style(2), extra(1), radius(2), density(1), axis, rotation, velocity, solid
+
+Spirograph (2D)
+	extra(3), density(1), axis, rotation, velocity, solid
+
+	e1=25, e2=-10, e=16
+	e1=100, e2=40, e=16
+	e1=30, e2=-10, e=26 //adobe
+	e1=5, e2=-18, e=37 //fish
+
+Torus (3D)
+	extra(3), density(1), axis, rotation, velocity, solid
+
+
+------Special Effects ------
+
+Atom
+	extra(2), radius(2), density(3)
+
+Ball
+	radius(2), density(2), axis, velocity
+
+Band
+
+
+Blackhole
+
+
+Breath
+
+
+Cylinder
+
+
+Disco
+
+
+Lasers
+
+
+Lightning
+
+
+Meteor
+
+
+MovingCircle
+
+
+NyanCat
+
+
+Planet
+
+
+Rings
+	style(), radius(1), density(2)
+
+Wings
+
+
+
+------Target Effects------
+
+Arc
+
+
+Line
+
+
+Lightning
+
+
+

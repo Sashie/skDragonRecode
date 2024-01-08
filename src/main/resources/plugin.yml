@@ -1,0 +1,7 @@
+name: SkDragonRecode
+authors: [ Sashie ]
+description: Particle effects!
+version: '${project.version}'
+main: me.sashie.skdragon.SkDragonRecode
+api-version: 1.16
+depend: [Skript]

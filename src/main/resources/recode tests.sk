@@ -1,0 +1,16 @@
+
+
+command /test1:
+	trigger:
+		register new particle effect circle with id "uniqueID"
+
+		set the 1st particle color of the particle effect "uniqueID" to custom color using rgb 255, 255, 0
+
+		set style of effect "uniqueID" to 2
+
+		start particle effect "uniqueID" at location of player
+
+		#start particle effect "uniqueID" at location of player repeating with an interval of 1 tick
+
+
+
