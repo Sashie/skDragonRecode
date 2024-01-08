@@ -73,10 +73,17 @@ public class EffStartParticleEffect extends Effect {
 
 	@Override
 	protected void execute(Event event) {
-		String name = this.name.getSingle(event);
+		String id = this.name.getSingle(event);
+		if (id == null)
+			return;
+
 		long finalDelay = EffectUtils.getSingleWithDefault(event, inputDelay, new Timespan(0)).getTicks_i();
 		int finalRepeat = EffectUtils.getSingleWithDefault(event, inputRepeat, -1).intValue();
 		long finalInterval = EffectUtils.getSingleWithDefault(event, inputInterval, new Timespan(0)).getTicks_i();
+
+		Object[] locations = this.location.getArray(event);
+		if (locations == null)
+			return;
 
 		//repeatable tasks also allow a delay so 'type' falls through if effect is repeatable
 	    RunnableType type = RunnableType.INSTANT;
@@ -85,13 +92,16 @@ public class EffStartParticleEffect extends Effect {
 		if (parsedSyntax.contains("repeat") ||inputRepeat != null)
 			type = RunnableType.REPEATING;
 
-		DynamicLocation[] locs = EffectUtils.toDynamicLocations(this.location.getAll(event));
+		DynamicLocation[] locs = EffectUtils.toDynamicLocations(locations);
 
 		if (targets == null) {
-			EffectAPI.start(name, type, finalRepeat, finalDelay, finalInterval, parsedSyntax.contains(" sync "), locs, skriptNode);
+			EffectAPI.start(id, type, finalRepeat, finalDelay, finalInterval, parsedSyntax.contains(" sync "), locs, skriptNode);
 		} else {
-			DynamicLocation[] targets = EffectUtils.toDynamicLocations(this.targets.getAll(event));
-			EffectAPI.start(name, type, finalRepeat, finalDelay, finalInterval, parsedSyntax.contains(" sync "), locs, targets, skriptNode);
+			Object[] inputTargets = this.targets.getArray(event);
+			if (inputTargets == null)
+				return;
+			DynamicLocation[] targets = EffectUtils.toDynamicLocations(inputTargets);
+			EffectAPI.start(id, type, finalRepeat, finalDelay, finalInterval, parsedSyntax.contains(" sync "), locs, targets, skriptNode);
 		}
 	}
 

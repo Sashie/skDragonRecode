@@ -57,11 +57,16 @@ public class EffRegisterNewParticleEffect extends Effect {
 
 	@Override
 	protected void execute(Event event) {
+		String id = this.name.getSingle(event);
+		ParticleEffect effectType = this.effectType.getSingle(event);
 
-		EffectData effect = EffectAPI.register(this.name.getSingle(event), this.effectType.getSingle(event), skriptNode);
+		if (id == null || effectType == null)
+			return;
 
-		if (this.particles != null) {
-			ParticleBuilder<?>[] particles = this.particles.getAll(event);
+		EffectData effect = EffectAPI.register(id, effectType, skriptNode);
+
+		if (this.particles != null && this.particles.getArray(event) != null) {
+			ParticleBuilder<?>[] particles = this.particles.getArray(event);
 			effect.setParticles(particles, skriptNode);
 		}
 

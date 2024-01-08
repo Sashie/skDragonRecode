@@ -58,7 +58,11 @@ public class ExprAllParticleProperties extends SimpleExpression<String> {
 	@Override
 	@Nullable
 	protected String[] get(Event e) {
-		List<ParticleProperty> properties = ParticleProperty.getPropertiesForParticle(this.particle.getSingle(e));
+		Particle particle = this.particle.getSingle(e);
+		if (particle == null)
+			return null;
+
+		List<ParticleProperty> properties = ParticleProperty.getPropertiesForParticle(particle);
 
 		String[] result = properties.stream()
 				.map(ParticleProperty::toString)

@@ -157,7 +157,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 	@Override
 	public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
 		particleNumber = 1;
-		if (particleNumberExpr != null)
+		if (particleNumberExpr != null && particleNumberExpr.getSingle(e) != null)
 			particleNumber = particleNumberExpr.getSingle(e).intValue();
 
 		if (scope) {
@@ -172,7 +172,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 			}
 		} else {
 			List<String> failedEffects = new ArrayList<String>();
-			String[] effectIDs = (String[]) getExpr().getAll(e);
+			String[] effectIDs = (String[]) getExpr().getArray(e);
 
 			if (effectIDs == null)
 				return;
@@ -210,7 +210,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 	@Override
 	protected T[] get(Event e, String[] source) {
 		particleNumber = 1;
-		if (particleNumberExpr != null)
+		if (particleNumberExpr != null && particleNumberExpr.getSingle(e) != null)
 			particleNumber = particleNumberExpr.getSingle(e).intValue();
 
 		return super.get(source, this);

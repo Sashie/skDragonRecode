@@ -19,6 +19,7 @@
 
 package me.sashie.skdragon.skript.effects;
 
+import me.sashie.skdragon.effects.ParticleEffect;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
@@ -55,10 +56,16 @@ public class EffRemoveParticleEffects extends Effect {
 
 	@Override
 	protected void execute(Event event) {
-		if (all) 
+		if (all) {
 			EffectAPI.unregisterAll();
-		else
-			EffectAPI.unregister(this.name.getSingle(event), skriptNode);
+		} else {
+			String id = this.name.getSingle(event);
+
+			if (id == null)
+				return;
+
+			EffectAPI.unregister(id, skriptNode);
+		}
 	}
 
 	@Override

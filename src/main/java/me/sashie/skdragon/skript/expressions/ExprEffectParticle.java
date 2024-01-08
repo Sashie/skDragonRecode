@@ -82,7 +82,7 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 		} else if (matchedPattern == 1) {
 			this.setExpr((Expression<? extends String>) exprs[0]);
 			this.particleNumberExpr = (Expression<Number>) exprs[1];
-		} else {
+		} else if (matchedPattern == 0) {
 			this.particleNumberExpr = (Expression<Number>) exprs[0];
 			this.setExpr((Expression<? extends String>) exprs[1]);
 		}
@@ -113,13 +113,13 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 	public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
 		failedEffects = new ArrayList<String>();
 		particleNumber = 1;
-		if (particleNumberExpr != null)
+		if (particleNumberExpr != null && particleNumberExpr.getSingle(e) != null)
 			particleNumber = particleNumberExpr.getSingle(e).intValue();
 				
 		if (scope) {
 			set(ParticleEffectSection.getID(), (ParticleBuilder<?>) delta[0]);
 		} else {
-			String[] effectIDs = (String[]) getExpr().getAll(e);
+			String[] effectIDs = (String[]) getExpr().getArray(e);
 
 			if (effectIDs == null)
 				return;
@@ -157,7 +157,7 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 	@Override
 	protected ParticleBuilder<?>[] get(Event e, String[] source) {
 		particleNumber = 1;
-		if (particleNumberExpr != null)
+		if (particleNumberExpr != null && particleNumberExpr.getSingle(e) != null)
 			particleNumber = particleNumberExpr.getSingle(e).intValue();
 		if (scope) {
 			throw new ParticleException("Incorrect use of syntax, can't get values inside a scope", skriptNode);

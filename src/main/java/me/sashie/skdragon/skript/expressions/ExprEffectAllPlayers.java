@@ -80,7 +80,10 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 			return null;
 		}
 		
-		String[] effectIDs = (String[]) this.name.getAll(e);
+		String[] effectIDs = (String[]) this.name.getArray(e);
+		if (effectIDs == null)
+			return null;
+
 		if (effectIDs.length > 1)
 			SkDragonRecode.warn("Only a single ID input can be used for setting players to a list variable. Subsequent IDs will be ignored.", skriptNode);
 
@@ -101,8 +104,7 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 			}
 		} else {
 			List<String> failedEffects = new ArrayList<String>();
-			String[] effectIDs = (String[]) this.name.getAll(e);
-
+			String[] effectIDs = (String[]) this.name.getArray(e);
 			if (effectIDs == null)
 				return;
 

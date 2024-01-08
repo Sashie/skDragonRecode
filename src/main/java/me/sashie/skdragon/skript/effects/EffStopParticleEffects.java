@@ -55,10 +55,14 @@ public class EffStopParticleEffects extends Effect {
 
 	@Override
 	protected void execute(Event event) {
-		if (all)
+		if (all) {
 			EffectAPI.stopAll();
-		else
-			EffectAPI.stop(this.name.getSingle(event), skriptNode);
+		} else {
+			String id = this.name.getSingle(event);
+			if (id == null)
+				return;
+			EffectAPI.stop(id, skriptNode);
+		}
 	}
 
 	@Override

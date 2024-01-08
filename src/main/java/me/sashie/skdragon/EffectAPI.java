@@ -87,12 +87,14 @@ public class EffectAPI {
 	private static EffectData set(String id, EffectData effect, SkriptNode skriptNode) {
 		if (ALL_EFFECTS.containsKey(id)) {
 			EffectData data = ALL_EFFECTS.get(id);
-			//if (isRunning(id)) {
-			if (ACTIVE_RUNNABLES.containsKey(id)) {
-				stop(id, skriptNode);
+			synchronized (data) {
+				//if (isRunning(id)) {
+				if (ACTIVE_RUNNABLES.containsKey(id)) {
+					stop(id, skriptNode);
+				}
+				releasePools(data);
+				ALL_EFFECTS.remove(id);
 			}
-			releasePools(data);
-			ALL_EFFECTS.remove(id);
 		}
 		ALL_EFFECTS.put(id, effect);
 
@@ -309,9 +311,7 @@ public class EffectAPI {
 			return;
 
 		for (Integer taskId : ACTIVE_RUNNABLES.values()) {
-			//if (Bukkit.getScheduler().isCurrentlyRunning(taskId)) {
-				Bukkit.getScheduler().cancelTask(taskId);
-			//}
+			Bukkit.getScheduler().cancelTask(taskId);
 		}
 		ACTIVE_RUNNABLES.clear();
 	}
@@ -325,7 +325,7 @@ public class EffectAPI {
 	public static boolean isRunning(String id) {
 		Integer taskId = ACTIVE_RUNNABLES.get(id);
 		if (taskId != null) {
-			return Bukkit.getScheduler().isCurrentlyRunning(taskId);
+			return true; // Bukkit.getScheduler().isCurrentlyRunning(taskId); // for some reason this returns false on running effect?
 		}
 		return false;
 	}

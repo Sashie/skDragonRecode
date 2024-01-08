@@ -140,14 +140,14 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 		if (EffectAPI.ALL_EFFECTS.containsKey(id)) {
 			EffectData effect = EffectAPI.get(id, skriptNode);
 
+			synchronized(effect) {
 			Object property = getPropertyArray(effect);
 			int length = Array.getLength(property);
 
 			if (propertyNumber > length)
 				throw new ParticleException("The " + /*'" + data.getName() + "'*/"effect with id " + id + " does not support more than " + length + " " + getEffectProperty().getName().toLowerCase() + " propert" + (length > 1 ? "ies" : "y") , skriptNode);
 
-			synchronized(effect) {
-				return getPropertyValue(propertyNumber, effect);
+			return getPropertyValue(propertyNumber, effect);
 			}
 		} else {
 			return null;
@@ -158,7 +158,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 	public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
 		failedEffects = new ArrayList<String>();
 		propertyNumber = 1;
-		if (propertyNumberExpr != null)
+		if (propertyNumberExpr != null && propertyNumberExpr.getSingle(e) != null)
 			propertyNumber = propertyNumberExpr.getSingle(e).intValue();
 
 		if (scope) {
@@ -197,13 +197,14 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 */
 	private void set(String id, Object[] delta) {
 		EffectData effect = EffectAPI.get(id, skriptNode);
+		synchronized(effect) {
 		Object property = getPropertyArray(effect);
 		if (property != null && property.getClass().isArray()) {
-			
+
 			int length = Array.getLength(property);
 			if (propertyNumber > length)
 				throw new ParticleException("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + length + " " + getEffectProperty().getName() + " propert" + (length > 1 ? "ies" : "y"), skriptNode);
-			synchronized(effect) {
+
 				Number value = (Number) delta[0];
 				setPropertyValue(effect, propertyNumber, value);
 			}
@@ -213,7 +214,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 	@Override
 	protected T[] get(Event e, String[] source) {
 		propertyNumber = 1;
-		if (propertyNumberExpr != null)
+		if (propertyNumberExpr != null && propertyNumberExpr.getSingle(e) != null)
 			propertyNumber = propertyNumberExpr.getSingle(e).intValue();
 
 		return super.get(source, this);

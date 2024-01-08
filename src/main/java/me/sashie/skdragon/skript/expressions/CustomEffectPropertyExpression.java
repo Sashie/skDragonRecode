@@ -137,7 +137,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 			set(ParticleEffectSection.getID(), delta);
 		} else {
 			List<String> failedEffects = new ArrayList<String>();
-			String[] effectIDs = (String[]) getExpr().getAll(e);
+			String[] effectIDs = (String[]) getExpr().getArray(e);
 
 			if (effectIDs == null)
 				return;
