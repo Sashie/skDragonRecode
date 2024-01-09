@@ -36,8 +36,8 @@ public class ColoredFadeParticle extends ParticleBuilder<FadeParticleData> {
 
 	@Override
 	public void sendParticles(DynamicLocation location, Player... player) {
-		java.awt.Color c = data.colors.get();
-		Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(c.getRed(), c.getGreen(), c.getBlue()), 1);
+		Color c = data.colors.get();
+		Particle.DustOptions dustOptions = new Particle.DustOptions(c, 1);
 
 		if (player == null || player.length == 0) {
 			location.getWorld().spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);

@@ -5,9 +5,9 @@ import me.sashie.skdragon.effects.simple.Heart;
 import me.sashie.skdragon.effects.simple.Sphere;
 import me.sashie.skdragon.effects.simple.parametric.*;
 import me.sashie.skdragon.effects.special.*;
-import me.sashie.skdragon.effects.target.Arc;
-import me.sashie.skdragon.effects.target.Line;
-import me.sashie.skdragon.effects.target.TargetLightning;
+import me.sashie.skdragon.effects.targets.Arc;
+import me.sashie.skdragon.effects.targets.Line;
+import me.sashie.skdragon.effects.targets.TargetLightning;
 
 public enum ParticleEffect {
 

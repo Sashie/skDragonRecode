@@ -19,12 +19,13 @@
 
 package me.sashie.skdragon.skript.expressions.particle;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import ch.njol.skript.util.Color;
+import ch.njol.skript.util.ColorRGB;
 import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.debug.ParticleException;
@@ -77,8 +78,8 @@ public class ExprParticleColors extends CustomParticlePropertyExpression<Color> 
 
 				if (p instanceof ColoredParticle) {
 					ArrayList<Color> cl = new ArrayList<>();
-					for (Color c : ((ColoredParticle) p).getParticleData().colors) {
-						cl.add(c);
+					for (org.bukkit.Color c : ((ColoredParticle) p).getParticleData().colors) {
+						cl.add(new ColorRGB(c.getRed(), c.getGreen(),c.getBlue() ));
 					}
 					return cl.toArray(new Color[cl.size()]);
 				}
@@ -93,7 +94,9 @@ public class ExprParticleColors extends CustomParticlePropertyExpression<Color> 
 		if (p instanceof ColoredParticle) {
 			Color[] c = (Color[]) delta;
 			((ColoredParticle) p).getParticleData().colors.clear();
-			((ColoredParticle) p).getParticleData().colors.addAll(c);
+			for (Color color : c) {
+				((ColoredParticle) p).getParticleData().colors.add(color.asBukkitColor());
+			}
 		}
 	}
 

@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 
 public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 
-	private java.awt.Color c;
+	private Color c;
 
 	public ColoredParticle() {
 		super(new ColoredParticleData());
@@ -40,7 +40,7 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 	public void sendParticles(DynamicLocation location, Player... player) {
 		if (data.particle == Particle.REDSTONE) {
 			c = data.colors.get();
-			Particle.DustOptions dustOptions = new Particle.DustOptions(Color.fromRGB(c.getRed(), c.getGreen(), c.getBlue()), 1);
+			Particle.DustOptions dustOptions = new Particle.DustOptions(c, 1);
 
 			if (player == null || player.length == 0) {
 				location.getWorld().spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);

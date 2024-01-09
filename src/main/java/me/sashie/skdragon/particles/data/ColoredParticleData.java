@@ -1,12 +1,12 @@
 package me.sashie.skdragon.particles.data;
 
-import java.awt.Color;
+import org.bukkit.Color;
 
 import me.sashie.skdragon.util.DynamicList;
 
 public class ColoredParticleData extends ParticleData {
 
-	public DynamicList<Color> colors = new DynamicList<Color>(new Color(0, 0, 0));
+	public DynamicList<Color> colors = new DynamicList<Color>(Color.fromRGB(0, 0, 0));
 
 	public void setColor(Color color) {
 		this.colors = new DynamicList<Color>(color);
@@ -21,7 +21,7 @@ public class ColoredParticleData extends ParticleData {
 	}
 
 	public void setColor(int r, int g, int b) {
-		this.colors = new DynamicList<Color>(new Color(r, g, b));
+		this.colors = new DynamicList<Color>(Color.fromRGB(r, g, b));
 	}
 
 	public void setColor(int index, Color color) {
@@ -29,11 +29,10 @@ public class ColoredParticleData extends ParticleData {
 	}
 
 	public void setColor(int index, int r, int g, int b) {
-		this.colors.set(index, new Color(r, g, b));
+		this.colors.set(index, Color.fromRGB(r, g, b));
 	}
 
-	public org.bukkit.Color getBukkitColor(int index) {
-		Color c = colors.get(index);
-		return org.bukkit.Color.fromRGB(c.getRed(), c.getGreen(), c.getBlue());
+	public Color getColor(int index) {
+		return colors.get(index);
 	}
 }

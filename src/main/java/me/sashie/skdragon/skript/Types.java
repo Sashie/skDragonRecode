@@ -43,46 +43,6 @@ import me.sashie.skdragon.effects.ParticleEffect;
 public class Types {
 
 	static {
-		Classes.registerClass(new ClassInfo<>(Color.class, "dragoncolor")
-				.user("dragoncolou?rs?")
-				.name("Colour")
-				.description("Parses rgb colors for use in some expressions.")
-				.usage("rgb 255, 0 and 0")
-				.examples("gradient between rgb 255, 0 and 0 and rgb 0, 255 and 0 with 100 steps")
-				.since("1.0")
-				.parser(new Parser<Color>() {
-					@Override
-					@Nullable
-					public Color parse(final String rgbString, final ParseContext context) {
-						String[] parts = rgbString.split(" ");
-
-						if (parts.length == 5 && parts[0].equals("rgb")) {
-							try {
-								// Assuming the input format is "rgb R, G and B"
-								int red = Integer.parseInt(parts[1].replace(",", ""));
-								int green = Integer.parseInt(parts[2].replace(",", ""));
-								int blue = Integer.parseInt(parts[4]);
-
-								return new Color(red, green, blue);
-							} catch (NumberFormatException e) {
-								e.printStackTrace();
-							}
-						}
-
-						return Color.RED;
-					}
-
-					@Override
-					public String toString(final Color c, final int flags) {
-						return "rgb " + c.getRed() + ", " + c.getGreen() + " and " + c.getBlue();
-					}
-
-					@Override
-					public String toVariableNameString(final Color c) {
-						return "rgb " + c.getRed() + ", " + c.getGreen() + " and " + c.getBlue();
-					}
-				}));
-
 		if (Classes.getExactClassInfo(Particle.class) == null) {
 			Classes.registerClass(new ClassInfo<>(Particle.class, "particle")
 					.user("particles?")

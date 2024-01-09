@@ -67,13 +67,13 @@ public class ExprParticleColorRGB extends CustomParticlePropertyExpression<Numbe
 			
 			switch (mark) {
 				case 1:
-					((ColoredParticle) p).getParticleData().setColor(new Color(value, ((ColoredParticle) p).getParticleData().colors.get().getGreen(), ((ColoredParticle) p).getParticleData().colors.get().getBlue()));
+					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(value, ((ColoredParticle) p).getParticleData().colors.get().getGreen(), ((ColoredParticle) p).getParticleData().colors.get().getBlue()));
 					break;
 				case 2:
-					((ColoredParticle) p).getParticleData().setColor(new Color(((ColoredParticle) p).getParticleData().colors.get().getRed(), value, ((ColoredParticle) p).getParticleData().colors.get().getBlue()));
+					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(((ColoredParticle) p).getParticleData().colors.get().getRed(), value, ((ColoredParticle) p).getParticleData().colors.get().getBlue()));
 					break;
 				case 3:
-					((ColoredParticle) p).getParticleData().setColor(new Color(((ColoredParticle) p).getParticleData().colors.get().getRed(), ((ColoredParticle) p).getParticleData().colors.get().getGreen(), value));
+					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(((ColoredParticle) p).getParticleData().colors.get().getRed(), ((ColoredParticle) p).getParticleData().colors.get().getGreen(), value));
 					break;
 			}
 		}

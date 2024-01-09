@@ -19,10 +19,11 @@
 
 package me.sashie.skdragon.skript.expressions.special;
 
-import java.awt.Color;
 
 import javax.annotation.Nullable;
 
+import ch.njol.skript.util.Color;
+import ch.njol.skript.util.ColorRGB;
 import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
@@ -44,15 +45,15 @@ public class ExprNewColor extends SimpleExpression<Color> {
 	static {
 		Skript.registerExpression(ExprNewColor.class, Color.class, ExpressionType.SIMPLE,
 /*0*/				"[a] custom colo[u]r (using|from) ((1¦rgb|2¦(hsb|hsv)) %-number%, %-number%, %-number%|3¦hex %-string%)",
-/*1*/				"[a] random [%-number%] colo[u]r[s] [(using|from) ((1¦rgb|2¦(hsb|hsv)) %-number%, %-number%, %-number%|3¦hex %-string%|4¦%-dragoncolor%)]",
+/*1*/				"[a] random [%-number%] colo[u]r[s] [(using|from) ((1¦rgb|2¦(hsb|hsv)) %-number%, %-number%, %-number%|3¦hex %-string%|4¦%-color%)]",
 				
-/*2*/				"(1¦darken[ed]|2¦brighten[ed]) %dragoncolor% [by %-number% percent]",
+/*2*/				"(1¦darken[ed]|2¦brighten[ed]) %color% [by %-number% percent]",
 
-/*3*/				"([a] gradient|colo[u]rs) between %dragoncolors% [with %-number% steps]",
+/*3*/				"([a] gradient|colo[u]rs) between %color% [with %-number% steps]",
 
 /*4*/				"(1¦rainbow|2¦heat|3¦jet) (gradient|colo[u]rs) [with %-number% steps]",
 
-/*5*/				"[a|%-number%] complementary colo[u]rs of %dragoncolor%");
+/*5*/				"[a|%-number%] complementary colo[u]rs of %color%");
 
 	}
 
@@ -122,18 +123,20 @@ public class ExprNewColor extends SimpleExpression<Color> {
 	@Nullable
 	protected Color[] get(Event e) {
 		if (matchedPattern == 2) {
-			Color color;
-			double percent = this.n == null ? 0.7 : this.n.getSingle(e).intValue() / 100;
+			Color color = this.c.getSingle(e);
+			if (color == null)
+				return null;
+			double percent = this.n == null || this.n.getSingle(e) == null ? 0.7 : this.n.getSingle(e).intValue() / 100;
 			if (mark == 1)
-				color = ColorUtils.darken(this.c.getSingle(e), percent);
+				color = ColorUtils.darken(color, percent);
 			else
-				color = ColorUtils.brighten(this.c.getSingle(e), percent);
+				color = ColorUtils.brighten(color, percent);
 			return new Color[] { color };
 		} else if (matchedPattern == 3) {
-			return ColorUtils.generateMultiGradient(this.c.getArray(e), this.n == null ? 255 : this.n.getSingle(e).intValue());
+			return ColorUtils.generateMultiGradient(this.c.getArray(e), this.n == null || this.n.getSingle(e) == null ? 255 : this.n.getSingle(e).intValue());
 		} else if (matchedPattern == 4) {
 			Color[] colors = null;
-			int value = this.n == null ? 255 : this.n.getSingle(e).intValue();
+			int value = this.n == null || this.n.getSingle(e) == null ? 255 : this.n.getSingle(e).intValue();
 			if (mark == 1)
 				colors = ColorUtils.rainbow(value);
 			else if (mark == 2)
@@ -143,22 +146,46 @@ public class ExprNewColor extends SimpleExpression<Color> {
 			return colors;
 		} else if (matchedPattern == 5) {
 			Color color = this.c.getSingle(e);
+			if (color == null)
+				return null;
 			return ColorUtils.complementaryColors(color);
 		} else {
 			Color color = null;
-			if (mark == 1)
-				color = new Color(this.r.getSingle(e).intValue(), this.g.getSingle(e).intValue(), this.b.getSingle(e).intValue());
-			else if (mark == 2)
-				color = Color.getHSBColor(this.r.getSingle(e).floatValue(), this.g.getSingle(e).floatValue(), this.b.getSingle(e).floatValue());
-			else if (mark == 3)
-				color = Color.decode(this.h.getSingle(e));
-			else if (mark == 4)
+			if (mark == 1) {
+				Number r = this.r.getSingle(e);
+				Number g = this.g.getSingle(e);
+				Number b = this.b.getSingle(e);
+				if (r == null || g == null || b == null)
+					return null;
+				color = new ColorRGB(r.intValue(), g.intValue(), b.intValue());
+			} else if (mark == 2) {
+				Number h = this.r.getSingle(e);
+				Number s = this.g.getSingle(e);
+				Number b = this.b.getSingle(e);
+				if (h == null || s == null || b == null)
+					return null;
+				java.awt.Color c = java.awt.Color.getHSBColor(h.floatValue(), s.floatValue(), b.floatValue());
+				color = new ColorRGB(c.getRed(), c.getGreen(), c.getBlue());
+			} else if (mark == 3) {
+				String hex = this.h.getSingle(e);
+				if (hex == null)
+					return null;
+				java.awt.Color c = java.awt.Color.decode(hex);
+				color = new ColorRGB(c.getRed(), c.getGreen(), c.getBlue());
+			} else if (mark == 4) {
 				color = this.c.getSingle(e);
+				if (color == null)
+					return null;
+			}
 			if (matchedPattern == 1) {
-				if (this.n == null)
+				if (this.n == null) {
 					color = ColorUtils.generateRandomColor(color);
-				else
-					return ColorUtils.generateRandomColors(color, this.n.getSingle(e).intValue());
+				} else {
+					Number n = this.n.getSingle(e);
+					if (n == null)
+						return null;
+					return ColorUtils.generateRandomColors(color, n.intValue());
+				}
 			}
 
 			return new Color[] { color };
