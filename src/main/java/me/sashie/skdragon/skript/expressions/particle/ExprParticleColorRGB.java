@@ -19,7 +19,7 @@
 
 package me.sashie.skdragon.skript.expressions.particle;
 
-import java.awt.Color;
+import org.bukkit.Color;
 
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -64,16 +64,17 @@ public class ExprParticleColorRGB extends CustomParticlePropertyExpression<Numbe
 				value = 0;
 			else if (value > 255)
 				value = 255;
-			
+
+			Color c = ((ColoredParticle) p).getParticleData().colors.get();
 			switch (mark) {
 				case 1:
-					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(value, ((ColoredParticle) p).getParticleData().colors.get().getGreen(), ((ColoredParticle) p).getParticleData().colors.get().getBlue()));
+					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(value, c.getGreen(), c.getBlue()));
 					break;
 				case 2:
-					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(((ColoredParticle) p).getParticleData().colors.get().getRed(), value, ((ColoredParticle) p).getParticleData().colors.get().getBlue()));
+					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(c.getRed(), value, c.getBlue()));
 					break;
 				case 3:
-					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(((ColoredParticle) p).getParticleData().colors.get().getRed(), ((ColoredParticle) p).getParticleData().colors.get().getGreen(), value));
+					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(c.getRed(), c.getGreen(), value));
 					break;
 			}
 		}
