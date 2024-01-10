@@ -49,7 +49,7 @@ public class ExprNewColor extends SimpleExpression<Color> {
 				
 /*2*/				"(1¦darken[ed]|2¦brighten[ed]) %color% [by %-number% percent]",
 
-/*3*/				"([a] gradient|colo[u]rs) between %color% [with %-number% steps]",
+/*3*/				"([a] gradient|colo[u]rs) between %colors% [with %-number% steps]",
 
 /*4*/				"(1¦rainbow|2¦heat|3¦jet) (gradient|colo[u]rs) [with %-number% steps]",
 

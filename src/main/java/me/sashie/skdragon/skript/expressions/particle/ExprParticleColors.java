@@ -40,7 +40,7 @@ import org.bukkit.event.Event;
  */
 @Name("Particles - Color")
 @Description({""})
-@Examples({	"set the 1st particle color of the particle effect \"uniqueID\" to {_v}"})
+@Examples({	"set the 1st particle color of the particle effect \"uniqueID\" to custom color using rgb 255, 255, 0"})
 public class ExprParticleColors extends CustomParticlePropertyExpression<Color> {
 
 	static {
@@ -109,7 +109,7 @@ public class ExprParticleColors extends CustomParticlePropertyExpression<Color> 
 	protected String getPropertyName() {
 		return "color(s)";
 	}
-	
+
 	@Override
 	public boolean isSingle() {
 		return false;

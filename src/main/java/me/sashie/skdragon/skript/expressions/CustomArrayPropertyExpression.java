@@ -229,6 +229,6 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the " + (propertyNumberExpr == null ? "" : "number " + propertyNumberExpr.toString(e, debug) + " ") + this.getPropertyName() + this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug);
+		return "the " + (propertyNumberExpr == null ? "" : "number " + propertyNumberExpr.toString(e, debug) + " ") + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug));
 	}
 }

@@ -77,7 +77,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 			} else {
 				return false;
 			}
-		} else if (matchedPattern == 3 && matchedPattern == 4) {
+		} else if (matchedPattern == 3 || matchedPattern == 4) {
 			if (EffectSection.isCurrentSection(ParticleSection.class)) {
 				this.scope = true;
 			} else {
@@ -164,7 +164,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				set(ParticleEffectSection.getID(), delta);
 			} else if (EffectSection.isCurrentSection(ParticleSection.class)) {
-				if (matchedPattern == 3 && matchedPattern == 4) {
+				if (matchedPattern == 3 || matchedPattern == 4) {
 					setParticle(ParticleSection.getParticle(), delta);
 				} else {
 					SkDragonRecode.warn("A 'particle' section only allows one particle at a time not more, for that use a 'particle effect' section", skriptNode);
@@ -225,6 +225,6 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the " + (particleNumberExpr == null ? "" : "number " + particleNumberExpr.toString(e, debug) + " ") + "particle " + this.getPropertyName() + this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug);
+		return "the " + (particleNumberExpr == null ? "" : "number " + particleNumberExpr.toString(e, debug) + " ") + "particle " + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug));
 	}
 }
