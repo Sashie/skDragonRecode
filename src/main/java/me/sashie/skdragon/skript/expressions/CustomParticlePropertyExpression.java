@@ -225,6 +225,6 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the " + (particleNumberExpr == null ? "" : "number " + particleNumberExpr.toString(e, debug) + " ") + "particle " + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug));
+		return "the " + (particleNumberExpr == null ? "" : particleNumberExpr.toString(e, debug) + "(st|nd|rd|th) ") + "particle " + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug));
 	}
 }
