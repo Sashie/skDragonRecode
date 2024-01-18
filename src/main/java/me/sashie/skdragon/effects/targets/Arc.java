@@ -29,7 +29,7 @@ public class Arc extends TargetEffect implements IDensity, IExtra {
 		densityProperty = new DensityProperty();
 		extraProperty = new ExtraProperty();
 
-		this.getExtraProperty().initValue(1.5f, 1.5f, 1.5f);
+		this.getExtraProperty().initValue(4f, 1.5f, 0f);
 		this.getDensityProperty().initDensity(40);
 
 	}
@@ -48,7 +48,7 @@ public class Arc extends TargetEffect implements IDensity, IExtra {
             v2 = VectorUtils.rotateAroundAxisX(v2, this.getExtraProperty().getValue(3));
             location.add(v).add(v2);//.add(0, y, 0);
             this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
-            location.subtract(0, y, 0).subtract(v);
+            location.subtract(v2).subtract(v);
         }
         //TODO make it rotate more
 	}

@@ -1,17 +1,12 @@
 package me.sashie.skdragon.util;
 
-
-import me.sashie.skdragon.math.vector.Vector3d;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
 
 public final class VectorUtils {
 
-    public static final Vector3d ONE = new Vector3d(1, 1, 1);
-
-    private VectorUtils() {
-    }
+    public static final Vector ONE = new Vector(1, 1, 1);
 
     public static Vector add(Vector vector, double x, double y, double z) {
         return vector.setX(vector.getX() + x).setY(vector.getY() + y).setZ(vector.getZ() + z);

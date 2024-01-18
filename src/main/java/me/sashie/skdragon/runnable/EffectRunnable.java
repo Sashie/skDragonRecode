@@ -26,6 +26,7 @@ public class EffectRunnable extends BukkitRunnableTask {
 
 			if (this.data.stopTriggered()) {
 				cancel();
+				return;
 			}
 
 			ParticleUtils.updateColoredParticles(this.data);

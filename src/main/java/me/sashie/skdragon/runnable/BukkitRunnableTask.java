@@ -25,7 +25,9 @@ public abstract class BukkitRunnableTask implements Runnable, RunnableTask<Bukki
 
 	@Override
     public synchronized BukkitTask runTask() throws IllegalArgumentException, IllegalStateException {
-		run = wrap(this::run);
+		run = wrap(() -> {
+			run();
+		});
         return run.runTask(SkDragonRecode.getInstance());
     }
 

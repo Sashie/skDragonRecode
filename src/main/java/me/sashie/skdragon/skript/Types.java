@@ -81,7 +81,7 @@ public class Types {
 
 
 		Classes.registerClass(new ClassInfo<ParticleEffect>(ParticleEffect.class, "particleeffect")
-				.user("particle ?effects?")
+				.user("particleeffects?")
 				.defaultExpression(new EventValueExpression<>(ParticleEffect.class))
 				.since("1.0")
 				.parser(new Parser<ParticleEffect>() {

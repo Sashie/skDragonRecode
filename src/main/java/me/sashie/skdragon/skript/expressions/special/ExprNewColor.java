@@ -39,7 +39,8 @@ import me.sashie.skdragon.util.color.ColorUtils;
 
 @Name("New Color")
 @Description({"Constructs a new color"})
-@Examples({	"custom color using rgb 255, 0, 0"})
+@Examples({	"custom color using rgb 255, 0, 0",
+			"gradient between custom color using rgb 255, 0, 0 and custom color using rgb 255, 255, 0 with 100 steps"})
 public class ExprNewColor extends SimpleExpression<Color> {
 
 	static {
@@ -53,7 +54,7 @@ public class ExprNewColor extends SimpleExpression<Color> {
 
 /*4*/				"(1¦rainbow|2¦heat|3¦jet) (gradient|colo[u]rs) [with %-number% steps]",
 
-/*5*/				"[a|%-number%] complementary colo[u]rs of %color%");
+/*5*/				"complementary colo[u]rs of %color%");
 
 	}
 
@@ -114,9 +115,88 @@ public class ExprNewColor extends SimpleExpression<Color> {
 		return true;
 	}
 
-	@Override	//TODO get matched pattern and stuff
 	public String toString(@Nullable Event e, boolean debug) {
-		return "new custom color " + r.toString(e, debug) + ", " + g.toString(e, debug) + ", " + b.toString(e, debug);		//TODO
+		StringBuilder sb = new StringBuilder();
+		if (matchedPattern == 2) {
+			switch (mark) {
+				case 1:
+					sb.append("darken ");
+					break;
+				case 2:
+					sb.append("brighten ");
+					break;
+			}
+			sb.append(c.toString(e, debug));
+			if (n != null) {
+				sb.append(" by ");
+				sb.append(n.toString(e, debug));
+				sb.append(" percent");
+			}
+		} else if (matchedPattern == 3) {
+			sb.append("gradient between ");
+			sb.append(c.toString(e, debug));
+			if (n != null) {
+				sb.append(" with ");
+				sb.append(n.toString(e, debug));
+				sb.append(" steps");
+			}
+		} else if (matchedPattern == 4) {
+			switch (mark) {
+				case 1:
+					sb.append("rainbow");
+					break;
+				case 2:
+					sb.append("heat");
+					break;
+				case 3:
+					sb.append("jet");
+					break;
+			}
+			sb.append(" gradient");
+			if (n != null) {
+				sb.append(" with ");
+				sb.append(n.toString(e, debug));
+				sb.append(" steps");
+			}
+		} else if (matchedPattern == 5) {
+			sb.append("complementary colors of ");
+			sb.append(c.toString(e, debug));
+		} else {
+			if (matchedPattern == 0) {
+				sb.append("custom color");
+			} else if (matchedPattern == 1) {
+				sb.append("random");
+				if (n != null) {
+					sb.append(" ");
+					sb.append(n.toString(e, debug));
+					sb.append(" colors");
+				} else {
+					sb.append(" color");
+				}
+			}
+			if (mark == 1 || mark == 2) {
+				switch (mark) {
+					case 1:
+						sb.append(" using rgb ");
+						break;
+					case 2:
+						sb.append(" using hsb/hsv ");
+						break;
+				}
+				if (r != null && g != null && b != null) {
+					sb.append(r.toString(e, debug));
+					sb.append(g.toString(e, debug));
+					sb.append(b.toString(e, debug));
+				}
+			} else if (mark == 3) {
+				sb.append(" using hex ");
+				sb.append(h.toString(e, debug));
+			} else if (mark == 4) {
+				sb.append(" using ");
+				sb.append(c.toString(e, debug));
+			}
+		}
+		return sb.toString();
 	}
 
 	@Override

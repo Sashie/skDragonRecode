@@ -1,22 +1,21 @@
 package me.sashie.skdragon;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-
+import me.sashie.skdragon.debug.ParticleException;
+import me.sashie.skdragon.debug.SkriptNode;
+import me.sashie.skdragon.effects.EffectData;
+import me.sashie.skdragon.effects.EffectProperty;
+import me.sashie.skdragon.effects.ParticleEffect;
+import me.sashie.skdragon.effects.TargetEffect;
+import me.sashie.skdragon.runnable.EffectRunnable;
+import me.sashie.skdragon.runnable.RunnableType;
+import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 
-import me.sashie.skdragon.debug.SkriptNode;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.TargetEffect;
-import me.sashie.skdragon.effects.ParticleEffect;
-import me.sashie.skdragon.debug.ParticleException;
-import me.sashie.skdragon.runnable.EffectRunnable;
-import me.sashie.skdragon.runnable.RunnableType;
-import me.sashie.skdragon.util.DynamicLocation;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -51,29 +50,6 @@ public class EffectAPI {
 	public static HashMap<String, Integer> ACTIVE_RUNNABLES = new HashMap<>();
 
 	/**
-	 * Registers an effect
-	 * 
-	 * @param id Id of the effect
-	 * @param particle The type of particle
-	 * @param location Location of the effect
-	 */
-	//public void register(String id, ParticleEffect[] particle, DynamicLocation[] location) {
-	//	register(id, effect, particle, location);
-	//}
-
-	/**
-	 * Registers an effect with a target location
-	 * 
-	 * @param id Id of the effect
-	 * @param particle The type of particle
-	 * @param location Start location of the effect
-	 * @param target Location of the target
-	 */
-	//public void register(String id, ParticleEffect[] particles, DynamicLocation[] location, DynamicLocation target) {
-	//	register(id, effect, particles, location, target);
-	//}
-
-	/**
 	 * Static method for registering an effect externally
 	 *  
 	 * @param id Id of the effect
@@ -88,9 +64,9 @@ public class EffectAPI {
 		if (ALL_EFFECTS.containsKey(id)) {
 			EffectData data = ALL_EFFECTS.get(id);
 			synchronized (data) {
-				//if (isRunning(id)) {
-				if (ACTIVE_RUNNABLES.containsKey(id)) {
+				if (isRunning(id)) {
 					stop(id, skriptNode);
+
 				}
 				releasePools(data);
 				ALL_EFFECTS.remove(id);
@@ -104,18 +80,18 @@ public class EffectAPI {
 	/**
 	 * Unregister an effect
 	 * 
-	 * @param id Id of the effect
+	 * @param id ID of the effect
 	 */
 	public static boolean unregister(String id, SkriptNode skriptNode) {
 		if (!ALL_EFFECTS.containsKey(id)) {
 			SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
 			return false;
 		}
+		EffectData data = ALL_EFFECTS.get(id);
 		if (isRunning(id)) {
 			stop(id, skriptNode);
-			EffectData data = ALL_EFFECTS.get(id);
-			releasePools(data);
 		}
+		releasePools(data);
 		ALL_EFFECTS.remove(id);
 		return true;
 	}
@@ -141,7 +117,7 @@ public class EffectAPI {
 	/**
 	 * Gets a registered effect if one exists with the input id
 	 * 
-	 * @param id Id of the effect
+	 * @param id ID of the effect
 	 * @return The effect
 	 */
 	public static EffectData get(String id, SkriptNode skriptNode) {
@@ -154,7 +130,7 @@ public class EffectAPI {
 	/**
 	 * General method for starting an effect
 	 * 
-	 * @param id Id of the effect
+	 * @param id ID of the effect
 	 * @param runType {@link RunnableType RunnableType} to use
 	 * @param iterations Number of iterations the effect should run for
 	 * @param ticks Amount of ticks per pulse
@@ -167,7 +143,7 @@ public class EffectAPI {
 	/**
 	 * General method for starting an effect with a delay before it
 	 * 
-	 * @param id Id of the effect
+	 * @param id ID of the effect
 	 * @param runType {@link RunnableType RunnableType} to use
 	 * @param iterations Number of iterations the effect should run for
 	 * @param delay Number of ticks before effect starts only used if RunnableType is 'DELAYED'
@@ -194,7 +170,7 @@ public class EffectAPI {
 	/**
 	 * General method for starting an effect with a delay before it
 	 *
-	 * @param id Id of the effect
+	 * @param id ID of the effect
 	 * @param runType {@link RunnableType RunnableType} to use
 	 * @param iterations Number of iterations the effect should run for
 	 * @param delay Number of ticks before effect starts only used if RunnableType is 'DELAYED'
@@ -291,7 +267,7 @@ public class EffectAPI {
 	/**
 	 * Stops an effect if one exists
 	 * 
-	 * @param id Id of the effect
+	 * @param id ID of the effect
 	 */
 	public static void stop(String id, SkriptNode skriptNode) {
 		Integer taskId = ACTIVE_RUNNABLES.get(id);
@@ -319,7 +295,7 @@ public class EffectAPI {
 	/**
 	 * Checks whether an effect is running or not
 	 * 
-	 * @param id
+	 * @param id ID of the effect
 	 * @return
 	 */
 	public static boolean isRunning(String id) {

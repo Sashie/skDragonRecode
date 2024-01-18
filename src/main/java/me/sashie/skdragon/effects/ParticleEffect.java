@@ -8,6 +8,7 @@ import me.sashie.skdragon.effects.special.*;
 import me.sashie.skdragon.effects.targets.Arc;
 import me.sashie.skdragon.effects.targets.Line;
 import me.sashie.skdragon.effects.targets.TargetLightning;
+import me.sashie.skdragon.util.Utils;
 
 public enum ParticleEffect {
 
@@ -129,8 +130,12 @@ public enum ParticleEffect {
 
 	public abstract EffectData getEffectData();
 
-	public static ParticleEffect getByName(String name) {
-		return valueOf(name.toUpperCase().replace(" ", "_"));
+	public static ParticleEffect getByName(String effectName) {
+		try {
+			return valueOf(effectName.toUpperCase().replace(" ", "_"));
+		} catch (IllegalArgumentException ignore) {
+			return null;
+		}
 	}
 
 	public String getName() {

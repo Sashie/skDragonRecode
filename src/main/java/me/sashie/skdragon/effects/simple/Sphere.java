@@ -1,11 +1,7 @@
 package me.sashie.skdragon.effects.simple;
 
 import me.sashie.skdragon.effects.SimpleRadiusEffect;
-import me.sashie.skdragon.math.vector.Vector2d;
-import me.sashie.skdragon.math.vector.Vector3d;
 import me.sashie.skdragon.util.RandomUtils;
-import me.sashie.skdragon.util.Utils;
-import org.bukkit.util.Vector;
 
 /**
  * Created by Sashie on 8/9/2021.

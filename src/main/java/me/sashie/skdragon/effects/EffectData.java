@@ -162,7 +162,9 @@ public abstract class EffectData {
 	}
 
 	public void setDisplacement(Vector displacement) {
-		this.displacement = new Value3d(displacement);
+		this.displacement.setX(displacement.getX());
+		this.displacement.setY(displacement.getY());
+		this.displacement.setZ(displacement.getZ());
 	}
 
 	public Value3d getDisplacement() {

@@ -28,7 +28,7 @@ public class ExprNewVector extends SimpleExpression<Vector> {
 
 	static {
 		Skript.registerExpression(ExprNewVector.class, Vector.class, ExpressionType.SIMPLE,
-				"new vector from %object%");
+				"[new] vector from %object%");
 	}
 
 	private Expression<Object> entLoc;

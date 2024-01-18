@@ -59,9 +59,8 @@ public class EffStopParticleEffects extends Effect {
 			EffectAPI.stopAll();
 		} else {
 			String id = this.name.getSingle(event);
-			if (id == null)
-				return;
-			EffectAPI.stop(id, skriptNode);
+			if (id != null)
+				EffectAPI.stop(id, skriptNode);
 		}
 	}
 

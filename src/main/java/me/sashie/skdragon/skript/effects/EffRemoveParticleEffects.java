@@ -40,8 +40,8 @@ import me.sashie.skdragon.debug.SkriptNode;
 
 @Name("Remove particle effects")
 @Description({"Removes all particle effects or one of a given ID name"})
-@Examples({	"remove particle effect \"%player%\"",
-	"remove all particle effects"})
+@Examples({	"unregister particle effect \"%player%\"",
+	"unregister all particle effects"})
 public class EffRemoveParticleEffects extends Effect {
 
 	static {
@@ -61,10 +61,8 @@ public class EffRemoveParticleEffects extends Effect {
 		} else {
 			String id = this.name.getSingle(event);
 
-			if (id == null)
-				return;
-
-			EffectAPI.unregister(id, skriptNode);
+			if (id != null)
+				EffectAPI.unregister(id, skriptNode);
 		}
 	}
 

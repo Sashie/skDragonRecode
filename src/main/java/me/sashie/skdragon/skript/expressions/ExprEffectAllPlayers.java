@@ -95,7 +95,10 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 
 	@Override
 	public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
-		final Player[] players = (Player[]) delta;
+		final Player[] players = new Player[delta.length];
+		for (int i = 0; i < delta.length; i++) {
+			players[i] = (Player) delta[i];
+		}
 
 		if (scope) {
 			EffectData effect = EffectAPI.get(ParticleEffectSection.getID(), skriptNode);
@@ -136,7 +139,6 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 						case RESET:
 						case DELETE:
 							if (effect.getPlayers() != null) {
-								//effect.getPlayers().clear();
 								effect.setPlayers(null);
 							}
 							break;

@@ -25,6 +25,7 @@ public class VectorPool {
 
     public void release(Vector vector) {
         if (vector == null) return;
+        vector.setY(0).setY(0).setZ(0);
         pool.release(vector);
     }
 }

@@ -43,49 +43,47 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 
 	private ExtraProperty extraProperty;
 	Vector vector;
-	//DynamicLocation loc;
 
 	public Atom() {
 		extraProperty = new ExtraProperty();
 		this.getExtraProperty().initValue(40f, 30f);
 		this.getRadiusProperty().initRadius(.5f, 1.5f);
-		this.getDensityProperty().initDensity(10, 10, 20);
+		this.getDensityProperty().initDensity(20, 20, 20);
 
-		//loc = ObjectPoolManager.getDynamicLocationPool().acquire();
 		vector = ObjectPoolManager.getVectorPool().acquire();
 	}
 
 	@Override
 	public void update(DynamicLocation location, float step) {
-		//loc.init(location);
-		double stepAngle = step * Math.PI / this.getExtraProperty().getValue(1);
 		double densityAngle = Math.PI / this.getDensityProperty().getDensity(2);
+		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
 
 		for (int i = 0; i < this.getDensityProperty().getDensity(1); i++) {
-			double angle = stepAngle * i;
+			double angle = step * angularVelocity;
 			for (int j = 0; j < this.getDensityProperty().getDensity(2); j++) {
 				double xRotation = densityAngle * j;
-				vector.setX(Math.sin(angle) * this.getRadiusProperty().getRadius(2))
-					.setY(Math.cos(angle) * this.getRadiusProperty().getRadius(2))
-					.setZ(0);
+				vector.setX(Math.sin(angle) * ( 0.6 + this.getRadiusProperty().getRadius(2) ));
+				vector.setY(Math.cos(angle) * ( 0.6 + this.getRadiusProperty().getRadius(2) ));
+				vector.setZ(0);
 				VectorUtils.rotateAroundAxisX(vector, xRotation);
 				VectorUtils.rotateAroundAxisY(vector, this.getExtraProperty().getValue(2));
 				this.getParticleBuilder(2).sendParticles(location.add(vector), this.getPlayers());
 				location.subtract(vector);
 			}
+			step++;
 		}
 
 		//Sphere
 		for (int i = 0; i < this.getDensityProperty().getDensity(3); i++) {
-            vector = RandomUtils.getRandomVector(vector).multiply(this.getRadiusProperty().getRadius(1));
-            this.getParticleBuilder(1).sendParticles(location.add(vector), this.getPlayers());
+			vector = RandomUtils.getRandomVector(vector).multiply(this.getRadiusProperty().getRadius(1));
+			location.add(vector);
+			this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
 			location.subtract(vector);
-        }
+		}
 	}
 
 	@Override
 	public void onUnregister() {
-		//ObjectPoolManager.getDynamicLocationPool().release(loc);
 		ObjectPoolManager.getVectorPool().release(vector);
 	}
 
