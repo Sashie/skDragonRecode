@@ -39,7 +39,11 @@ public final class VectorUtils {
 		vector.setX(x).setY(y).setZ(z);
 		return vector;
 	}
-    
+
+    public static double degreesToRadians(double angle) {
+        return angle * (Math.PI / 180);
+    }
+
     public static final Vector rotateAroundAxisX(Vector v, double angle) {
         double y, z, cos, sin;
         cos = Math.cos(angle);

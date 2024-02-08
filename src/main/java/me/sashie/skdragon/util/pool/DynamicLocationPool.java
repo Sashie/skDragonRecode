@@ -41,7 +41,7 @@ public class DynamicLocationPool {
 
     public void release(DynamicLocation dynamicLocation) {
         if (dynamicLocation == null) return;
-        dynamicLocation.set(0, 0, 0);
+        dynamicLocation.reset();
         pool.release(dynamicLocation);
     }
 }

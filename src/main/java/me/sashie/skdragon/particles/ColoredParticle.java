@@ -1,6 +1,7 @@
 package me.sashie.skdragon.particles;
 
 import me.sashie.skdragon.particles.data.ColoredParticleData;
+import me.sashie.skdragon.particles.data.ParticleData;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Color;
@@ -43,11 +44,13 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 			Particle.DustOptions dustOptions = new Particle.DustOptions(c, 1);
 
 			if (player == null || player.length == 0) {
-				location.getWorld().spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
-			} else {
 				for (int i = 0; i < data.amount; i++) {
-					for (int j = 0; j < player.length; j++) {
-						player[j].spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+					location.getWorld().spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+				}
+			} else {
+				for (int i = 0; i < player.length; i++) {
+					for (int j = 0; j < data.amount; j++) {
+						player[i].spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
 					}
 				}
 			}
@@ -73,6 +76,16 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 					player[j].spawnParticle(data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, red, green, blue, 1);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void initParticle(ParticleData data) {
+		this.data.setParticle(data.getParticle());
+		this.data.setAmount(data.getAmount());
+		this.data.setOffset(data.getOffset());
+		if (data instanceof ColoredParticleData) {
+			this.data.colors = ((ColoredParticleData) data).colors;
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class ExprEffectExtra extends CustomArrayPropertyExpression<Number> {
 	@Override
 	public void setPropertyValue(EffectData effect, int propertyNumber, Number value) {
 		if (effect instanceof IExtra) {
-			((IExtra) effect).getExtraProperty().setValue(propertyNumber, value.intValue());
+			((IExtra) effect).getExtraProperty().setValue(propertyNumber, value.floatValue());
 		}
 	}
 

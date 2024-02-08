@@ -1,7 +1,7 @@
 /*
 	This file is part of skDragon - A Skript addon
       
-	Copyright (C) 2016 - 2021  Sashie
+	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -19,52 +19,50 @@
 
 package me.sashie.skdragon.skript.expressions.particle;
 
-import me.sashie.skdragon.particles.ParticleBuilder;
-import org.bukkit.inventory.ItemStack;
-
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import me.sashie.skdragon.particles.MaterialParticle;
+import me.sashie.skdragon.particles.DirectionParticle;
+import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
+import org.bukkit.util.Vector;
 
 /**
- * Created by Sashie on 12/12/2016.
+ * Created by Sashie on 12/12/2024.
  */
-@Name("Particles - Material type")
-@Description({"Certain particles allow you to change the material type they use ie. blockcrack etc.."})
-@Examples({	"set particle material of effect \"uniqueID\" to dirt block"})
-public class ExprParticleMaterial extends CustomParticlePropertyExpression<ItemStack> {
+@Name("Particles - Particle Direction")
+@Description({"Some particle types have a direction option that changes how the particle moves along its preset path"})
+@Examples({	"set particle direction of \"uniqueID\" to vector from player"})
+public class ExprParticleDirection extends CustomParticlePropertyExpression<Vector> {
 
 	static {
-		register(ExprParticleMaterial.class, ItemStack.class, "material");
+		register(ExprParticleDirection.class, Vector.class, "direction");
 	}
 
 	@Override
-	public ItemStack getParticle(ParticleBuilder<?> p) {
-		if (p instanceof MaterialParticle) {
-			return new ItemStack(((MaterialParticle) p).getParticleData().material);
+	public Vector getParticle(ParticleBuilder<?> p) {
+		if (p instanceof DirectionParticle) {
+			return ((DirectionParticle) p).getParticleData().direction;
 		}
+
 		return null;
 	}
 
 	@Override
 	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-		if (p instanceof MaterialParticle) {
-			ItemStack i = (ItemStack) (delta[0]);
-			((MaterialParticle) p).getParticleData().material = i.getType();
+		if (p instanceof DirectionParticle) {
+			Vector v = (Vector) (delta[0]);
+			((DirectionParticle) p).getParticleData().direction = v;
 		}
-
 	}
 
 	@Override
-	public Class<? extends ItemStack> getReturnType() {
-		return ItemStack.class;
+	public Class<? extends Vector> getReturnType() {
+		return Vector.class;
 	}
 
 	@Override
 	protected String getPropertyName() {
-		return "material";
+		return "direction";
 	}
-
 }

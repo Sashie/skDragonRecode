@@ -166,7 +166,7 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 	}
 
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the particle of effect " + this.getExpr().toString(e, debug);
+		return "the particle of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug));
 	}
 
 	@Override

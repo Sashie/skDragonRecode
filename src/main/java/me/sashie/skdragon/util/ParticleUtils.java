@@ -6,7 +6,9 @@ import me.sashie.skdragon.particles.data.*;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Vibration;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 import me.sashie.skdragon.debug.SkriptNode;
@@ -15,6 +17,7 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.runnable.CounterRunnable;
 import me.sashie.skdragon.runnable.EffectRunnable;
+import org.bukkit.inventory.ItemStack;
 
 public class ParticleUtils {
 
@@ -39,19 +42,37 @@ public class ParticleUtils {
 	public static <T extends ParticleData, R extends ParticleBuilder<T>> R createParticle(T data) {
 		if (data instanceof MaterialParticleData) {
 			return (R) new MaterialParticle((MaterialParticleData) data);
+		} else if (data instanceof VibrationParticleData) {
+			return (R) new VibrationParticle((VibrationParticleData) data);
 		} else if (data instanceof DirectionParticleData) {
 			return (R) new DirectionParticle((DirectionParticleData) data);
 		} else if (data instanceof FadeParticleData) {
 			return (R) new ColoredFadeParticle((FadeParticleData) data);
 		} else if (data instanceof ColoredParticleData) {
 			return (R) new ColoredParticle((ColoredParticleData) data);
-		} else if (data instanceof VibrationParticleData) {
-			return (R) new VibrationParticle((VibrationParticleData) data);
 		} else if (data instanceof NormalParticleData) {
 			return (R) new NormalParticle((NormalParticleData) data);
 		}
 
 		throw new IllegalArgumentException("No particle type exists for that data object");
+	}
+
+	public static ParticleBuilder createParticle(Particle particle) {
+		Class<?> dataType = particle.getDataType();
+		if (dataType == ItemStack.class) {
+			return new MaterialParticle();
+		} else if (dataType == Particle.DustOptions.class) {
+			return new ColoredParticle();
+		} else if (dataType == BlockData.class) {
+			return new MaterialParticle();
+		} else if (dataType == Particle.DustTransition.class) {
+			return new ColoredFadeParticle();
+		} else if (dataType == Vibration.class) {
+			return new VibrationParticle();
+		} else if (ParticleProperty.DIRECTIONAL.hasProperty(particle)) {
+			return new DirectionParticle();
+		}
+		return new NormalParticle();
 	}
 
 	public static void updateParticleAmount(EffectData data, int newSize) {

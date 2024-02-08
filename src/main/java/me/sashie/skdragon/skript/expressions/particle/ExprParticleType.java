@@ -19,6 +19,8 @@
 
 package me.sashie.skdragon.skript.expressions.particle;
 
+import me.sashie.skdragon.skript.sections.ParticleSection;
+import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Particle;
 
 import ch.njol.skript.doc.Description;
@@ -31,9 +33,9 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
  * Created by Sashie on 12/12/2016.
  */
 @Name("Particles - Particle type")
-@Description({"Gets or sets the particle type used"})
-@Examples({	"set particle type of effect \"uniqueID\" to redstone",
-		"set the 1st particle type of the particle effect \"uniqueID\" to redstone"})
+@Description({"Gets or sets the particle type used. Some data may be lost, for example if you change the particle type from Colorable to Normal it will lose its color data"})
+@Examples({	"set particle type of effect \"uniqueID\" to dust",
+		"set the 1st particle type of the particle effect \"uniqueID\" to dust"})
 public class ExprParticleType extends CustomParticlePropertyExpression<Particle> {
 
 	static {
@@ -48,13 +50,20 @@ public class ExprParticleType extends CustomParticlePropertyExpression<Particle>
 	@Override
 	public void setParticle(ParticleBuilder<?> particle, Object[] delta) {
 		Particle type = (Particle) (delta[0]);
-		particle.getParticleData().setParticle(type);
+
+		ParticleBuilder<?> p = ParticleUtils.createParticle(type);
+		p.initParticle(particle.getParticleData());
+		p.getParticleData().setParticle(type);
+		if (this.isParticleSection) {
+			ParticleSection.particle = p;
+		} else {
+			this.effect.setParticle(this.particleNumber, p, this.skriptNode);
+		}
 	}
 
 	@Override
 	public Class<? extends Particle> getReturnType() {
 		return Particle.class;
-
 	}
 
 	@Override

@@ -20,6 +20,7 @@ public class EffectRunnable extends BukkitRunnableTask {
 		synchronized(this.data) {
 			if (this.data == null) {
 				cancel();
+				return;
 			}
 
 			this.data.update(step);

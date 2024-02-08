@@ -2,6 +2,7 @@ package me.sashie.skdragon.particles;
 
 import java.util.function.Consumer;
 
+import me.sashie.skdragon.particles.data.ParticleData;
 import me.sashie.skdragon.util.DynamicLocation;
 import org.bukkit.Color;
 import org.bukkit.Particle;
@@ -47,6 +48,17 @@ public class ColoredFadeParticle extends ParticleBuilder<FadeParticleData> {
 					player[j].spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void initParticle(ParticleData data) {
+		this.data.setParticle(data.getParticle());
+		this.data.setAmount(data.getAmount());
+		this.data.setOffset(data.getOffset());
+		if (data instanceof FadeParticleData) {
+			this.data.colors = ((FadeParticleData) data).colors;
+			this.data.fadeColors = ((FadeParticleData) data).fadeColors;
 		}
 	}
 }

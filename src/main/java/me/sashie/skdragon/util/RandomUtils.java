@@ -28,7 +28,7 @@ public final class RandomUtils {
 	
 	public static Vector getRandomCircleVector(Vector vector) {
 		double rnd, x, z;
-		rnd = random.nextDouble() * 2 * Math.PI;
+		rnd = getRandomAngle();
 		x = Math.cos(rnd);
 		z = Math.sin(rnd);
 
@@ -71,25 +71,19 @@ public final class RandomUtils {
 	}
 	
 	public static double getRandomAngle() {
-		return random.nextDouble() * 2 * Math.PI;
+		return random.nextDouble() * (2 * Math.PI);
 	}
 
     public static float randomRangeFloat(float min, float max) {
     	if (min >= max)
     		return max;
-    	float r = random.nextFloat();
-        return ((r < 0.5f) ? ((1.0f - r) * (max - min) + min) : (r * (max - min) + min));
+        return random.nextFloat() * (max - min) + min;
     }
-
-	public static float randomRangeFloatMin(float min, float max) {
-		return min >= max ? min : random.nextFloat() * (max - min) + min;
-	}
 
     public static double randomRangeDouble(double min, double max) {
     	if (min >= max)
     		return max;
-    	double r = random.nextDouble();
-        return ((r < 0.5) ? ((1.0 - r) * (max - min) + min) : (r * (max - min) + min));
+        return random.nextDouble() * (max - min) + min;
     }
     
     public static int randomRangeInt(int min, int max) {
@@ -190,12 +184,12 @@ public final class RandomUtils {
 		return randomValues;
 	}
 
-	public static float random (float range) {
+	public static float random(float range) {
 		return random.nextFloat() * range;
 	}
 
     /** Returns -1 or 1, randomly. */
-	public static int randomSign () {
+	public static int randomSign() {
 		return 1 | (random.nextInt() >> 31);
 	}
 	

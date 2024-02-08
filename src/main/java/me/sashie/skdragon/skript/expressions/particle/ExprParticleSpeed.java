@@ -31,7 +31,7 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
  */
 @Name("Particles - Particle speed")
 @Description({"Some particle types have a speed option that changes how the particle moves along its preset path"})
-@Examples({	"set particle speed of \"uniqueID\" to .05"})
+@Examples({	"set particle speed of effect \"uniqueID\" to .05"})
 public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> {
 
 	static {
@@ -46,6 +46,7 @@ public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> 
 
 		return null;
 	}
+
 	@Override
 	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
 		if (p instanceof NormalParticle) {

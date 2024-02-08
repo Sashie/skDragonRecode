@@ -31,7 +31,7 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
  * Created by Sashie on 12/12/2016.
  */
 @Name("Particles - Rotation XYZ values")
-@Description({"Rotates specific effects using a specific x, y, z values, requires auto rotation expression for the effect be set to true.",
+@Description({"Rotates specific effects using a specific x, y, z values",
 	"This allows you to set the x, y or z value individually without changing the other values"})
 @Examples({	"set the x rotation value of the particle effect \"uniqueID\" to 1.7"})
 public class ExprEffectRotationXYZ extends CustomEffectPropertyExpression<Number> {
@@ -80,7 +80,7 @@ public class ExprEffectRotationXYZ extends CustomEffectPropertyExpression<Number
 
 	@Override
 	public String getPropertyName() {
-		return "rotation value";
+		return "(x, y, z) rotation value";
 	}
 
 	@Override

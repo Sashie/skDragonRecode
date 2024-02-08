@@ -34,13 +34,13 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
  * Created by Sashie on 12/12/2016.
  */
 
-@Name("Particles - Effect rotation")
-@Description({"Rotates specific effects using a vector, requires auto rotation expression for the effect be set to true"})
-@Examples({	"set rotation vector of effect \"uniqueID\" to {_v}"})
+@Name("Particles - Effect rotation axis")
+@Description({"Rotates specific effects using a vector"})
+@Examples({	"set rotation axis of effect \"uniqueID\" to {_v}"})
 public class ExprEffectRotation extends CustomEffectPropertyExpression<Vector> {
 
 	static {
-		register(ExprEffectRotation.class, Vector.class, "rotation vector");
+		register(ExprEffectRotation.class, Vector.class, "rotation axis");
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class ExprEffectRotation extends CustomEffectPropertyExpression<Vector> {
 
 	@Override
 	public String getPropertyName() {
-		return "rotation vector";
+		return "rotation axis";
 	}
 
 	@Override

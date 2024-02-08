@@ -23,7 +23,7 @@ public abstract class SpecialRadiusDensityEffect extends SpecialEffect implement
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return EffectUtils.array(EffectProperty.RADIUS, EffectProperty.DENSITY);
+		return EffectUtils.array(EffectProperty.RADIUS, EffectProperty.DENSITY, EffectProperty.DISPLACEMENT);
 	}
 
 	@Override

@@ -16,21 +16,38 @@ public class AxisProperty {
 		return axis;
 	}
 
+	/**
+	 * Values in degrees
+	 *
+	 * @param axis
+	 */
 	public void setAxis(Value3d axis) {
-		this.axis.setX(axis.getX());
-		this.axis.setY(axis.getY());
-		this.axis.setZ(axis.getZ());
+		this.axis.setX(Math.toRadians(axis.getX()));
+		this.axis.setY(Math.toRadians(axis.getY()));
+		this.axis.setZ(Math.toRadians(axis.getZ()));
 	}
 
+	/**
+	 * Values in degrees
+	 *
+	 * @param axis
+	 */
 	public void setAxis(Vector axis) {
-		this.axis.setX(axis.getX());
-		this.axis.setY(axis.getY());
-		this.axis.setZ(axis.getZ());
+		this.axis.setX(Math.toRadians(axis.getX()));
+		this.axis.setY(Math.toRadians(axis.getY()));
+		this.axis.setZ(Math.toRadians(axis.getZ()));
 	}
 
+	/**
+	 * Values in degrees
+	 *
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public void setAxis(double x, double y, double z) {
-		this.axis.setX(x);
-		this.axis.setY(y);
-		this.axis.setZ(z);
+		this.axis.setX(Math.toRadians(x));
+		this.axis.setY(Math.toRadians(y));
+		this.axis.setZ(Math.toRadians(z));
 	}
 }

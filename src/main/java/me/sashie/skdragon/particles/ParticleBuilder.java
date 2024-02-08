@@ -19,4 +19,5 @@ public abstract class ParticleBuilder<T extends ParticleData> {
 
 	public abstract void sendParticles(DynamicLocation location, Player... player);
 
+	public abstract void initParticle(ParticleData data);
 }

@@ -3,7 +3,6 @@ package me.sashie.skdragon.particles;
 import java.util.function.Consumer;
 
 import me.sashie.skdragon.particles.data.ParticleData;
-import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Vibration;
 import org.bukkit.entity.Player;
@@ -47,11 +46,30 @@ public class VibrationParticle extends ParticleBuilder<VibrationParticleData> {
 
 		// https://www.spigotmc.org/threads/comprehensive-particle-spawning-guide-1-13-1-17.343001/
 		if (player == null || player.length == 0) {
-			location.getWorld().spawnParticle(Particle.VIBRATION, location, 1, vibration);
+			for (int i = 0; i < data.amount; i++) {
+				location.getWorld().spawnParticle(Particle.VIBRATION, location, 1, vibration);
+			}
 		} else {
 			for (int i = 0; i < player.length; i++) {
-				player[i].spawnParticle(Particle.VIBRATION, location, 1, vibration);
+				for (int j = 0; j < data.amount; j++) {
+					player[i].spawnParticle(Particle.VIBRATION, location, 1, vibration);
+				}
 			}
+		}
+	}
+
+	@Override
+	public void initParticle(ParticleData data) {
+		this.data.setParticle(data.getParticle());
+		this.data.setAmount(data.getAmount());
+		this.data.setOffset(data.getOffset());
+		if (data instanceof VibrationParticleData) {
+			this.data.arrivalTime = ((VibrationParticleData) data).arrivalTime;
+			this.data.direction = ((VibrationParticleData) data).direction;
+			this.data.block = ((VibrationParticleData) data).block;
+			this.data.entity = ((VibrationParticleData) data).entity;
+			this.data.target = ((VibrationParticleData) data).target;
+			this.data.speed = ((VibrationParticleData) data).speed;
 		}
 	}
 }

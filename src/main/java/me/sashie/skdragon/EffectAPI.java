@@ -66,7 +66,6 @@ public class EffectAPI {
 			synchronized (data) {
 				if (isRunning(id)) {
 					stop(id, skriptNode);
-
 				}
 				releasePools(data);
 				ALL_EFFECTS.remove(id);
@@ -88,11 +87,14 @@ public class EffectAPI {
 			return false;
 		}
 		EffectData data = ALL_EFFECTS.get(id);
-		if (isRunning(id)) {
-			stop(id, skriptNode);
+		synchronized (data) {
+			if (isRunning(id)) {
+				stop(id, skriptNode);
+			}
+			releasePools(data);
+			ALL_EFFECTS.remove(id);
+			data = null;
 		}
-		releasePools(data);
-		ALL_EFFECTS.remove(id);
 		return true;
 	}
 
@@ -102,14 +104,19 @@ public class EffectAPI {
 	public static void unregisterAll() {
 		stopAll();
 		for (EffectData data : ALL_EFFECTS.values()) {
-			releasePools(data);
+			synchronized (data) {
+				releasePools(data);
+				data = null;
+			}
 		}
 		ALL_EFFECTS.clear();
 	}
 
 	private static void releasePools(EffectData data) {
-		for (DynamicLocation location : data.getLocations()) {
-			ObjectPoolManager.getDynamicLocationPool().release(location);
+		if (data.getLocations() != null) {
+			for (DynamicLocation location : data.getLocations()) {
+				ObjectPoolManager.getDynamicLocationPool().release(location);
+			}
 		}
 		data.onUnregister();
 	}

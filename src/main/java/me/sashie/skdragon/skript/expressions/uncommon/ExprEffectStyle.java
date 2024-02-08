@@ -24,8 +24,8 @@ import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.WingsEffect;
 import me.sashie.skdragon.effects.properties.IStyle;
+import me.sashie.skdragon.effects.special.Wings;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 
 /**
@@ -44,9 +44,6 @@ public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 	@Override
 	public Number getPropertyValue(EffectData effect) {
 		if (effect instanceof IStyle) {
-			if (effect instanceof WingsEffect) {
-				return ((WingsEffect) effect).getStyle();
-			}
 			return ((IStyle) effect).getStyleProperty().getStyle();
 		}
 		return null;
@@ -56,8 +53,8 @@ public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 	public void setPropertyValue(EffectData effect, Object[] delta) {
 		if (effect instanceof IStyle) {
 			Number b = (Number) (delta[0]);
-			if (effect instanceof WingsEffect) {
-				((WingsEffect) effect).setStyle(b.intValue());
+			if (effect instanceof Wings) {
+				((Wings) effect).setStyle(b.intValue());
 			} else {
 				((IStyle) effect).getStyleProperty().setStyle(b.intValue());
 			}

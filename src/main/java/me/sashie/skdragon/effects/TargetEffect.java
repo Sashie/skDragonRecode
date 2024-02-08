@@ -1,5 +1,6 @@
 package me.sashie.skdragon.effects;
 
+import me.sashie.skdragon.util.EffectUtils;
 import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.util.DynamicLocation;
@@ -75,7 +76,7 @@ public abstract class TargetEffect extends EffectData {
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return null;
+		return EffectUtils.array(EffectProperty.DISPLACEMENT);
 	}
 
 	public void setTargets(DynamicLocation[] targets) {

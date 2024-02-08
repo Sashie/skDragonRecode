@@ -43,4 +43,14 @@ public class NormalParticle extends ParticleBuilder<NormalParticleData> {
 			}
 		}
 	}
+
+	@Override
+	public void initParticle(ParticleData data) {
+		this.data.setParticle(data.getParticle());
+		this.data.setAmount(data.getAmount());
+		this.data.setOffset(data.getOffset());
+		if (data instanceof NormalParticleData) {
+			this.data.speed = ((NormalParticleData) data).speed;
+		}
+	}
 }

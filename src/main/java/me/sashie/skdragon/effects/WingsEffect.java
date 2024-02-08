@@ -12,13 +12,11 @@ public abstract class WingsEffect extends SpecialEffect implements IExtra {
 
 	private ExtraProperty extraProperty;
 
-	protected int wingStyle;
-	boolean flapMode;
-	float flapStep;
-	float flapRange;
-	float wingAngle;
+	float wingAngle = 0;
 	float flap = 0;
-	
+	float flapStep = 0.3f;
+	float flapRange = 20;
+
 	public WingsEffect() {
 		extraProperty = new ExtraProperty();
 	}
@@ -27,11 +25,9 @@ public abstract class WingsEffect extends SpecialEffect implements IExtra {
 	
 	@Override
 	public void update(DynamicLocation location, float step) {
-
 		updateWings(location, flap);
-        
-    	if (flapMode){
-			if (flap > flapRange || flap < 0) flapStep = -flapStep;
+    	if (isFlapping()){
+			if (flap > flapRange || flap < 0.0f) flapStep = -flapStep;
 			flap += flapStep;
 		}
 	}
@@ -41,12 +37,8 @@ public abstract class WingsEffect extends SpecialEffect implements IExtra {
 		return extraProperty;
 	}
 
-	public boolean getFlapMode() {
-		return flapMode;
-	}
-	
-	public void setFlapMode(boolean flapMode) {
-		this.flapMode = flapMode;
+	public boolean isFlapping() {
+		return flapStep != 0.0f;
 	}
 	
 	public float getFlapStep() {
@@ -56,8 +48,6 @@ public abstract class WingsEffect extends SpecialEffect implements IExtra {
 	public void setFlapStep(float flapStep) {
 		if (flapStep <= -5.0f) {
 			flapStep = -5.0f;
-		} else if (flapStep == 0.0f) {
-			flapMode = false;
 		} else if (flapStep >= 5.0f) {
 			flapStep = 5.0f;
 		}
@@ -78,16 +68,5 @@ public abstract class WingsEffect extends SpecialEffect implements IExtra {
 	
 	public void setWingAngle(float wingAngle) {
 		this.wingAngle = wingAngle;
-	}
-	
-	public int getStyle() {
-		return wingStyle;
-	}
-	
-	protected abstract void setStyle();
-	
-	public void setStyle(int style) {
-		this.wingStyle = style;
-		setStyle();
 	}
 }

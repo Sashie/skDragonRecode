@@ -141,13 +141,14 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 			EffectData effect = EffectAPI.get(id, skriptNode);
 
 			synchronized(effect) {
-			Object property = getPropertyArray(effect);
-			int length = Array.getLength(property);
+				Object property = getPropertyArray(effect);
+				int length = Array.getLength(property);
+				if (propertyNumber > length) {
+					SkDragonRecode.warn("The " + /*'" + data.getName() + "'*/"effect with id " + id + " does not support more than " + length + " " + getEffectProperty().getName().toLowerCase() + " propert" + (length > 1 ? "ies" : "y"), skriptNode);
+					return null;
+				}
 
-			if (propertyNumber > length)
-				throw new ParticleException("The " + /*'" + data.getName() + "'*/"effect with id " + id + " does not support more than " + length + " " + getEffectProperty().getName().toLowerCase() + " propert" + (length > 1 ? "ies" : "y") , skriptNode);
-
-			return getPropertyValue(propertyNumber, effect);
+				return getPropertyValue(propertyNumber, effect);
 			}
 		} else {
 			return null;
@@ -186,24 +187,18 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 			}
 		}
 	}
-/*
-	public boolean isArray(final Object obj) {
-	    return obj instanceof Object[] || obj instanceof boolean[] ||
-	       obj instanceof byte[] || obj instanceof short[] ||
-	       obj instanceof char[] || obj instanceof int[] ||
-	       obj instanceof long[] || obj instanceof float[] ||
-	       obj instanceof double[];
-	}
-*/
+
 	private void set(String id, Object[] delta) {
 		EffectData effect = EffectAPI.get(id, skriptNode);
-		synchronized(effect) {
-		Object property = getPropertyArray(effect);
-		if (property != null && property.getClass().isArray()) {
 
-			int length = Array.getLength(property);
-			if (propertyNumber > length)
-				throw new ParticleException("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + length + " " + getEffectProperty().getName() + " propert" + (length > 1 ? "ies" : "y"), skriptNode);
+		synchronized(effect) {
+			Object property = getPropertyArray(effect);
+			if (property != null && property.getClass().isArray()) {
+				int length = Array.getLength(property);
+				if (propertyNumber > length) {
+					SkDragonRecode.warn("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + length + " " + getEffectProperty().getName() + " propert" + (length > 1 ? "ies" : "y"), skriptNode);
+					return;
+				}
 
 				Number value = (Number) delta[0];
 				setPropertyValue(effect, propertyNumber, value);
@@ -229,6 +224,6 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the " + (propertyNumberExpr == null ? "" : propertyNumberExpr.toString(e, debug) + "(st|nd|rd|th) ") + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug));
+		return "the " + (propertyNumberExpr == null ? "" : propertyNumberExpr.toString(e, debug) + "(st|nd|rd|th) ") + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug)));
 	}
 }

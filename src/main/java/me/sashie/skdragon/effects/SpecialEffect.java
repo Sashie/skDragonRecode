@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects;
 
 import me.sashie.skdragon.util.DynamicLocation;
+import me.sashie.skdragon.util.EffectUtils;
 
 /**
  * Created by Sashie on 9/30/2017.
@@ -25,24 +26,25 @@ public abstract class SpecialEffect extends EffectData {
 		init();
 		
 		for (int i = 0; i < this.getLocations().length; i++) {
+			DynamicLocation location = this.getLocations()[i];
 			if (!init) {
-				if (!this.getLocations()[i].isDynamic())
-					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-				init(this.getLocations()[i]);
+				if (!location.isDynamic())
+					location.add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
+				init(location);
 				if (i == this.getLocations().length - 1) {
 					init = true;
 				}
 	    	} else {
-	    		this.getLocations()[i].update();
-    			if (this.getLocations()[i].isDynamic())
-    				this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-				update(this.getLocations()[i], step);
+				location.update();
+    			if (location.isDynamic())
+					location.add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
+				update(location, step);
 	    	}
 		}
 	}
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return null;
+		return EffectUtils.array(EffectProperty.DISPLACEMENT);
 	}
 }

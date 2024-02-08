@@ -1,29 +1,19 @@
 package me.sashie.skdragon.skript.sections;
 
-import ch.njol.skript.log.SkriptLogger;
-import me.sashie.skdragon.debug.SkriptNode;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
+import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
 import me.sashie.skdragon.EffectAPI;
-import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.effects.EffectData;
-/*
-"\t\tcreate a new particle effect meteor:",
-"\t\t\tlocation: player",
-"\t\t\tid: \"uniqueID\"",
-"\t\t\tset title of the embed to \"Google!\"",
-"\t\tset {_embed} to last made embed"
-*/
+import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.ParticleEffect;
+import org.bukkit.event.Event;
 
 public class ParticleEffectSection extends EffectSection {
 
 	private static String id;
-	private Expression<ParticleEffect> particleEffect;
+	private Expression<ParticleEffect> effectType;
 	private Expression<String> name;
 	private SkriptNode skriptNode;
 
@@ -34,8 +24,15 @@ public class ParticleEffectSection extends EffectSection {
 
 	@Override
 	public void execute(Event event) {
-		EffectData data = this.particleEffect.getSingle(event).getEffectData();
-		register(this.name.getSingle(event), data);
+		String id = this.name.getSingle(event);
+		ParticleEffect effectType = this.effectType.getSingle(event);
+
+		if (id == null || effectType == null)
+			return;
+
+		ParticleEffectSection.id = id;
+		EffectAPI.register(id, effectType, skriptNode);
+
 		runSection(event);
 	}
 
@@ -43,20 +40,9 @@ public class ParticleEffectSection extends EffectSection {
 		return id;
 	}
 
-	private void register(String id, EffectData effect) {
-		if (EffectAPI.ALL_EFFECTS.containsKey(id)) {
-			SkDragonRecode.warn("[REGISTER] Particle Effect '" + EffectAPI.ALL_EFFECTS.get(id).getClass().getName() + "' is being replaced with '" + effect.getClass().getName() + "' for id (" + id + ")", skriptNode);
-			if (EffectAPI.isRunning(id))
-				EffectAPI.stop(id, skriptNode);
-			EffectAPI.ALL_EFFECTS.remove(id);
-		}
-		EffectAPI.ALL_EFFECTS.put(id, effect);
-		ParticleEffectSection.id = id;
-	}
-
 	@Override
 	public String toString(Event event, boolean debug) {
-		return "create particle effect " + particleEffect.toString(event, debug);
+		return "register particle effect " + effectType.toString(event, debug) + " with id " + name.toString(event, debug);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -68,7 +54,7 @@ public class ParticleEffectSection extends EffectSection {
 			Skript.error("A particle effect creation scope is useless without any content!");
 			return false;
 		}
-		particleEffect = (Expression<ParticleEffect>) exprs[0];
+		effectType = (Expression<ParticleEffect>) exprs[0];
 		name = (Expression<String>) exprs[1];
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
 

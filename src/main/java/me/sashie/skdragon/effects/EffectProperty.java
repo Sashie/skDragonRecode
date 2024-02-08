@@ -28,6 +28,9 @@ public enum EffectProperty {
 	// --> ITEM STUFF
 	ITEM,
 	// <-- ITEM STUFF
+
+	TEXT,
+	WINGS,
 	
 	SOLID_SHAPE, 
 	AUTO_FACE,
@@ -38,6 +41,8 @@ public enum EffectProperty {
 	DENSITY,
 	EXTRA,
 	RADIUS,
+	BOOLEAN,
+	TIMESPAN,
 
 	
 	XYZ_ANGULAR_VELOCITY,
@@ -48,8 +53,7 @@ public enum EffectProperty {
 	/**
 	 * 
 	 */
-	DISPLACEMENT,
-	TIMESPAN;
+	DISPLACEMENT;
 
 
     public String getName() {

@@ -132,7 +132,7 @@ public abstract class ScanEffect extends EffectData implements IRadius, IDensity
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return EffectUtils.array(EffectProperty.RADIUS, EffectProperty.DENSITY, EffectProperty.EXTRA);
+		return EffectUtils.array(EffectProperty.RADIUS, EffectProperty.DENSITY, EffectProperty.EXTRA, EffectProperty.DISPLACEMENT);
 	}
 
 	@Override

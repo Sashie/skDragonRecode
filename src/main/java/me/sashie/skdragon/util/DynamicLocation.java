@@ -157,4 +157,11 @@ public class DynamicLocation extends Location {
 		this.setY(y);
 		this.setZ(z);
 	}
+
+    public void reset() {
+		this.entity = null;
+		this.set(0, 0, 0);
+		this.setPitch(0);
+		this.setYaw(0);
+    }
 }

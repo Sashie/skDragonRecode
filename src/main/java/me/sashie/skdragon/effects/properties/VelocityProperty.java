@@ -6,13 +6,7 @@ import me.sashie.skdragon.util.Utils;
 
 public class VelocityProperty {
 
-	private Value3d angularVelocity = new Value3d();
-
-	/*public VelocityProperty(float x, float y, float z) {
-		this.angularVelocity.setX(MathUtils.PI / x);
-		this.angularVelocity.setY(MathUtils.PI / y);
-		this.angularVelocity.setZ(MathUtils.PI / z);
-	}*/
+	private Value3d angularVelocity = new Value3d(MathUtils.PI / 200, MathUtils.PI / 170, MathUtils.PI / 155);
 
 	public double getAngularVelocityX() {
 		return angularVelocity.getX();
@@ -27,16 +21,16 @@ public class VelocityProperty {
 	}
 
 	/**
-	 * Values in degrees
+	 *
 	 *
 	 * @param x
 	 * @param y
 	 * @param z
 	 */
-	public void setAngularVelocity(float x, float y, float z) {
-		this.angularVelocity.setX(MathUtils.PI / x);
-		this.angularVelocity.setY(MathUtils.PI / y);
-		this.angularVelocity.setZ(MathUtils.PI / z);
+	public void setAngularVelocity(double x, double y, double z) {
+		this.angularVelocity.setX(MathUtils.PI / (x == 0 ? 1 : x));
+		this.angularVelocity.setY(MathUtils.PI / (y == 0 ? 1 : y));
+		this.angularVelocity.setZ(MathUtils.PI / (z == 0 ? 1 : z));
 	}
 
 }

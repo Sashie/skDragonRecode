@@ -43,8 +43,6 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 import me.sashie.skdragon.skript.sections.ParticleSection;
-import me.sashie.skdragon.util.EffectUtils;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 
 import javax.annotation.Nullable;
@@ -73,7 +71,7 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 				"particle colo[u]r");
 	}
 
-	protected boolean scope = false;
+	protected boolean scope, isParticleEffectSection, isParticleSection;
 	private Expression<String> name;
 	protected Expression<Number> particleNumberExpr;
 	protected int particleNumber;
@@ -86,6 +84,7 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 		if (matchedPattern == 2) {
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				this.scope = true;
+				this.isParticleEffectSection = true;
 				this.particleNumberExpr = (Expression<Number>) exprs[0];
 			} else {
 				return false;
@@ -93,6 +92,7 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 		} else if (matchedPattern == 3 || matchedPattern == 4) {
 			if (EffectSection.isCurrentSection(ParticleSection.class)) {
 				this.scope = true;
+				this.isParticleSection = true;
 			} else {
 				return false;
 			}
@@ -155,9 +155,9 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 			particleNumber = particleNumberExpr.getSingle(e).intValue();
 
 		if (scope) {
-			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
+			if (isParticleEffectSection) {
 				set(ParticleEffectSection.getID(), delta);
-			} else if (EffectSection.isCurrentSection(ParticleSection.class)) {
+			} else if (isParticleSection) {
 				if (matchedPattern == 3 || matchedPattern == 4) {
 					ParticleBuilder p = ParticleSection.getParticle();
 					if (p instanceof ColoredParticle) {

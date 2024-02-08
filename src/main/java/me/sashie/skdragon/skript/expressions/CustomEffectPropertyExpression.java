@@ -195,6 +195,6 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the " + (getEffectProperty() == null ? getPropertyName() : this.getEffectProperty().getName()) + " of effect " + this.getExpr().toString(e, debug);
+		return "the " + (getEffectProperty() == null ? getPropertyName() : this.getEffectProperty().getName()) + " of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug));
 	}
 }

@@ -78,7 +78,8 @@ public class EffRemoveParticleEffects extends Effect {
 	@SuppressWarnings("unchecked")
 	public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
 		this.all = matchedPattern == 1;
-		this.name = (Expression<String>) expressions[0];
+		if (!all)
+			this.name = (Expression<String>) expressions[0];
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
 
 		return true;

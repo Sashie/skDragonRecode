@@ -30,13 +30,13 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
  * Created by Sashie on 12/12/2016.
  */
 
-@Name("Particles - Particle count")
+@Name("Particles - Particle amount/count")
 @Description({"The amount of a single particle type to be displayed"})
-@Examples({	"set particle count of effect \"uniqueID\" to 1"})
+@Examples({	"set particle amount of effect \"uniqueID\" to 20"})
 public class ExprParticleCount extends CustomParticlePropertyExpression<Number> {
 
 	static {
-		register(ExprParticleCount.class, Number.class, "count");
+		register(ExprParticleCount.class, Number.class, "(amount|count)");
 	}
 
 	@Override
@@ -58,6 +58,6 @@ public class ExprParticleCount extends CustomParticlePropertyExpression<Number> 
 
 	@Override
 	protected String getPropertyName() {
-		return "count";
+		return "amount";
 	}
 }

@@ -3,5 +3,5 @@ authors: [ Sashie ]
 description: Particle effects!
 version: '${project.version}'
 main: me.sashie.skdragon.SkDragonRecode
-api-version: 1.16
+api-version: 1.13
 depend: [Skript]

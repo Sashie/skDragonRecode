@@ -33,11 +33,11 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 @Name("Particles - Offset vector")
 @Description({"This property works best when the amount of particles is more than 1, it makes the particle offset randomly between the start location and the offset value"})
 //[the] %number%(st|nd|rd|th) particle rgb value of [the] [particle] effect[s] %strings%
-@Examples({	"set the 1st particle offset vector of the particle effect \"uniqueID\" to {_v}"})
+@Examples({	"set the 1st particle offset of the particle effect \"uniqueID\" to {_v}"})
 public class ExprParticleOffset extends CustomParticlePropertyExpression<Vector> {
 
 	static {
-		register(ExprParticleOffset.class, Vector.class, "offset vector");
+		register(ExprParticleOffset.class, Vector.class, "offset [vector]");
 	}
 	
 	@Override

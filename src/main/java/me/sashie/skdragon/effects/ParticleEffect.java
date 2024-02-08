@@ -106,6 +106,26 @@ public enum ParticleEffect {
 		}
 	},
 
+	/*MAGIC_PORTAL {
+		@Override
+		public EffectData getEffectData() {
+			return new MagicalPortalEffect();
+		}
+	},
+
+	TEXT {
+		@Override
+		public EffectData getEffectData() {
+			return new Text();
+		}
+	},*/
+
+	WINGS {
+		@Override
+		public EffectData getEffectData() {
+			return new Wings();
+		}
+	},
 
 	// Target Effects
 	 TARGET_ARC {

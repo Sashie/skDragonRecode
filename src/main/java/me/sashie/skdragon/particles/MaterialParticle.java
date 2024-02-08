@@ -69,4 +69,16 @@ public class MaterialParticle extends ParticleBuilder<MaterialParticleData> {
 			}
 		}
 	}
+
+	@Override
+	public void initParticle(ParticleData data) {
+		this.data.setParticle(data.getParticle());
+		this.data.setAmount(data.getAmount());
+		this.data.setOffset(data.getOffset());
+		if (data instanceof MaterialParticleData) {
+			this.data.material = ((MaterialParticleData) data).material;
+			this.data.materialData = ((MaterialParticleData) data).materialData;
+			this.data.speed = ((MaterialParticleData) data).speed;
+		}
+	}
 }

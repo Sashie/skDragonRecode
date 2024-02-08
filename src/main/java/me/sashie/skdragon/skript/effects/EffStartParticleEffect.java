@@ -89,7 +89,7 @@ public class EffStartParticleEffect extends Effect {
 	    RunnableType type = RunnableType.INSTANT;
 	    if (finalDelay > 0)
 	    	type = RunnableType.DELAYED;
-		if (parsedSyntax.contains("repeat") ||inputRepeat != null)
+		if (parsedSyntax.contains("repeat") || inputRepeat != null)
 			type = RunnableType.REPEATING;
 
 		DynamicLocation[] locs = EffectUtils.toDynamicLocations(locations);

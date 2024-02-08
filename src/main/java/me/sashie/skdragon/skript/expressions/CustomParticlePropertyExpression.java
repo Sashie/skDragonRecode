@@ -40,7 +40,6 @@ import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 import me.sashie.skdragon.skript.sections.ParticleSection;
@@ -61,18 +60,20 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 				"particle " + property);
 	}
 	
-	protected boolean scope = false;
+	protected boolean scope, isParticleEffectSection, isParticleSection;
 	protected Expression<Number> particleNumberExpr;
 	protected int particleNumber;
 	private int matchedPattern;
 	protected int mark;
 	protected SkriptNode skriptNode;
+	protected EffectData effect;
 
 	@SuppressWarnings("unchecked")
 	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
 		if (matchedPattern == 2) {
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				this.scope = true;
+				this.isParticleEffectSection = true;
 				this.setParticleExpr((Expression<Number>) exprs[0]);
 			} else {
 				return false;
@@ -80,6 +81,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 		} else if (matchedPattern == 3 || matchedPattern == 4) {
 			if (EffectSection.isCurrentSection(ParticleSection.class)) {
 				this.scope = true;
+				this.isParticleSection = true;
 			} else {
 				return false;
 			}
@@ -140,10 +142,12 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 		if (id == null)
 			return null;
 		if (EffectAPI.ALL_EFFECTS.containsKey(id)) {
-			EffectData effect = EffectAPI.get(id, skriptNode);
+			effect = EffectAPI.get(id, skriptNode);
 
-			if (particleNumber > effect.getParticleBuilders().length)
-				throw new ParticleException("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+			if (particleNumber > effect.getParticleBuilders().length) {
+				SkDragonRecode.warn("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+				return null;
+			}
 
 			synchronized(effect) {
 				return getParticle(effect.getParticleBuilders()[particleNumber - 1]);
@@ -161,9 +165,9 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 			particleNumber = particleNumberExpr.getSingle(e).intValue();
 
 		if (scope) {
-			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
+			if (isParticleEffectSection) {
 				set(ParticleEffectSection.getID(), delta);
-			} else if (EffectSection.isCurrentSection(ParticleSection.class)) {
+			} else if (isParticleSection) {
 				if (matchedPattern == 3 || matchedPattern == 4) {
 					setParticle(ParticleSection.getParticle(), delta);
 				} else {
@@ -172,7 +176,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 			}
 		} else {
 			List<String> failedEffects = new ArrayList<String>();
-			String[] effectIDs = (String[]) getExpr().getArray(e);
+			String[] effectIDs = getExpr().getArray(e);
 
 			if (effectIDs == null)
 				return;
@@ -197,10 +201,12 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 	}
 
 	private void set(String id, Object[] delta) {
-		EffectData effect = EffectAPI.get(id, skriptNode);
+		effect = EffectAPI.get(id, skriptNode);
 
-		if (particleNumberExpr != null && particleNumber > effect.getParticleBuilders().length)
-			throw new ParticleException("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (particleNumberExpr != null && particleNumber > effect.getParticleBuilders().length) {
+			SkDragonRecode.warn("The " + /*'" + effect.getName() + "'*/"effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+			return;
+		}
 
 		synchronized(effect) {
 			setParticle(effect.getParticleBuilders()[particleNumber - 1], delta);
@@ -225,6 +231,6 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 
 	@Override
 	public String toString(@Nullable Event e, boolean debug) {
-		return "the " + (particleNumberExpr == null ? "" : particleNumberExpr.toString(e, debug) + "(st|nd|rd|th) ") + "particle " + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + this.getExpr().toString(e, debug));
+		return "the " + (particleNumberExpr == null ? "" : particleNumberExpr.toString(e, debug) + "(st|nd|rd|th) ") + "particle " + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug)));
 	}
 }

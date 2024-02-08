@@ -94,7 +94,7 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return EffectUtils.array(EffectProperty.AUTO_ROTATE, EffectProperty.XYZ_ANGULAR_VELOCITY, EffectProperty.AXIS, EffectProperty.DENSITY, EffectProperty.SOLID_SHAPE);
+		return EffectUtils.array(EffectProperty.AUTO_ROTATE, EffectProperty.XYZ_ANGULAR_VELOCITY, EffectProperty.AXIS, EffectProperty.DENSITY, EffectProperty.SOLID_SHAPE, EffectProperty.DISPLACEMENT);
 	}
 
 	@Override
@@ -143,7 +143,7 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 	public Vector rotateShape(Vector v, float step) {
 		VectorUtils.rotateVector(v, this.axisProperty.getAxis().getX(), this.axisProperty.getAxis().getY(), this.axisProperty.getAxis().getZ());
 		if (this.rotationProperty.isRotating())
-			return VectorUtils.rotateVector(v, (MathUtils.PI / this.velocityProperty.getAngularVelocityX()) * step, (MathUtils.PI / this.velocityProperty.getAngularVelocityY()) * step, (MathUtils.PI / this.velocityProperty.getAngularVelocityZ()) * step);
+			return VectorUtils.rotateVector(v, (this.velocityProperty.getAngularVelocityX()) * step, (this.velocityProperty.getAngularVelocityY()) * step, (this.velocityProperty.getAngularVelocityZ()) * step);
 		return v;
 	}
 }
