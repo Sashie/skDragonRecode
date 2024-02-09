@@ -98,6 +98,7 @@ public class EffStartParticleEffect extends Effect {
 	protected void execute(@NotNull Event e) {
 		String id = Utils.verifyVar(e, exprId, null);
 		Object[] locations = Utils.verifyVars(e, exprLocation, null);
+
 		if (id == null || locations == null) return;
 
 		long delay = Utils.verifyVar(e, exprDelay, new Timespan(0)).getTicks_i();

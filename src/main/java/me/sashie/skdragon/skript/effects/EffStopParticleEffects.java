@@ -64,7 +64,10 @@ public class EffStopParticleEffects extends Effect {
 
 	@Override
 	protected void execute(@NotNull Event e) {
-		if (exprId == null) EffectAPI.stopAll();
+		if (exprId == null) {
+			EffectAPI.stopAll();
+			return;
+		}
 
 		String id = Utils.verifyVar(e, exprId, null);
 		EffectAPI.stop(id, skriptNode); //even warn when the entry (e.g. a var) is null
