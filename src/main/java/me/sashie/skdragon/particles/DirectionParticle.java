@@ -20,9 +20,9 @@ public class DirectionParticle extends ParticleBuilder<DirectionParticleData> {
 		super(new DirectionParticleData());
 	}
 
-    public DirectionParticle(Particle particle) {
-    	super(new DirectionParticleData());
-    	this.data.particle = particle;
+	public DirectionParticle(Particle particle) {
+		super(new DirectionParticleData());
+		this.data.particle = particle;
 	}
 
 	public DirectionParticle(DirectionParticleData inputData) {

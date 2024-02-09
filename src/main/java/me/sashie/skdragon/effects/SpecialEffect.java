@@ -34,12 +34,12 @@ public abstract class SpecialEffect extends EffectData {
 				if (i == this.getLocations().length - 1) {
 					init = true;
 				}
-	    	} else {
+			} else {
 				location.update();
-    			if (location.isDynamic())
+				if (location.isDynamic())
 					location.add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
 				update(location, step);
-	    	}
+			}
 		}
 	}
 

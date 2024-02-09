@@ -43,7 +43,7 @@ public class Line extends TargetEffect implements IDensity {
 		Vector v = link.multiply(length / density);
 		DynamicLocation loc = to.clone().subtract(v);
 		for (int i = 0; i < density; i++) {
-		    loc.add(v);
+			loc.add(v);
 			particle.sendParticles(loc, players);
 		}
 	}

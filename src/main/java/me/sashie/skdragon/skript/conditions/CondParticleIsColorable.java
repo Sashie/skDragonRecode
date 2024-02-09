@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -38,33 +38,33 @@ import org.jetbrains.annotations.NotNull;
 @Name("Particles - Is Colorable")
 @Description("Checks whether a particle is colorable.")
 @Examples({"particle redstone is colorable",
-        "particle flame is colorable"})
+		"particle flame is colorable"})
 public class CondParticleIsColorable extends BaseConditions {
 
-    static {
-        Skript.registerCondition(
-                CondParticleIsDirectional.class,
-                "particle %particle% is colo[u]rable",
-                "particle %particle% is not colo[u]rable")
-        ;
-    }
+	static {
+		Skript.registerCondition(
+				CondParticleIsDirectional.class,
+				"particle %particle% is colo[u]rable",
+				"particle %particle% is not colo[u]rable")
+		;
+	}
 
-    private Expression<Particle> exprParticle;
+	private Expression<Particle> exprParticle;
 
-    @Override
-    public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
-        exprParticle = (Expression<Particle>) exprs[0];
-        return true;
-    }
+	@Override
+	public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		exprParticle = (Expression<Particle>) exprs[0];
+		return true;
+	}
 
-    @Override
-    public boolean checkCondition(@NotNull Event e) {
-        Particle particle = Utils.verifyVar(e, exprParticle, null);
-        return ParticleProperty.COLORABLE.hasProperty(particle);
-    }
+	@Override
+	public boolean checkCondition(@NotNull Event e) {
+		Particle particle = Utils.verifyVar(e, exprParticle, null);
+		return ParticleProperty.COLORABLE.hasProperty(particle);
+	}
 
-    @Override
-    public String toStringCondition(Event e, boolean debug) {
-        return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
-    }
+	@Override
+	public String toStringCondition(Event e, boolean debug) {
+		return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
+	}
 }

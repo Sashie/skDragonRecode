@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -43,37 +43,37 @@ import java.util.Set;
 @Examples({"set {list::*} to all active particle effects"})
 public class ExprAllActiveEffectIDs extends SimpleExpression<String> {
 
-    static {
-        Skript.registerExpression(
-                ExprAllActiveEffectIDs.class,
-                String.class,
-                ExpressionType.SIMPLE,
-                "[all] active particle effects"
-        );
-    }
+	static {
+		Skript.registerExpression(
+				ExprAllActiveEffectIDs.class,
+				String.class,
+				ExpressionType.SIMPLE,
+				"[all] active particle effects"
+		);
+	}
 
-    @Override
-    public boolean init(Expression<?> @NotNull [] args, int arg1, @NotNull Kleenean arg2, @NotNull ParseResult arg3) {
-        return true;
-    }
+	@Override
+	public boolean init(Expression<?> @NotNull [] args, int arg1, @NotNull Kleenean arg2, @NotNull ParseResult arg3) {
+		return true;
+	}
 
-    @Override
-    protected String @NotNull [] get(@NotNull Event arg0) {
-        Set<String> effectIDs = EffectAPI.ALL_EFFECTS.keySet();
-        return effectIDs.toArray(new String[0]);
-    }
+	@Override
+	protected String @NotNull [] get(@NotNull Event arg0) {
+		Set<String> effectIDs = EffectAPI.ALL_EFFECTS.keySet();
+		return effectIDs.toArray(new String[0]);
+	}
 
-    @Override
-    public @NotNull String toString(@Nullable Event arg0, boolean arg1) {
-        return "all active particle effects";
-    }
+	@Override
+	public @NotNull String toString(@Nullable Event arg0, boolean arg1) {
+		return "all active particle effects";
+	}
 
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
-    }
+	public @NotNull Class<? extends String> getReturnType() {
+		return String.class;
+	}
 
-    @Override
-    public boolean isSingle() {
-        return false;
-    }
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
 }

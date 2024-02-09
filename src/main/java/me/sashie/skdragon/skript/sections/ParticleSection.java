@@ -12,54 +12,54 @@ import org.jetbrains.annotations.NotNull;
 
 public class ParticleSection extends EffectSection {
 
-    static {
-        Skript.registerCondition(
-                ParticleSection.class,
-                "(create|make) [a] [new] particle (of|from|using) %particle%"
-        );
-    }
+	static {
+		Skript.registerCondition(
+				ParticleSection.class,
+				"(create|make) [a] [new] particle (of|from|using) %particle%"
+		);
+	}
 
-    public static ParticleBuilder<?> particle;
-    private Expression<Particle> type;
+	public static ParticleBuilder<?> particle;
+	private Expression<Particle> type;
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
-        if (checkIfCondition())
-            return false;
-        if (!hasSection()) {
-            Skript.error("A particle creation scope is useless without any content!");
-            return false;
-        }
-        type = (Expression<Particle>) exprs[0];
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean init(Expression<?> @NotNull [] exprs, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		if (checkIfCondition())
+			return false;
+		if (!hasSection()) {
+			Skript.error("A particle creation scope is useless without any content!");
+			return false;
+		}
+		type = (Expression<Particle>) exprs[0];
 
-        loadSection(true);
-        return true;
-    }
+		loadSection(true);
+		return true;
+	}
 
-    @Override
-    public void execute(Event event) {
-        Particle type = this.type.getSingle(event);
+	@Override
+	public void execute(Event event) {
+		Particle type = this.type.getSingle(event);
 
-        if (type == null)
-            return;
+		if (type == null)
+			return;
 
-        setParticle(ParticleUtils.createParticle(type));
+		setParticle(ParticleUtils.createParticle(type));
 
-        runSection(event);
-    }
+		runSection(event);
+	}
 
-    public static ParticleBuilder<?> getParticle() {
-        return particle;
-    }
+	public static ParticleBuilder<?> getParticle() {
+		return particle;
+	}
 
-    public static void setParticle(ParticleBuilder<?> p) {
-        particle = p;
-    }
+	public static void setParticle(ParticleBuilder<?> p) {
+		particle = p;
+	}
 
-    @Override
-    public @NotNull String toString(Event event, boolean debug) {
-        return "create particle of " + type.toString(event, debug);
-    }
+	@Override
+	public @NotNull String toString(Event event, boolean debug) {
+		return "create particle of " + type.toString(event, debug);
+	}
 
 }

@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -35,39 +35,39 @@ import org.jetbrains.annotations.NotNull;
 @Name("Particles - Particle type")
 @Description({"Gets or sets the particle type used. Some data may be lost, for example if you change the particle type from Colorable to Normal it will lose its color data"})
 @Examples({"set particle type of effect \"uniqueID\" to dust",
-        "set the 1st particle type of the particle effect \"uniqueID\" to dust"})
+		"set the 1st particle type of the particle effect \"uniqueID\" to dust"})
 public class ExprParticleType extends CustomParticlePropertyExpression<Particle> {
 
-    static {
-        register(ExprParticleType.class, Particle.class, "type");
-    }
+	static {
+		register(ExprParticleType.class, Particle.class, "type");
+	}
 
-    @Override
-    public Particle getParticle(ParticleBuilder<?> p) {
-        return p.getParticleData().getParticle();
-    }
+	@Override
+	public Particle getParticle(ParticleBuilder<?> p) {
+		return p.getParticleData().getParticle();
+	}
 
-    @Override
-    public void setParticle(ParticleBuilder<?> particle, Object[] delta) {
-        Particle type = (Particle) (delta[0]);
+	@Override
+	public void setParticle(ParticleBuilder<?> particle, Object[] delta) {
+		Particle type = (Particle) (delta[0]);
 
-        ParticleBuilder<?> p = ParticleUtils.createParticle(type);
-        p.initParticle(particle.getParticleData());
-        p.getParticleData().setParticle(type);
-        if (this.isParticleSection) {
-            ParticleSection.particle = p;
-        } else {
-            this.effect.setParticle(this.particleNumber, p, this.skriptNode);
-        }
-    }
+		ParticleBuilder<?> p = ParticleUtils.createParticle(type);
+		p.initParticle(particle.getParticleData());
+		p.getParticleData().setParticle(type);
+		if (this.isParticleSection) {
+			ParticleSection.particle = p;
+		} else {
+			this.effect.setParticle(this.particleNumber, p, this.skriptNode);
+		}
+	}
 
-    @Override
-    public @NotNull Class<? extends Particle> getReturnType() {
-        return Particle.class;
-    }
+	@Override
+	public @NotNull Class<? extends Particle> getReturnType() {
+		return Particle.class;
+	}
 
-    @Override
-    protected String getPropertyName() {
-        return "type";
-    }
+	@Override
+	protected String getPropertyName() {
+		return "type";
+	}
 }

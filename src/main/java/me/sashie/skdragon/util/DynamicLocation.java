@@ -1,7 +1,7 @@
 /*
 	This file is part of skDragon - A Skript addon
 	Originally written for DragonsphereZ by bi0
-      
+	  
 	Copyright (C) 2016  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ public class DynamicLocation extends Location {
 	
 	public DynamicLocation(Entity entity) {
 		super(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(), entity.getLocation().getYaw(), entity.getLocation().getPitch());
-    	this.entity = entity;
+		this.entity = entity;
 	}
 	
 	public DynamicLocation update() {
@@ -158,10 +158,10 @@ public class DynamicLocation extends Location {
 		this.setZ(z);
 	}
 
-    public void reset() {
+	public void reset() {
 		this.entity = null;
 		this.set(0, 0, 0);
 		this.setPitch(0);
 		this.setYaw(0);
-    }
+	}
 }

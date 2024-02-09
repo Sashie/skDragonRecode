@@ -25,45 +25,45 @@ import javax.annotation.Nullable;
 @Examples({"set {list::*} to particle properties of redstone"})
 public class ExprAllParticleProperties extends SimpleExpression<String> {
 
-    static {
-        Skript.registerExpression(
-                ExprAllParticleProperties.class,
-                String.class,
-                ExpressionType.SIMPLE,
-                "[all] particle propert(y|ies) of %particle%"
-        );
-    }
+	static {
+		Skript.registerExpression(
+				ExprAllParticleProperties.class,
+				String.class,
+				ExpressionType.SIMPLE,
+				"[all] particle propert(y|ies) of %particle%"
+		);
+	}
 
-    private Expression<Particle> exprParticle;
+	private Expression<Particle> exprParticle;
 
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
-    }
+	public @NotNull Class<? extends String> getReturnType() {
+		return String.class;
+	}
 
-    @Override
-    public boolean isSingle() {
-        return false;
-    }
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean init(Expression<?>[] args, int arg1, @NotNull Kleenean arg2, @NotNull ParseResult arg3) {
-        exprParticle = (Expression<Particle>) args[0];
-        return true;
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean init(Expression<?>[] args, int arg1, @NotNull Kleenean arg2, @NotNull ParseResult arg3) {
+		exprParticle = (Expression<Particle>) args[0];
+		return true;
+	}
 
-    @Override
-    public @NotNull String toString(@Nullable Event event, boolean debug) {
-        return "all particle properties of " + exprParticle.toString(event, debug);
-    }
+	@Override
+	public @NotNull String toString(@Nullable Event event, boolean debug) {
+		return "all particle properties of " + exprParticle.toString(event, debug);
+	}
 
-    @Override
-    protected String @NotNull [] get(@NotNull Event e) {
-        Particle particle = Utils.verifyVar(e, exprParticle, null);
-        if (particle == null) return new String[0];
+	@Override
+	protected String @NotNull [] get(@NotNull Event e) {
+		Particle particle = Utils.verifyVar(e, exprParticle, null);
+		if (particle == null) return new String[0];
 
-        return ParticleProperty.getPropertiesForParticle(particle).stream()
-                .map(ParticleProperty::toString)
-                .toArray(String[]::new);
-    }
+		return ParticleProperty.getPropertiesForParticle(particle).stream()
+				.map(ParticleProperty::toString)
+				.toArray(String[]::new);
+	}
 }

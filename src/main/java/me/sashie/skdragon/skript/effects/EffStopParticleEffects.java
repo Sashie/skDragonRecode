@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -40,39 +40,39 @@ import org.jetbrains.annotations.NotNull;
 @Name("Stop particle effects")
 @Description({"Stops all particle effects or one of a given ID name"})
 @Examples({"stop particle effect \"%player%\"",
-        "stop all particle effects"})
+		"stop all particle effects"})
 public class EffStopParticleEffects extends Effect {
 
-    static {
-        Skript.registerEffect(
-                EffStopParticleEffects.class,
-                "stop particle effect [(with id|named)] %string%",
-                "stop all particle effects"
-        );
-    }
+	static {
+		Skript.registerEffect(
+				EffStopParticleEffects.class,
+				"stop particle effect [(with id|named)] %string%",
+				"stop all particle effects"
+		);
+	}
 
-    private Expression<String> exprId = null;
-    private SkriptNode skriptNode;
+	private Expression<String> exprId = null;
+	private SkriptNode skriptNode;
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
-        if (matchedPattern == 0) this.exprId = (Expression<String>) expressions[0];
-        skriptNode = new SkriptNode(SkriptLogger.getNode());
-        return true;
-    }
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		if (matchedPattern == 0) this.exprId = (Expression<String>) expressions[0];
+		skriptNode = new SkriptNode(SkriptLogger.getNode());
+		return true;
+	}
 
-    @Override
-    protected void execute(@NotNull Event e) {
-        if (exprId == null) EffectAPI.stopAll();
+	@Override
+	protected void execute(@NotNull Event e) {
+		if (exprId == null) EffectAPI.stopAll();
 
-        String id = Utils.verifyVar(e, exprId, null);
-        EffectAPI.stop(id, skriptNode); //even warn when the entry (e.g. a var) is null
-    }
+		String id = Utils.verifyVar(e, exprId, null);
+		EffectAPI.stop(id, skriptNode); //even warn when the entry (e.g. a var) is null
+	}
 
-    @Override
-    public @NotNull String toString(Event e, boolean debug) {
-        return exprId == null ? "stop all particle effects" : "stop particle effect " + exprId.toString(e, debug);
-    }
+	@Override
+	public @NotNull String toString(Event e, boolean debug) {
+		return exprId == null ? "stop all particle effects" : "stop particle effect " + exprId.toString(e, debug);
+	}
 
 }

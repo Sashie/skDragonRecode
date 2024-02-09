@@ -9,26 +9,26 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class BaseConditions extends Condition {
 
-    public abstract boolean initCondition(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult);
+	public abstract boolean initCondition(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult);
 
-    public abstract boolean checkCondition(@NotNull Event event);
+	public abstract boolean checkCondition(@NotNull Event event);
 
-    public abstract String toStringCondition(Event event, boolean debug);
+	public abstract String toStringCondition(Event event, boolean debug);
 
-    @Override
-    public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
-        setNegated(matchedPattern == 1);
-        return initCondition(expressions, matchedPattern, kleenean, parseResult);
-    }
+	@Override
+	public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		setNegated(matchedPattern == 1);
+		return initCondition(expressions, matchedPattern, kleenean, parseResult);
+	}
 
-    @Override
-    public boolean check(@NotNull Event event) {
-        return isNegated() != checkCondition(event);
-    }
+	@Override
+	public boolean check(@NotNull Event event) {
+		return isNegated() != checkCondition(event);
+	}
 
-    @Override
-    public @NotNull String toString(Event event, boolean debug) {
-        return toStringCondition(event, debug);
-    }
+	@Override
+	public @NotNull String toString(Event event, boolean debug) {
+		return toStringCondition(event, debug);
+	}
 
 }

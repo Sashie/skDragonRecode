@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -56,120 +56,120 @@ import java.util.ArrayList;
 @Examples({"set 3rd particle of effect \"uniqueID\" to flame"})
 public class ExprEffectParticle extends PropertyExpression<String, ParticleBuilder> implements Converter<String, ParticleBuilder<?>> {
 
-    static {
-        Skript.registerExpression(
-                ExprEffectParticle.class,
-                ParticleBuilder.class,
-                ExpressionType.PROPERTY,
-                "[the] [%-number%(st|nd|rd|th)] particle of [the] [particle] effect %string%",
-                "[particle] effect %string%'[s] [%-number%(st|nd|rd|th)] particle",
-                "[%-number%(st|nd|rd|th)] particle of [the] [particle] effect"
-        );
-    }
+	static {
+		Skript.registerExpression(
+				ExprEffectParticle.class,
+				ParticleBuilder.class,
+				ExpressionType.PROPERTY,
+				"[the] [%-number%(st|nd|rd|th)] particle of [the] [particle] effect %string%",
+				"[particle] effect %string%'[s] [%-number%(st|nd|rd|th)] particle",
+				"[%-number%(st|nd|rd|th)] particle of [the] [particle] effect"
+		);
+	}
 
-    protected boolean scope = false;
-    private Expression<Number> exprParticleNumber;
-    private int particleNumber;
-    private SkriptNode skriptNode;
+	protected boolean scope = false;
+	private Expression<Number> exprParticleNumber;
+	private int particleNumber;
+	private SkriptNode skriptNode;
 
-    @SuppressWarnings("unchecked")
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
-        if (matchedPattern == 2) {
-            if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
-                this.scope = true;
-                this.exprParticleNumber = (Expression<Number>) exprs[0];
-            } else {
-                return false;
-            }
-        } else if (matchedPattern == 1) {
-            this.setExpr((Expression<? extends String>) exprs[0]);
-            this.exprParticleNumber = (Expression<Number>) exprs[1];
-        } else if (matchedPattern == 0) {
-            this.exprParticleNumber = (Expression<Number>) exprs[0];
-            this.setExpr((Expression<? extends String>) exprs[1]);
-        }
+	@SuppressWarnings("unchecked")
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
+		if (matchedPattern == 2) {
+			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
+				this.scope = true;
+				this.exprParticleNumber = (Expression<Number>) exprs[0];
+			} else {
+				return false;
+			}
+		} else if (matchedPattern == 1) {
+			this.setExpr((Expression<? extends String>) exprs[0]);
+			this.exprParticleNumber = (Expression<Number>) exprs[1];
+		} else if (matchedPattern == 0) {
+			this.exprParticleNumber = (Expression<Number>) exprs[0];
+			this.setExpr((Expression<? extends String>) exprs[1]);
+		}
 
-        skriptNode = new SkriptNode(SkriptLogger.getNode());
+		skriptNode = new SkriptNode(SkriptLogger.getNode());
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    @Nullable
-    public ParticleBuilder<?> convert(String id) {
-        EffectData effect = EffectAPI.get(id, skriptNode);
-        if (effect == null) return null;
+	@Override
+	@Nullable
+	public ParticleBuilder<?> convert(String id) {
+		EffectData effect = EffectAPI.get(id, skriptNode);
+		if (effect == null) return null;
 
-        if (particleNumber > effect.getParticleBuilders().length)
-            throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (particleNumber > effect.getParticleBuilders().length)
+			throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
 
-        synchronized (effect) {
-            return effect.getParticleBuilders()[particleNumber - 1];
-        }
-    }
+		synchronized (effect) {
+			return effect.getParticleBuilders()[particleNumber - 1];
+		}
+	}
 
-    @Override
-    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
-        particleNumber = Utils.verifyVar(e, exprParticleNumber, 1).intValue();
+	@Override
+	public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
+		particleNumber = Utils.verifyVar(e, exprParticleNumber, 1).intValue();
 
-        ParticleBuilder<?> builder = (ParticleBuilder<?>) delta[0];
+		ParticleBuilder<?> builder = (ParticleBuilder<?>) delta[0];
 
-        ArrayList<String> failedEffects = new ArrayList<>();
-        if (scope) {
-            set(ParticleEffectSection.getID(), builder);
-        } else {
-            String[] effectIds = Utils.verifyVars(e, getExpr(), null);
-            if (effectIds == null) return;
+		ArrayList<String> failedEffects = new ArrayList<>();
+		if (scope) {
+			set(ParticleEffectSection.getID(), builder);
+		} else {
+			String[] effectIds = Utils.verifyVars(e, getExpr(), null);
+			if (effectIds == null) return;
 
-            for (String id : effectIds) {
-                if (!EffectAPI.ALL_EFFECTS.containsKey(id)) {
-                    failedEffects.add(id);
-                    continue;
-                }
-                set(id, builder);
-            }
+			for (String id : effectIds) {
+				if (!EffectAPI.ALL_EFFECTS.containsKey(id)) {
+					failedEffects.add(id);
+					continue;
+				}
+				set(id, builder);
+			}
 
-            if (!failedEffects.isEmpty()) {
-                SkDragonRecode.warn("One or more particle effects didn't exist! (" + String.join(", ", failedEffects) + ")", skriptNode);
-            }
-        }
-    }
+			if (!failedEffects.isEmpty()) {
+				SkDragonRecode.warn("One or more particle effects didn't exist! (" + String.join(", ", failedEffects) + ")", skriptNode);
+			}
+		}
+	}
 
-    private void set(String id, ParticleBuilder<?> p) {
-        EffectData effect = EffectAPI.get(id, skriptNode);
-        if (effect == null) return;
+	private void set(String id, ParticleBuilder<?> p) {
+		EffectData effect = EffectAPI.get(id, skriptNode);
+		if (effect == null) return;
 
-        if (particleNumber > effect.getParticleBuilders().length)
-            throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (particleNumber > effect.getParticleBuilders().length)
+			throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
 
-        synchronized (effect) {
-            effect.getParticleBuilders()[particleNumber - 1] = p;
-        }
-    }
+		synchronized (effect) {
+			effect.getParticleBuilders()[particleNumber - 1] = p;
+		}
+	}
 
-    @Override
-    protected ParticleBuilder<?> @NotNull [] get(@NotNull Event e, String @NotNull [] source) {
-        particleNumber = Utils.verifyVar(e, exprParticleNumber, 1).intValue();
-        if (scope) {
-            throw new ParticleException("Incorrect use of syntax, can't get values inside a scope", skriptNode);
-        }
-        return super.get(source, this);
-    }
+	@Override
+	protected ParticleBuilder<?> @NotNull [] get(@NotNull Event e, String @NotNull [] source) {
+		particleNumber = Utils.verifyVar(e, exprParticleNumber, 1).intValue();
+		if (scope) {
+			throw new ParticleException("Incorrect use of syntax, can't get values inside a scope", skriptNode);
+		}
+		return super.get(source, this);
+	}
 
 
-    @Override
-    public Class<?> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
-        if (mode == Changer.ChangeMode.SET)
-            return CollectionUtils.array(ParticleBuilder.class);
-        return CollectionUtils.array();
-    }
+	@Override
+	public Class<?> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
+		if (mode == Changer.ChangeMode.SET)
+			return CollectionUtils.array(ParticleBuilder.class);
+		return CollectionUtils.array();
+	}
 
-    @Override
-    public @NotNull Class<? extends ParticleBuilder> getReturnType() {
-        return ParticleBuilder.class;
-    }
+	@Override
+	public @NotNull Class<? extends ParticleBuilder> getReturnType() {
+		return ParticleBuilder.class;
+	}
 
-    public @NotNull String toString(@Nullable Event e, boolean debug) {
-        return "the particle of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug));
-    }
+	public @NotNull String toString(@Nullable Event e, boolean debug) {
+		return "the particle of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug));
+	}
 }

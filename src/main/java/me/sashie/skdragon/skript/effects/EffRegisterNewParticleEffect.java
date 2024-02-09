@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -47,46 +47,46 @@ import javax.annotation.Nonnull;
 @Examples({"register new particle effect circle with id \"%player%\""})
 public class EffRegisterNewParticleEffect extends Effect {
 
-    static {
-        Skript.registerEffect(EffRegisterNewParticleEffect.class,
-                "(create|make|register) [a] [new] particle effect %particleeffect% with id %string% [using %-particles%]");
-    }
+	static {
+		Skript.registerEffect(EffRegisterNewParticleEffect.class,
+				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string% [using %-particles%]");
+	}
 
-    private Expression<ParticleEffect> exprType;
-    private Expression<String> exprId;
-    private Expression<ParticleBuilder<?>> exprParticles;
-    private static SkriptNode skriptNode;
+	private Expression<ParticleEffect> exprType;
+	private Expression<String> exprId;
+	private Expression<ParticleBuilder<?>> exprParticles;
+	private static SkriptNode skriptNode;
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public boolean init(Expression<?>[] expressions, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
-        this.exprType = (Expression<ParticleEffect>) expressions[0];
-        this.exprId = (Expression<String>) expressions[1];
-        this.exprParticles = (Expression<ParticleBuilder<?>>) expressions[2];
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean init(Expression<?>[] expressions, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		this.exprType = (Expression<ParticleEffect>) expressions[0];
+		this.exprId = (Expression<String>) expressions[1];
+		this.exprParticles = (Expression<ParticleBuilder<?>>) expressions[2];
 
-        skriptNode = new SkriptNode(SkriptLogger.getNode());
+		skriptNode = new SkriptNode(SkriptLogger.getNode());
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    protected void execute(@Nonnull Event e) {
-        String id = Utils.verifyVar(e, exprId, null);
-        ParticleEffect type = Utils.verifyVar(e, exprType, null);
+	@Override
+	protected void execute(@Nonnull Event e) {
+		String id = Utils.verifyVar(e, exprId, null);
+		ParticleEffect type = Utils.verifyVar(e, exprType, null);
 
-        if (id == null || type == null) return;
+		if (id == null || type == null) return;
 
-        EffectData effect = EffectAPI.register(id, type, skriptNode);
+		EffectData effect = EffectAPI.register(id, type, skriptNode);
 
-        ParticleBuilder<?>[] particles = Utils.verifyVars(e, exprParticles, null);
-        if (particles != null) {
-            effect.setParticles(particles, skriptNode);
-        }
-    }
+		ParticleBuilder<?>[] particles = Utils.verifyVars(e, exprParticles, null);
+		if (particles != null) {
+			effect.setParticles(particles, skriptNode);
+		}
+	}
 
-    @Override
-    public @NotNull String toString(Event event, boolean debug) {
-        return "register particle effect " + exprType.toString(event, debug) + " with id " + exprId.toString(event, debug) + (exprParticles != null ? " using " + exprParticles.toString(event, debug) : "");
-    }
+	@Override
+	public @NotNull String toString(Event event, boolean debug) {
+		return "register particle effect " + exprType.toString(event, debug) + " with id " + exprId.toString(event, debug) + (exprParticles != null ? " using " + exprParticles.toString(event, debug) : "");
+	}
 
 }

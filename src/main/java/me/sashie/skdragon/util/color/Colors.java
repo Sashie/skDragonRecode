@@ -181,7 +181,7 @@ public class Colors extends Color {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 
 	public static Color valueOf(String name) {
 		return name == null ? null : colors.get(name.toLowerCase(Locale.ENGLISH));

@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -35,34 +35,34 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set particle speed of effect \"uniqueID\" to .05"})
 public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> {
 
-    static {
-        register(ExprParticleSpeed.class, Number.class, "speed");
-    }
+	static {
+		register(ExprParticleSpeed.class, Number.class, "speed");
+	}
 
-    @Override
-    public Number getParticle(ParticleBuilder<?> p) {
-        if (p instanceof NormalParticle) {
-            return ((NormalParticle) p).getParticleData().speed;
-        }
+	@Override
+	public Number getParticle(ParticleBuilder<?> p) {
+		if (p instanceof NormalParticle) {
+			return ((NormalParticle) p).getParticleData().speed;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-        if (p instanceof NormalParticle) {
-            Number n = (Number) (delta[0]);
-            ((NormalParticle) p).getParticleData().speed = n.floatValue();
-        }
-    }
+	@Override
+	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+		if (p instanceof NormalParticle) {
+			Number n = (Number) (delta[0]);
+			((NormalParticle) p).getParticleData().speed = n.floatValue();
+		}
+	}
 
-    @Override
-    public @NotNull Class<? extends Number> getReturnType() {
-        return Number.class;
-    }
+	@Override
+	public @NotNull Class<? extends Number> getReturnType() {
+		return Number.class;
+	}
 
-    @Override
-    protected String getPropertyName() {
-        return "speed";
-    }
+	@Override
+	protected String getPropertyName() {
+		return "speed";
+	}
 }

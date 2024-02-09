@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -43,39 +43,39 @@ import java.util.Arrays;
 @Examples({"all particle effect names"})
 public class ExprAllEffectTypeNames extends SimpleExpression<String> {
 
-    static {
-        Skript.registerExpression(
-                ExprAllEffectTypeNames.class,
-                String.class,
-                ExpressionType.SIMPLE,
-                "[all] particle effect names"
-        );
-    }
+	static {
+		Skript.registerExpression(
+				ExprAllEffectTypeNames.class,
+				String.class,
+				ExpressionType.SIMPLE,
+				"[all] particle effect names"
+		);
+	}
 
-    @Override
-    public boolean init(Expression<?> @NotNull [] e, int i, @NotNull Kleenean k, SkriptParser.@NotNull ParseResult p) {
-        return true;
-    }
+	@Override
+	public boolean init(Expression<?> @NotNull [] e, int i, @NotNull Kleenean k, SkriptParser.@NotNull ParseResult p) {
+		return true;
+	}
 
-    @Override
-    protected String @NotNull [] get(@NotNull Event e) {
-        return Arrays.stream(ParticleEffect.values())
-                .map(effect -> effect.toString().toLowerCase().replace("_", " "))
-                .toArray(String[]::new);
-    }
+	@Override
+	protected String @NotNull [] get(@NotNull Event e) {
+		return Arrays.stream(ParticleEffect.values())
+				.map(effect -> effect.toString().toLowerCase().replace("_", " "))
+				.toArray(String[]::new);
+	}
 
-    @Override
-    public @NotNull String toString(@Nullable Event e, boolean b) {
-        return "all particle effect names";
-    }
+	@Override
+	public @NotNull String toString(@Nullable Event e, boolean b) {
+		return "all particle effect names";
+	}
 
-    @Override
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
-    }
+	@Override
+	public @NotNull Class<? extends String> getReturnType() {
+		return String.class;
+	}
 
-    @Override
-    public boolean isSingle() {
-        return false;
-    }
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
 }

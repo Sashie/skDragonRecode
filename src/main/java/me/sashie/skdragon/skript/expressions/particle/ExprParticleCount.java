@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -35,28 +35,28 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set particle amount of effect \"uniqueID\" to 20"})
 public class ExprParticleCount extends CustomParticlePropertyExpression<Number> {
 
-    static {
-        register(ExprParticleCount.class, Number.class, "(amount|count)");
-    }
+	static {
+		register(ExprParticleCount.class, Number.class, "(amount|count)");
+	}
 
-    @Override
-    public Number getParticle(ParticleBuilder<?> p) {
-        return p.getParticleData().getAmount();
-    }
+	@Override
+	public Number getParticle(ParticleBuilder<?> p) {
+		return p.getParticleData().getAmount();
+	}
 
-    @Override
-    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-        int i = ((Number) (delta[0])).intValue();
-        p.getParticleData().setAmount(i > 0 ? i : 1);
-    }
+	@Override
+	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+		int i = ((Number) (delta[0])).intValue();
+		p.getParticleData().setAmount(i > 0 ? i : 1);
+	}
 
-    @Override
-    public @NotNull Class<? extends Number> getReturnType() {
-        return Number.class;
-    }
+	@Override
+	public @NotNull Class<? extends Number> getReturnType() {
+		return Number.class;
+	}
 
-    @Override
-    protected String getPropertyName() {
-        return "amount";
-    }
+	@Override
+	protected String getPropertyName() {
+		return "amount";
+	}
 }

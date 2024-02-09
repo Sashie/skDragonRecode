@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -39,31 +39,31 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"particle effect id \"%player%\" is active"})
 public class CondEffectIsActive extends BaseConditions {
 
-    static {
-        Skript.registerCondition(
-                CondEffectIsActive.class,
-                "particle effect id %string% is active",
-                "particle effect id %string% is not active"
-        );
-    }
+	static {
+		Skript.registerCondition(
+				CondEffectIsActive.class,
+				"particle effect id %string% is active",
+				"particle effect id %string% is not active"
+		);
+	}
 
-    private Expression<String> exprId;
+	private Expression<String> exprId;
 
-    @Override
-    public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, @NotNull ParseResult parseResult) {
-        exprId = (Expression<String>) exprs[0];
-        return true;
-    }
+	@Override
+	public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, @NotNull ParseResult parseResult) {
+		exprId = (Expression<String>) exprs[0];
+		return true;
+	}
 
-    @Override
-    public boolean checkCondition(@NotNull Event e) {
-        String id = Utils.verifyVar(e, exprId, null);
-        return EffectAPI.isRunning(id);
-    }
+	@Override
+	public boolean checkCondition(@NotNull Event e) {
+		String id = Utils.verifyVar(e, exprId, null);
+		return EffectAPI.isRunning(id);
+	}
 
-    @Override
-    public String toStringCondition(Event e, boolean debug) {
-        return "effect with id " + exprId.toString(e, debug) + " is " + (isNegated() ? "not active" : "active");
-    }
+	@Override
+	public String toStringCondition(Event e, boolean debug) {
+		return "effect with id " + exprId.toString(e, debug) + " is " + (isNegated() ? "not active" : "active");
+	}
 
 }

@@ -16,9 +16,9 @@ public class VibrationParticle extends ParticleBuilder<VibrationParticleData> {
 		super(new VibrationParticleData());
 	}
 
-    public VibrationParticle(Particle particle) {
-    	super(new VibrationParticleData());
-    	this.data.particle = particle;
+	public VibrationParticle(Particle particle) {
+		super(new VibrationParticleData());
+		this.data.particle = particle;
 	}
 
 	public VibrationParticle(VibrationParticleData inputData) {

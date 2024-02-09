@@ -15,9 +15,9 @@ public class NormalParticle extends ParticleBuilder<NormalParticleData> {
 		super(new NormalParticleData());
 	}
 
-    public NormalParticle(Particle particle) {
-    	super(new NormalParticleData());
-    	this.data.particle = particle;
+	public NormalParticle(Particle particle) {
+		super(new NormalParticleData());
+		this.data.particle = particle;
 	}
 
 	public NormalParticle(NormalParticleData inputData) {

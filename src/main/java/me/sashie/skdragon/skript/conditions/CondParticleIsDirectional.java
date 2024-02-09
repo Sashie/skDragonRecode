@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -40,31 +40,31 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"particle redstone is directional"})
 public class CondParticleIsDirectional extends BaseConditions {
 
-    static {
-        Skript.registerCondition(
-                CondParticleIsDirectional.class,
-                "particle %particle% is directional",
-                "particle %particle% is not directional"
-        );
-    }
+	static {
+		Skript.registerCondition(
+				CondParticleIsDirectional.class,
+				"particle %particle% is directional",
+				"particle %particle% is not directional"
+		);
+	}
 
-    private Expression<Particle> exprParticle;
+	private Expression<Particle> exprParticle;
 
-    @Override
-    public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
-        exprParticle = (Expression<Particle>) exprs[0];
-        return true;
-    }
+	@Override
+	public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		exprParticle = (Expression<Particle>) exprs[0];
+		return true;
+	}
 
-    @Override
-    public boolean checkCondition(@NotNull Event e) {
-        Particle particle = Utils.verifyVar(e, exprParticle, null);
-        return ParticleProperty.DIRECTIONAL.hasProperty(particle);
-    }
+	@Override
+	public boolean checkCondition(@NotNull Event e) {
+		Particle particle = Utils.verifyVar(e, exprParticle, null);
+		return ParticleProperty.DIRECTIONAL.hasProperty(particle);
+	}
 
-    @Override
-    public String toStringCondition(Event e, boolean debug) {
-        return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
-    }
+	@Override
+	public String toStringCondition(Event e, boolean debug) {
+		return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
+	}
 
 }

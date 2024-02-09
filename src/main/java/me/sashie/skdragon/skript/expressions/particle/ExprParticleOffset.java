@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -36,28 +36,28 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set the 1st particle offset of the particle effect \"uniqueID\" to {_v}"})
 public class ExprParticleOffset extends CustomParticlePropertyExpression<Vector> {
 
-    static {
-        register(ExprParticleOffset.class, Vector.class, "offset [vector]");
-    }
+	static {
+		register(ExprParticleOffset.class, Vector.class, "offset [vector]");
+	}
 
-    @Override
-    public Vector getParticle(ParticleBuilder<?> p) {
-        return p.getParticleData().getOffset();
-    }
+	@Override
+	public Vector getParticle(ParticleBuilder<?> p) {
+		return p.getParticleData().getOffset();
+	}
 
-    @Override
-    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-        Vector v = (Vector) (delta[0]);
-        p.getParticleData().setOffset(v);
-    }
+	@Override
+	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+		Vector v = (Vector) (delta[0]);
+		p.getParticleData().setOffset(v);
+	}
 
-    @Override
-    public @NotNull Class<? extends Vector> getReturnType() {
-        return Vector.class;
-    }
+	@Override
+	public @NotNull Class<? extends Vector> getReturnType() {
+		return Vector.class;
+	}
 
-    @Override
-    protected String getPropertyName() {
-        return "offset vector";
-    }
+	@Override
+	protected String getPropertyName() {
+		return "offset vector";
+	}
 }

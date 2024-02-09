@@ -22,45 +22,45 @@ import org.jetbrains.annotations.NotNull;
 @Name("Particles - Draw last created/current particle")
 @Description({"Draws the last created particle"})
 @Examples({"create particle of flame:",
-        "   set count of particle to 100",
-        "   set offset of particle to vector 1, 1 and 1",
-        "draw current particle at player"})
+		"   set count of particle to 100",
+		"   set offset of particle to vector 1, 1 and 1",
+		"draw current particle at player"})
 public class EffSpawnCurrentParticle extends Effect {
 
-    static {
-        Skript.registerEffect(
-                EffSpawnCurrentParticle.class,
-                "(draw|send) [the] ([last] created|current) particle (at|to) %objects%"
-        );
-    }
+	static {
+		Skript.registerEffect(
+				EffSpawnCurrentParticle.class,
+				"(draw|send) [the] ([last] created|current) particle (at|to) %objects%"
+		);
+	}
 
-    private Expression<Object> exprLocations;
+	private Expression<Object> exprLocations;
 
-    @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
-        exprLocations = (Expression<Object>) exprs[0];
-        return true;
-    }
+	@Override
+	public boolean init(Expression<?>[] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
+		exprLocations = (Expression<Object>) exprs[0];
+		return true;
+	}
 
-    @Override
-    protected void execute(@NotNull Event e) {
-        if (ParticleSection.getParticle() == null) return;
+	@Override
+	protected void execute(@NotNull Event e) {
+		if (ParticleSection.getParticle() == null) return;
 
-        Object[] locations = Utils.verifyVars(e, exprLocations, null);
-        if (locations == null) return;
+		Object[] locations = Utils.verifyVars(e, exprLocations, null);
+		if (locations == null) return;
 
-        for (Object loc : locations) {
-            DynamicLocation dynLoc = ObjectPoolManager.getDynamicLocationPool().acquire(loc);
-            if (dynLoc == null) continue;
+		for (Object loc : locations) {
+			DynamicLocation dynLoc = ObjectPoolManager.getDynamicLocationPool().acquire(loc);
+			if (dynLoc == null) continue;
 
-            ParticleSection.getParticle().sendParticles(dynLoc);
-            ObjectPoolManager.getDynamicLocationPool().release(dynLoc);
-        }
-    }
+			ParticleSection.getParticle().sendParticles(dynLoc);
+			ObjectPoolManager.getDynamicLocationPool().release(dynLoc);
+		}
+	}
 
-    @Override
-    public @NotNull String toString(Event e, boolean debug) {
-        return "draw current particle at " + exprLocations.toString(e, debug);
-    }
+	@Override
+	public @NotNull String toString(Event e, boolean debug) {
+		return "draw current particle at " + exprLocations.toString(e, debug);
+	}
 
 }

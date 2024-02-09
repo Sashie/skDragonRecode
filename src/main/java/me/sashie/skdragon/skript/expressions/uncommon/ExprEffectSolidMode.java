@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -37,38 +37,38 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set solid mode of effect \"uniqueID\" to true"})
 public class ExprEffectSolidMode extends CustomEffectPropertyExpression<Boolean> {
 
-    static {
-        register(ExprEffectSolidMode.class, Boolean.class, "solid mode");
-    }
+	static {
+		register(ExprEffectSolidMode.class, Boolean.class, "solid mode");
+	}
 
-    @Override
-    public Boolean getPropertyValue(EffectData effect) {
-        if (effect instanceof ISolid) {
-            return ((ISolid) effect).getSolidProperty().isSolid();
-        }
-        return null;
-    }
+	@Override
+	public Boolean getPropertyValue(EffectData effect) {
+		if (effect instanceof ISolid) {
+			return ((ISolid) effect).getSolidProperty().isSolid();
+		}
+		return null;
+	}
 
-    @Override
-    public void setPropertyValue(EffectData effect, Object[] delta) {
-        if (effect instanceof ISolid) {
-            Boolean b = (Boolean) delta[0];
-            ((ISolid) effect).getSolidProperty().setSolid(b);
-        }
-    }
+	@Override
+	public void setPropertyValue(EffectData effect, Object[] delta) {
+		if (effect instanceof ISolid) {
+			Boolean b = (Boolean) delta[0];
+			((ISolid) effect).getSolidProperty().setSolid(b);
+		}
+	}
 
-    @Override
-    public @NotNull Class<? extends Boolean> getReturnType() {
-        return Boolean.class;
-    }
+	@Override
+	public @NotNull Class<? extends Boolean> getReturnType() {
+		return Boolean.class;
+	}
 
-    @Override
-    public String getPropertyName() {
-        return "solid mode";
-    }
+	@Override
+	public String getPropertyName() {
+		return "solid mode";
+	}
 
-    @Override
-    protected EffectProperty getEffectProperty() {
-        return EffectProperty.SOLID_SHAPE;
-    }
+	@Override
+	protected EffectProperty getEffectProperty() {
+		return EffectProperty.SOLID_SHAPE;
+	}
 }

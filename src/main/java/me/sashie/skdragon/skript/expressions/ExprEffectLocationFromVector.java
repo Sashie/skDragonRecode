@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -43,79 +43,79 @@ import java.util.ArrayList;
 @Name("Particles - Vector location")
 @Description({""})
 @Examples({"set vector location of effect \"uniqueID\" to {_v}",
-        "add {_v} to vector location of effect \"uniqueID\"",
-        "remove {_v} from vector location of effect \"uniqueID\""})
+		"add {_v} to vector location of effect \"uniqueID\"",
+		"remove {_v} from vector location of effect \"uniqueID\""})
 public class ExprEffectLocationFromVector extends CustomEffectPropertyExpression<Vector> {
 
-    static {
-        register(ExprEffectLocationFromVector.class, Vector.class, "location (from|as) vector");
-    }
+	static {
+		register(ExprEffectLocationFromVector.class, Vector.class, "location (from|as) vector");
+	}
 
-    @Override
-    public Vector getPropertyValue(EffectData effect) {
-        return null;
-    }
+	@Override
+	public Vector getPropertyValue(EffectData effect) {
+		return null;
+	}
 
-    @Override
-    protected Vector @NotNull [] get(@NotNull Event e) {
-        String id = Utils.verifyVar(e, getExpr(), null);
-        if (id == null) return new Vector[0];
+	@Override
+	protected Vector @NotNull [] get(@NotNull Event e) {
+		String id = Utils.verifyVar(e, getExpr(), null);
+		if (id == null) return new Vector[0];
 
-        EffectData effect = EffectAPI.get(id, skriptNode);
-        if (effect == null) return new Vector[0];
+		EffectData effect = EffectAPI.get(id, skriptNode);
+		if (effect == null) return new Vector[0];
 
-        synchronized (effect) {
-            ArrayList<Vector> cl = new ArrayList<>();
-            for (DynamicLocation location : effect.getLocations()) {
-                cl.add(location.toVector());
-            }
-            return cl.toArray(new Vector[0]);
-        }
-    }
+		synchronized (effect) {
+			ArrayList<Vector> cl = new ArrayList<>();
+			for (DynamicLocation location : effect.getLocations()) {
+				cl.add(location.toVector());
+			}
+			return cl.toArray(new Vector[0]);
+		}
+	}
 
-    @Override
-    public void setPropertyValue(EffectData effect, Object[] delta) {
-        synchronized (effect) {
-            switch (getMode()) {
-                case ADD:
-                    for (int i = 0; i < effect.getLocations().length; i++) {
-                        effect.getLocations()[i].add((Vector) delta[0]);
-                    }
-                    break;
-                case REMOVE:
-                    for (int i = 0; i < effect.getLocations().length; i++) {
-                        effect.getLocations()[i].subtract((Vector) delta[0]);
-                    }
-                    break;
-                case SET:
-                    Vector v = (Vector) delta[0];
-                    effect.getLocations()[0].set(v.getX(), v.getY(), v.getZ());
+	@Override
+	public void setPropertyValue(EffectData effect, Object[] delta) {
+		synchronized (effect) {
+			switch (getMode()) {
+				case ADD:
+					for (int i = 0; i < effect.getLocations().length; i++) {
+						effect.getLocations()[i].add((Vector) delta[0]);
+					}
+					break;
+				case REMOVE:
+					for (int i = 0; i < effect.getLocations().length; i++) {
+						effect.getLocations()[i].subtract((Vector) delta[0]);
+					}
+					break;
+				case SET:
+					Vector v = (Vector) delta[0];
+					effect.getLocations()[0].set(v.getX(), v.getY(), v.getZ());
 
-                    if (delta.length > 1) {
-                        SkDragonRecode.warn("Only the first location will be set. Subsequent locations will be ignored. To set more consider stopping the effect and starting it at a new location or reconsider how you are using it", skriptNode);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
+					if (delta.length > 1) {
+						SkDragonRecode.warn("Only the first location will be set. Subsequent locations will be ignored. To set more consider stopping the effect and starting it at a new location or reconsider how you are using it", skriptNode);
+					}
+					break;
+				default:
+					break;
+			}
+		}
+	}
 
-    @Override
-    public Class<? extends Vector> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
-        if (mode == ChangeMode.SET || mode == ChangeMode.ADD || mode == ChangeMode.REMOVE)
-            return CollectionUtils.array(Vector.class);
-        return CollectionUtils.array();
-    }
+	@Override
+	public Class<? extends Vector> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
+		if (mode == ChangeMode.SET || mode == ChangeMode.ADD || mode == ChangeMode.REMOVE)
+			return CollectionUtils.array(Vector.class);
+		return CollectionUtils.array();
+	}
 
-    @Override
-    public @NotNull Class<? extends Vector> getReturnType() {
-        return Vector.class;
-    }
+	@Override
+	public @NotNull Class<? extends Vector> getReturnType() {
+		return Vector.class;
+	}
 
-    @Override
-    public String getPropertyName() {
-        return "location from/as vector";
-    }
+	@Override
+	public String getPropertyName() {
+		return "location from/as vector";
+	}
 
 }

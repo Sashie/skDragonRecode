@@ -107,7 +107,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 
 		for (int i = 0; i < density; i++) {
 			loc.add(v);
-		    this.getParticleBuilder(1).sendParticles(loc, this.getPlayers());
+			this.getParticleBuilder(1).sendParticles(loc, this.getPlayers());
 		}
 	}
 

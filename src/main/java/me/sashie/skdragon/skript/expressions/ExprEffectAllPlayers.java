@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -53,143 +53,143 @@ import java.util.List;
 
 @Name("Particles - Clientside/visible players of effect")
 @Description({
-        "Gets, sets, adds to and removes from the list of players able to see an effect, if the list is deleted all players can see the effect"})
+		"Gets, sets, adds to and removes from the list of players able to see an effect, if the list is deleted all players can see the effect"})
 @Examples({"set {_players::*} to players of effect \"uniqueid\"",
-        "set clientside players of effect \"uniqueid\" to {_players::*}",
-        "add player to clientside players of effect \"uniqueid\"",
-        "remove player from clientside players of effect \"uniqueid\"",
-        "delete clientside players of effect \"uniqueid\""})
+		"set clientside players of effect \"uniqueid\" to {_players::*}",
+		"add player to clientside players of effect \"uniqueid\"",
+		"remove player from clientside players of effect \"uniqueid\"",
+		"delete clientside players of effect \"uniqueid\""})
 public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 
-    static {
-        Skript.registerExpression(ExprEffectAllPlayers.class, Player.class, ExpressionType.PROPERTY,
-                "[the] [(clientside|visible)] player[s] of [the] [particle] effect %strings%",
-                "[particle] effect %strings%'[s] [(clientside|visible)] player[s]",
-                "[(clientside|visible)] player[s] of [the] [particle] effect");
-    }
+	static {
+		Skript.registerExpression(ExprEffectAllPlayers.class, Player.class, ExpressionType.PROPERTY,
+				"[the] [(clientside|visible)] player[s] of [the] [particle] effect %strings%",
+				"[particle] effect %strings%'[s] [(clientside|visible)] player[s]",
+				"[(clientside|visible)] player[s] of [the] [particle] effect");
+	}
 
-    protected boolean scope = false;
-    private Expression<String> exprNames;
-    private SkriptNode skriptNode;
+	protected boolean scope = false;
+	private Expression<String> exprNames;
+	private SkriptNode skriptNode;
 
-    @Override
-    protected Player @NotNull [] get(@NotNull Event e) {
-        if (scope) {
-            SkDragonRecode.warn("Incorrect use of syntax, can't get values from scope", skriptNode);
-            return new Player[0];
-        }
+	@Override
+	protected Player @NotNull [] get(@NotNull Event e) {
+		if (scope) {
+			SkDragonRecode.warn("Incorrect use of syntax, can't get values from scope", skriptNode);
+			return new Player[0];
+		}
 
-        String[] effectIds = Utils.verifyVars(e, exprNames, null);
-        if (effectIds == null) return new Player[0];
+		String[] effectIds = Utils.verifyVars(e, exprNames, null);
+		if (effectIds == null) return new Player[0];
 
-        if (effectIds.length > 1)
-            SkDragonRecode.warn("Only a single ID input can be used for setting players to a list variable. Subsequent IDs will be ignored.", skriptNode);
+		if (effectIds.length > 1)
+			SkDragonRecode.warn("Only a single ID input can be used for setting players to a list variable. Subsequent IDs will be ignored.", skriptNode);
 
-        EffectData effect = EffectAPI.get(effectIds[0], skriptNode);
-        if (effect == null) return new Player[0];
-        synchronized (effect) {
-            return effect.getPlayers();
-        }
-    }
+		EffectData effect = EffectAPI.get(effectIds[0], skriptNode);
+		if (effect == null) return new Player[0];
+		synchronized (effect) {
+			return effect.getPlayers();
+		}
+	}
 
-    @Override
-    public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
-        final Player[] players = new Player[delta.length];
-        for (int i = 0; i < delta.length; i++) {
-            players[i] = (Player) delta[i];
-        }
+	@Override
+	public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
+		final Player[] players = new Player[delta.length];
+		for (int i = 0; i < delta.length; i++) {
+			players[i] = (Player) delta[i];
+		}
 
-        if (scope) {
-            EffectData effect = EffectAPI.get(ParticleEffectSection.getID(), skriptNode);
-            if (effect == null) return;
-            synchronized (effect) {
-                effect.setPlayers(players);
-            }
-        } else {
-            List<String> failedEffects = new ArrayList<>();
+		if (scope) {
+			EffectData effect = EffectAPI.get(ParticleEffectSection.getID(), skriptNode);
+			if (effect == null) return;
+			synchronized (effect) {
+				effect.setPlayers(players);
+			}
+		} else {
+			List<String> failedEffects = new ArrayList<>();
 
-            String[] effectIds = Utils.verifyVars(e, exprNames, null);
-            if (effectIds == null) return;
+			String[] effectIds = Utils.verifyVars(e, exprNames, null);
+			if (effectIds == null) return;
 
-            for (String id : effectIds) {
-                if (!EffectAPI.ALL_EFFECTS.containsKey(id)) {
-                    failedEffects.add(id);
-                    continue;
-                }
-                EffectData effect = EffectAPI.get(id, skriptNode);
-                if (effect == null) return;
-                synchronized (effect) {
-                    switch (mode) {
-                        case ADD:
-                            if (effect.getPlayers() == null)
-                                effect.setPlayers(players);
-                            else
-                                for (Player p : players)
-                                    if (!EffectUtils.arrayContains(effect.getPlayers(), p))
-                                        EffectUtils.addToArray(effect.getPlayers(), p);
+			for (String id : effectIds) {
+				if (!EffectAPI.ALL_EFFECTS.containsKey(id)) {
+					failedEffects.add(id);
+					continue;
+				}
+				EffectData effect = EffectAPI.get(id, skriptNode);
+				if (effect == null) return;
+				synchronized (effect) {
+					switch (mode) {
+						case ADD:
+							if (effect.getPlayers() == null)
+								effect.setPlayers(players);
+							else
+								for (Player p : players)
+									if (!EffectUtils.arrayContains(effect.getPlayers(), p))
+										EffectUtils.addToArray(effect.getPlayers(), p);
 
-                            break;
-                        case REMOVE:
-                            if (effect.getPlayers() != null) {
-                                for (Player p : players)
-                                    if (EffectUtils.arrayContains(effect.getPlayers(), p))
-                                        EffectUtils.removeFromArray(effect.getPlayers(), p);
-                            }
-                            break;
-                        case REMOVE_ALL:
-                        case RESET:
-                        case DELETE:
-                            if (effect.getPlayers() != null) {
-                                effect.setPlayers(null);
-                            }
-                            break;
-                        case SET:
-                            effect.setPlayers(players);
-                            break;
-                    }
-                }
-            }
+							break;
+						case REMOVE:
+							if (effect.getPlayers() != null) {
+								for (Player p : players)
+									if (EffectUtils.arrayContains(effect.getPlayers(), p))
+										EffectUtils.removeFromArray(effect.getPlayers(), p);
+							}
+							break;
+						case REMOVE_ALL:
+						case RESET:
+						case DELETE:
+							if (effect.getPlayers() != null) {
+								effect.setPlayers(null);
+							}
+							break;
+						case SET:
+							effect.setPlayers(players);
+							break;
+					}
+				}
+			}
 
-            if (!failedEffects.isEmpty()) {
-                SkDragonRecode.warn("One or more particle effects didn't exist! (" + String.join(", ", failedEffects) + ")", skriptNode);
-            }
-        }
-    }
+			if (!failedEffects.isEmpty()) {
+				SkDragonRecode.warn("One or more particle effects didn't exist! (" + String.join(", ", failedEffects) + ")", skriptNode);
+			}
+		}
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean k, SkriptParser.@NotNull ParseResult p) {
-        if (matchedPattern == 2) {
-            if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
-                this.scope = true;
-            } else {
-                return false;
-            }
-        } else {
-            exprNames = (Expression<String>) exprs[0];
-        }
-        skriptNode = new SkriptNode(SkriptLogger.getNode());
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean k, SkriptParser.@NotNull ParseResult p) {
+		if (matchedPattern == 2) {
+			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
+				this.scope = true;
+			} else {
+				return false;
+			}
+		} else {
+			exprNames = (Expression<String>) exprs[0];
+		}
+		skriptNode = new SkriptNode(SkriptLogger.getNode());
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public @NotNull Class<? extends Player> getReturnType() {
-        return Player.class;
-    }
+	@Override
+	public @NotNull Class<? extends Player> getReturnType() {
+		return Player.class;
+	}
 
-    @Override
-    public Class<?> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
-        return CollectionUtils.array(Player[].class);
-    }
+	@Override
+	public Class<?> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
+		return CollectionUtils.array(Player[].class);
+	}
 
-    @Override
-    public boolean isSingle() {
-        return false;
-    }
+	@Override
+	public boolean isSingle() {
+		return false;
+	}
 
-    @Override
-    public @NotNull String toString(@Nullable Event e, boolean b) {
-        return "visible players";
-    }
+	@Override
+	public @NotNull String toString(@Nullable Event e, boolean b) {
+		return "visible players";
+	}
 }

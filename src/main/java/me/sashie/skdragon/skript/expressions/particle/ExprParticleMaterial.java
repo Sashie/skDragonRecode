@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -36,34 +36,34 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set particle material of effect \"uniqueID\" to dirt block"})
 public class ExprParticleMaterial extends CustomParticlePropertyExpression<ItemStack> {
 
-    static {
-        register(ExprParticleMaterial.class, ItemStack.class, "material");
-    }
+	static {
+		register(ExprParticleMaterial.class, ItemStack.class, "material");
+	}
 
-    @Override
-    public ItemStack getParticle(ParticleBuilder<?> p) {
-        if (p instanceof MaterialParticle) {
-            return new ItemStack(((MaterialParticle) p).getParticleData().material);
-        }
-        return null;
-    }
+	@Override
+	public ItemStack getParticle(ParticleBuilder<?> p) {
+		if (p instanceof MaterialParticle) {
+			return new ItemStack(((MaterialParticle) p).getParticleData().material);
+		}
+		return null;
+	}
 
-    @Override
-    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-        if (p instanceof MaterialParticle) {
-            ItemStack i = (ItemStack) (delta[0]);
-            ((MaterialParticle) p).getParticleData().material = i.getType();
-        }
-    }
+	@Override
+	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+		if (p instanceof MaterialParticle) {
+			ItemStack i = (ItemStack) (delta[0]);
+			((MaterialParticle) p).getParticleData().material = i.getType();
+		}
+	}
 
-    @Override
-    public @NotNull Class<? extends ItemStack> getReturnType() {
-        return ItemStack.class;
-    }
+	@Override
+	public @NotNull Class<? extends ItemStack> getReturnType() {
+		return ItemStack.class;
+	}
 
-    @Override
-    protected String getPropertyName() {
-        return "material";
-    }
+	@Override
+	protected String getPropertyName() {
+		return "material";
+	}
 
 }

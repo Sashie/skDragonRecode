@@ -8,7 +8,7 @@ public class VibrationParticleData extends DirectionParticleData {
 
 	public int arrivalTime = 0;
 	public Location target;
-    public Block block;
-    public Entity entity;
-    
+	public Block block;
+	public Entity entity;
+	
 }

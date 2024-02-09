@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -27,45 +27,45 @@ import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class CustomPropertyExpression<F, T> extends SimpleExpression<T> {
-    private Expression<? extends F> expr;
+	private Expression<? extends F> expr;
 
-    protected final void setExpr(Expression<? extends F> expr) {
-        this.expr = expr;
-    }
+	protected final void setExpr(Expression<? extends F> expr) {
+		this.expr = expr;
+	}
 
-    public final Expression<? extends F> getExpr() {
-        return this.expr;
-    }
+	public final Expression<? extends F> getExpr() {
+		return this.expr;
+	}
 
-    protected T @NotNull [] get(@NotNull Event e) {
-        return this.get(e, this.expr.getArray(e));
-    }
+	protected T @NotNull [] get(@NotNull Event e) {
+		return this.get(e, this.expr.getArray(e));
+	}
 
-    public final T @NotNull [] getAll(@NotNull Event e) {
-        return this.get(e, this.expr.getAll(e));
-    }
+	public final T @NotNull [] getAll(@NotNull Event e) {
+		return this.get(e, this.expr.getAll(e));
+	}
 
-    protected abstract T[] get(Event arg0, F[] arg1);
+	protected abstract T[] get(Event arg0, F[] arg1);
 
-    protected T[] get(F[] source, Converter<? super F, ? extends T> converter) {
-        assert source != null;
+	protected T[] get(F[] source, Converter<? super F, ? extends T> converter) {
+		assert source != null;
 
-        assert converter != null;
+		assert converter != null;
 
-        return Converters.convertUnsafe(source, this.getReturnType(), converter);
-    }
+		return Converters.convertUnsafe(source, this.getReturnType(), converter);
+	}
 
-    //removed 'final' from original class
-    public boolean isSingle() {
-        return this.expr.isSingle();
-    }
+	//removed 'final' from original class
+	public boolean isSingle() {
+		return this.expr.isSingle();
+	}
 
-    public final boolean getAnd() {
-        return this.expr.getAnd();
-    }
+	public final boolean getAnd() {
+		return this.expr.getAnd();
+	}
 
-    public @NotNull Expression<? extends T> simplify() {
-        this.expr = this.expr.simplify();
-        return this;
-    }
+	public @NotNull Expression<? extends T> simplify() {
+		this.expr = this.expr.simplify();
+		return this;
+	}
 }

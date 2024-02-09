@@ -22,33 +22,33 @@ import org.jetbrains.annotations.NotNull;
 @Examples({""})
 public class ExprCurrentParticleEffectID extends SimpleExpression<String> {
 
-    static {
-        Skript.registerExpression(ExprCurrentParticleEffectID.class, String.class, ExpressionType.SIMPLE,
-                "[the] ([last] created|current) particle effect id");
-    }
+	static {
+		Skript.registerExpression(ExprCurrentParticleEffectID.class, String.class, ExpressionType.SIMPLE,
+				"[the] ([last] created|current) particle effect id");
+	}
 
-    @Override
-    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
-        return true;
-    }
+	@Override
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
+		return true;
+	}
 
-    @Override
-    protected String @NotNull [] get(@NotNull Event e) {
-        return new String[]{ParticleEffectSection.getID()};
-    }
+	@Override
+	protected String @NotNull [] get(@NotNull Event e) {
+		return new String[]{ParticleEffectSection.getID()};
+	}
 
-    @Override
-    public @NotNull Class<? extends String> getReturnType() {
-        return String.class;
-    }
+	@Override
+	public @NotNull Class<? extends String> getReturnType() {
+		return String.class;
+	}
 
-    @Override
-    public @NotNull String toString(Event e, boolean debug) {
-        return "the last created particle effect id";
-    }
+	@Override
+	public @NotNull String toString(Event e, boolean debug) {
+		return "the last created particle effect id";
+	}
 
-    @Override
-    public boolean isSingle() {
-        return true;
-    }
+	@Override
+	public boolean isSingle() {
+		return true;
+	}
 }

@@ -39,26 +39,26 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 	@Override
 	public void update(DynamicLocation location, float step) {
 		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
-        for (int i = 0; i < this.getDensityProperty().getDensity(1); i++) {
-            final double angle = step * angularVelocity;//properties.getAngularVelocityX();
-            for (int j = 0; j < this.getDensityProperty().getDensity(2); j++) {
-                final Vector v = new Vector(Math.cos(angle), Math.sin(angle), 0.0).multiply(this.getRadiusProperty().getRadius(1));
-                VectorUtils.rotateAroundAxisX(v, Math.PI / this.getDensityProperty().getDensity(2) * j);
-                VectorUtils.rotateAroundAxisY(v, 90);
-                VectorUtils.rotateVector(v, this.getAxisProperty().getAxis().getX(), this.getAxisProperty().getAxis().getY(), this.getAxisProperty().getAxis().getZ());
-                if (this.getRotateProperty().isRotating())
+		for (int i = 0; i < this.getDensityProperty().getDensity(1); i++) {
+			final double angle = step * angularVelocity;//properties.getAngularVelocityX();
+			for (int j = 0; j < this.getDensityProperty().getDensity(2); j++) {
+				final Vector v = new Vector(Math.cos(angle), Math.sin(angle), 0.0).multiply(this.getRadiusProperty().getRadius(1));
+				VectorUtils.rotateAroundAxisX(v, Math.PI / this.getDensityProperty().getDensity(2) * j);
+				VectorUtils.rotateAroundAxisY(v, 90);
+				VectorUtils.rotateVector(v, this.getAxisProperty().getAxis().getX(), this.getAxisProperty().getAxis().getY(), this.getAxisProperty().getAxis().getZ());
+				if (this.getRotateProperty().isRotating())
 					VectorUtils.rotateVector(v, this.getVelocityProperty().getAngularVelocityX() * step, this.getVelocityProperty().getAngularVelocityY() * step, this.getVelocityProperty().getAngularVelocityZ() * step);
-                location.add(v);
+				location.add(v);
 				this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
 				location.subtract(v);
 
-                /*if (properties.getStyle() == 1) {
+				/*if (properties.getStyle() == 1) {
 
-                } else {
+				} else {
 
-                }*/
-            }
-        }
+				}*/
+			}
+		}
 	}
 
 	@Override

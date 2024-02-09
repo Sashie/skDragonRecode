@@ -14,28 +14,28 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class LazyEffectSection extends EffectSection {
 
-    public static LazyEffectSection lastInstance;
+	public static LazyEffectSection lastInstance;
 
-    public LazyEffectSection() {
-        Node current = SkriptLogger.getNode();
-        if (current instanceof SectionNode) {
-            section = (SectionNode) current;
-            map.put(getClass(), this);
-            //An internal effect, to detect the end of a section.
-            ((SectionNode) current).add(new SimpleNode("$ end section", "", 1, (SectionNode) current));
-        }
-        lastInstance = this;
-    }
+	public LazyEffectSection() {
+		Node current = SkriptLogger.getNode();
+		if (current instanceof SectionNode) {
+			section = (SectionNode) current;
+			map.put(getClass(), this);
+			//An internal effect, to detect the end of a section.
+			((SectionNode) current).add(new SimpleNode("$ end section", "", 1, (SectionNode) current));
+		}
+		lastInstance = this;
+	}
 
-    public static void removeCurrentSection() {
-        if (lastInstance != null)
-            map.remove(lastInstance.getClass());
-        lastInstance = null;
-    }
+	public static void removeCurrentSection() {
+		if (lastInstance != null)
+			map.remove(lastInstance.getClass());
+		lastInstance = null;
+	}
 
-    @Override
-    public boolean check(@NotNull Event e) {
-        execute(e);
-        return true; //Always returns true, so it will run its section, like a normal condition.
-    }
+	@Override
+	public boolean check(@NotNull Event e) {
+		execute(e);
+		return true; //Always returns true, so it will run its section, like a normal condition.
+	}
 }

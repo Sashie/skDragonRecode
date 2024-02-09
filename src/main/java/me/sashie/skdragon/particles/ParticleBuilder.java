@@ -9,7 +9,7 @@ public abstract class ParticleBuilder<T extends ParticleData> {
 
 	protected T data;
 
-    public ParticleBuilder(T data) {
+	public ParticleBuilder(T data) {
 		this.data = data;
 	}
 

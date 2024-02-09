@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -36,34 +36,34 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set particle direction of \"uniqueID\" to vector from player"})
 public class ExprParticleDirection extends CustomParticlePropertyExpression<Vector> {
 
-    static {
-        register(ExprParticleDirection.class, Vector.class, "direction");
-    }
+	static {
+		register(ExprParticleDirection.class, Vector.class, "direction");
+	}
 
-    @Override
-    public Vector getParticle(ParticleBuilder<?> p) {
-        if (p instanceof DirectionParticle) {
-            return ((DirectionParticle) p).getParticleData().direction;
-        }
+	@Override
+	public Vector getParticle(ParticleBuilder<?> p) {
+		if (p instanceof DirectionParticle) {
+			return ((DirectionParticle) p).getParticleData().direction;
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-        if (p instanceof DirectionParticle) {
-            Vector v = (Vector) (delta[0]);
-            ((DirectionParticle) p).getParticleData().direction = v;
-        }
-    }
+	@Override
+	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+		if (p instanceof DirectionParticle) {
+			Vector v = (Vector) (delta[0]);
+			((DirectionParticle) p).getParticleData().direction = v;
+		}
+	}
 
-    @Override
-    public @NotNull Class<? extends Vector> getReturnType() {
-        return Vector.class;
-    }
+	@Override
+	public @NotNull Class<? extends Vector> getReturnType() {
+		return Vector.class;
+	}
 
-    @Override
-    protected String getPropertyName() {
-        return "direction";
-    }
+	@Override
+	protected String getPropertyName() {
+		return "direction";
+	}
 }

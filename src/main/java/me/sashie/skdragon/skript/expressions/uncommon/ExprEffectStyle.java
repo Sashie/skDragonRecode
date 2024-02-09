@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -38,42 +38,42 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set style of effect \"uniqueID\" to 2"})
 public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 
-    static {
-        register(ExprEffectStyle.class, Number.class, "style");
-    }
+	static {
+		register(ExprEffectStyle.class, Number.class, "style");
+	}
 
-    @Override
-    public Number getPropertyValue(EffectData effect) {
-        if (effect instanceof IStyle) {
-            return ((IStyle) effect).getStyleProperty().getStyle();
-        }
-        return null;
-    }
+	@Override
+	public Number getPropertyValue(EffectData effect) {
+		if (effect instanceof IStyle) {
+			return ((IStyle) effect).getStyleProperty().getStyle();
+		}
+		return null;
+	}
 
-    @Override
-    public void setPropertyValue(EffectData effect, Object[] delta) {
-        if (effect instanceof IStyle) {
-            Number b = (Number) (delta[0]);
-            if (effect instanceof Wings) {
-                ((Wings) effect).setStyle(b.intValue());
-            } else {
-                ((IStyle) effect).getStyleProperty().setStyle(b.intValue());
-            }
-        }
-    }
+	@Override
+	public void setPropertyValue(EffectData effect, Object[] delta) {
+		if (effect instanceof IStyle) {
+			Number b = (Number) (delta[0]);
+			if (effect instanceof Wings) {
+				((Wings) effect).setStyle(b.intValue());
+			} else {
+				((IStyle) effect).getStyleProperty().setStyle(b.intValue());
+			}
+		}
+	}
 
-    @Override
-    public @NotNull Class<? extends Number> getReturnType() {
-        return Number.class;
-    }
+	@Override
+	public @NotNull Class<? extends Number> getReturnType() {
+		return Number.class;
+	}
 
-    @Override
-    public String getPropertyName() {
-        return "style";
-    }
+	@Override
+	public String getPropertyName() {
+		return "style";
+	}
 
-    @Override
-    protected EffectProperty getEffectProperty() {
-        return EffectProperty.STYLE;
-    }
+	@Override
+	protected EffectProperty getEffectProperty() {
+		return EffectProperty.STYLE;
+	}
 }

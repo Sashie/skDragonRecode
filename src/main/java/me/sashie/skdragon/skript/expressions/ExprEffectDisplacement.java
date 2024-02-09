@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -36,37 +36,37 @@ import org.jetbrains.annotations.NotNull;
 @Examples({"set displacement vector of effect \"uniqueID\" to vector 0, 1 and 0"})
 public class ExprEffectDisplacement extends CustomEffectPropertyExpression<Vector> {
 
-    static {
-        register(
-                ExprEffectDisplacement.class,
-                Vector.class,
-                "displacement [vector]"
-        );
-    }
+	static {
+		register(
+				ExprEffectDisplacement.class,
+				Vector.class,
+				"displacement [vector]"
+		);
+	}
 
-    @Override
-    public Vector getPropertyValue(EffectData effect) {
-        return new Vector(effect.getDisplacement().getX(), effect.getDisplacement().getY(), effect.getDisplacement().getZ());
-    }
+	@Override
+	public Vector getPropertyValue(EffectData effect) {
+		return new Vector(effect.getDisplacement().getX(), effect.getDisplacement().getY(), effect.getDisplacement().getZ());
+	}
 
-    @Override
-    public void setPropertyValue(EffectData effect, Object[] delta) {
-        Vector v = (Vector) (delta[0]);
-        effect.setDisplacement(v);
-    }
+	@Override
+	public void setPropertyValue(EffectData effect, Object[] delta) {
+		Vector v = (Vector) (delta[0]);
+		effect.setDisplacement(v);
+	}
 
-    @Override
-    public @NotNull Class<? extends Vector> getReturnType() {
-        return Vector.class;
-    }
+	@Override
+	public @NotNull Class<? extends Vector> getReturnType() {
+		return Vector.class;
+	}
 
-    @Override
-    public String getPropertyName() {
-        return "displacement vector";
-    }
+	@Override
+	public String getPropertyName() {
+		return "displacement vector";
+	}
 
-    @Override
-    protected EffectProperty getEffectProperty() {
-        return EffectProperty.DISPLACEMENT;
-    }
+	@Override
+	protected EffectProperty getEffectProperty() {
+		return EffectProperty.DISPLACEMENT;
+	}
 }

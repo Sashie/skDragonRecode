@@ -22,9 +22,9 @@ public abstract class TargetEffect extends EffectData {
 	private DynamicLocation[] targets;
 	private Vector targetDisplacement;
 	
-    /**
-     * Should this effect stop playing if the target entity becomes null?
-     */
+	/**
+	 * Should this effect stop playing if the target entity becomes null?
+	 */
 	//public boolean disappearWithTargetEntity = false;
 
 	private boolean init;

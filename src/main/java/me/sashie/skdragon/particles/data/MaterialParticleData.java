@@ -4,7 +4,7 @@ import org.bukkit.Material;
 
 public class MaterialParticleData extends NormalParticleData {
 
-    public Material material = null;//Material.DIRT;
-    public byte materialData = 0;
+	public Material material = null;//Material.DIRT;
+	public byte materialData = 0;
 
 }
