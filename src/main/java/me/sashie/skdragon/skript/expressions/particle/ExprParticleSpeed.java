@@ -25,43 +25,44 @@ import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.particles.NormalParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
 @Name("Particles - Particle speed")
 @Description({"Some particle types have a speed option that changes how the particle moves along its preset path"})
-@Examples({	"set particle speed of effect \"uniqueID\" to .05"})
+@Examples({"set particle speed of effect \"uniqueID\" to .05"})
 public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> {
 
-	static {
-		register(ExprParticleSpeed.class, Number.class, "speed");
-	}
+    static {
+        register(ExprParticleSpeed.class, Number.class, "speed");
+    }
 
-	@Override
-	public Number getParticle(ParticleBuilder<?> p) {
-		if (p instanceof NormalParticle) {
-			return ((NormalParticle) p).getParticleData().speed;
-		}
+    @Override
+    public Number getParticle(ParticleBuilder<?> p) {
+        if (p instanceof NormalParticle) {
+            return ((NormalParticle) p).getParticleData().speed;
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-		if (p instanceof NormalParticle) {
-			Number n = (Number) (delta[0]);
-			((NormalParticle) p).getParticleData().speed = n.floatValue();
-		}
-	}
+    @Override
+    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+        if (p instanceof NormalParticle) {
+            Number n = (Number) (delta[0]);
+            ((NormalParticle) p).getParticleData().speed = n.floatValue();
+        }
+    }
 
-	@Override
-	public Class<? extends Number> getReturnType() {
-		return Number.class;
-	}
+    @Override
+    public @NotNull Class<? extends Number> getReturnType() {
+        return Number.class;
+    }
 
-	@Override
-	protected String getPropertyName() {
-		return "speed";
-	}
+    @Override
+    protected String getPropertyName() {
+        return "speed";
+    }
 }

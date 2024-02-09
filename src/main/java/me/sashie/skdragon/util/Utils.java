@@ -1,46 +1,55 @@
 package me.sashie.skdragon.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
+import ch.njol.skript.lang.Expression;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Waterlogged;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Utils {
 
-	public static String color(String string) {
-		return ChatColor.translateAlternateColorCodes('&', string);
-	}
+    public static String color(String string) {
+        return ChatColor.translateAlternateColorCodes('&', string);
+    }
 
-	public static <E extends Enum<E>> boolean isValidEnum(Class<E> enumClass, String enumName) {
-		if (enumName != null) {
-			try {
-				Enum.valueOf(enumClass, enumName);
-				return true;
-			} catch (IllegalArgumentException ignore) {
-				return false;
-			}
-		}
-		return false;
-	}
+    public static <E extends Enum<E>> boolean isValidEnum(Class<E> enumClass, String enumName) {
+        if (enumName != null) {
+            try {
+                Enum.valueOf(enumClass, enumName);
+                return true;
+            } catch (IllegalArgumentException ignore) {
+                return false;
+            }
+        }
+        return false;
+    }
 
-	public static <E extends Enum<E>> E getEnumValue(Class<E> enumClass, String enumName) {
-		if (isValidEnum(enumClass, enumName)) {
-			return Enum.valueOf(enumClass, enumName);
-		}
+    public static <E extends Enum<E>> E getEnumValue(Class<E> enumClass, String enumName) {
+        if (isValidEnum(enumClass, enumName)) {
+            return Enum.valueOf(enumClass, enumName);
+        }
 
-		return null;
-	}
-    
+        return null;
+    }
+
+    public static <T> @Nullable T verifyVar(@NotNull Event e, @Nullable Expression<T> expression) {
+        return verifyVar(e, expression, null);
+    }
+
+    public static <T> T verifyVar(@NotNull Event e, @Nullable Expression<T> expression, T defaultValue) {
+        return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
+    }
+
+    public static <T> T[] verifyVars(@NotNull Event e, @Nullable Expression<T> expression, T[] defaultValue) {
+        if (expression == null) {
+            return defaultValue;
+        }
+
+        if (expression.getArray(e) == null || expression.getArray(e).length == 0) {
+            return defaultValue;
+        } else {
+            return expression.getArray(e);
+        }
+    }
+
 }

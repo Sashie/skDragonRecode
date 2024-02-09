@@ -1,31 +1,23 @@
 package me.sashie.skdragon.skript.sections;
 
+import ch.njol.skript.Skript;
+import ch.njol.skript.config.Node;
+import ch.njol.skript.config.SectionNode;
+import ch.njol.skript.lang.*;
+import ch.njol.skript.lang.parser.ParserInstance;
+import ch.njol.skript.log.*;
+import ch.njol.util.Kleenean;
+import ch.njol.util.StringUtils;
+import me.sashie.skdragon.SkDragonRecode;
+import me.sashie.skdragon.util.ReflectionUtils;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import org.bukkit.event.Event;
-
-import ch.njol.skript.ScriptLoader;
-import ch.njol.skript.Skript;
-import ch.njol.skript.config.Node;
-import ch.njol.skript.config.SectionNode;
-import ch.njol.skript.lang.Condition;
-import ch.njol.skript.lang.Expression;
-import ch.njol.skript.lang.SkriptParser;
-import ch.njol.skript.lang.TriggerItem;
-import ch.njol.skript.lang.TriggerSection;
-import ch.njol.skript.log.HandlerList;
-import ch.njol.skript.log.LogHandler;
-import ch.njol.skript.log.ParseLogHandler;
-import ch.njol.skript.log.RetainingLogHandler;
-import ch.njol.skript.log.SkriptLogger;
-import ch.njol.util.Kleenean;
-import ch.njol.util.StringUtils;
-import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.util.ReflectionUtils;
 
 /**
  * A class to allow you to create effects that you can run its section.
@@ -43,32 +35,33 @@ public abstract class EffectSection extends Condition {
         if (this instanceof LazyEffectSection) //This one doesn't need to load the section separated.
             return;
         Node n = SkriptLogger.getNode(); //Skript sets the node before parsing this 'effect'
-        if (n == null || !(n instanceof SectionNode)) //Check in case it wasn't loaded as inline condition
+        if (!(n instanceof SectionNode)) //Check in case it wasn't loaded as inline condition
             return;
+
         //True if it was used as condition
         hasIfOrElseIf = StringUtils.startsWithIgnoreCase(n.getKey(), "if ") || StringUtils.startsWithIgnoreCase(n.getKey(), "else if ");
-        
+
         //The comment value of a note is protected, so it is needed but not really necessary tho.
         //It doesn't make a difference, it just makes an exact copy.
         //String comment = ReflectionUtils.getField(Node.class, n, "comment");
         //Field nodeField = ReflectionUtils.getField(Node.class, true, "comment").get(n);
         String comment = null;
-		try {
-			comment = (String) ReflectionUtils.getField(Node.class, true, "comment").get(n);
-	        if (comment == null)
-	            comment = "";
-	        //Creating a copy of current node.
-	        section = new SectionNode(n.getKey(), comment, n.getParent(), n.getLine());
-	        //It will copy the "ArrayList<Node> nodes" field too as it is protected.
-	        Field sectionNodeField = ReflectionUtils.getField(SectionNode.class, true, "nodes");
-	        sectionNodeField.set(section, sectionNodeField.get(n));
-	        //ReflectionUtils.setField(SectionNode.class, section, "nodes", ReflectionUtils.getField(SectionNode.class, n, "nodes"));
-	        //Then it will clear the nodes from the current node, so Skript won't parse it (you need to parse then later).
-	        sectionNodeField.set(n, new ArrayList<Node>());
-	        //ReflectionUtils.setField(SectionNode.class, n, "nodes", new ArrayList<Node>());
-		} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-			e.printStackTrace();
-		}
+        try {
+            comment = (String) ReflectionUtils.getField(Node.class, true, "comment").get(n);
+            if (comment == null)
+                comment = "";
+            //Creating a copy of current node.
+            section = new SectionNode(n.getKey(), comment, n.getParent(), n.getLine());
+            //It will copy the "ArrayList<Node> nodes" field too as it is protected.
+            Field sectionNodeField = ReflectionUtils.getField(SectionNode.class, true, "nodes");
+            sectionNodeField.set(section, sectionNodeField.get(n));
+            //ReflectionUtils.setField(SectionNode.class, section, "nodes", ReflectionUtils.getField(SectionNode.class, n, "nodes"));
+            //Then it will clear the nodes from the current node, so Skript won't parse it (you need to parse then later).
+            sectionNodeField.set(n, new ArrayList<Node>());
+            //ReflectionUtils.setField(SectionNode.class, n, "nodes", new ArrayList<Node>());
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+            e.printStackTrace();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -124,7 +117,7 @@ public abstract class EffectSection extends Condition {
     protected abstract void execute(Event e);
 
     @Override
-    public boolean check(Event e) {
+    public boolean check(@NotNull Event e) {
         execute(e);
         if (executeNext && trigger != null)
             setNext(trigger.getNext());
@@ -147,12 +140,12 @@ public abstract class EffectSection extends Condition {
                 trigger = new TriggerSection(section) {
 
                     @Override
-                    public String toString(Event event, boolean b) {
+                    public @NotNull String toString(Event event, boolean b) {
                         return EffectSection.this.toString(event, b);
                     }
 
                     @Override
-                    public TriggerItem walk(Event event) {
+                    public TriggerItem walk(@NotNull Event event) {
                         return walk(event, true);
                     }
                 };
@@ -171,7 +164,7 @@ public abstract class EffectSection extends Condition {
 
     /**
      * It will load the section of this if any and then it will parse as in specific event.
-     * Basically it will call {@link ScriptLoader#setCurrentEvent(String, Class[])}, parse the current section,
+     * Basically it will call {@link ParserInstance#setCurrentEvent(String, Class[])}, parse the current section,
      * and then set the current event back to the previous one.
      * Useful to load a code from event X and parse as Y, allowing to use syntaxes that work on it.
      *
@@ -181,12 +174,12 @@ public abstract class EffectSection extends Condition {
      */
     public void loadSection(String name, boolean setNext, Class<? extends Event>... events) {
         if (section != null && name != null && events != null && events.length > 0) {
-            String previousName = ScriptLoader.getCurrentEventName();
-            Class<? extends Event>[] previousEvents = ScriptLoader.getCurrentEvents();
+            String previousName = ParserInstance.get().getCurrentEventName();
+            Class<? extends Event>[] previousEvents = ParserInstance.get().getCurrentEvents();
             Kleenean previousDelay = SkDragonRecode.getSkriptAdapter().hasDelayBefore();//ScriptLoader.hasDelayBefore;
-            ScriptLoader.setCurrentEvent(name, events);
+            ParserInstance.get().setCurrentEvent(name, events);
             loadSection(setNext);
-            ScriptLoader.setCurrentEvent(previousName, previousEvents);
+            ParserInstance.get().setCurrentEvent(previousName, previousEvents);
             SkDragonRecode.getSkriptAdapter().setHasDelayBefore(previousDelay);
         }
     }

@@ -1,13 +1,5 @@
 package me.sashie.skdragon.skript.expressions;
 
-import java.util.ArrayList;
-
-import javax.annotation.Nullable;
-
-import me.sashie.skdragon.util.ParticleUtil;
-import org.bukkit.Particle;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -17,6 +9,11 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
+import me.sashie.skdragon.util.ParticleUtil;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
 
 /**
  * Edited by Sashie on 1/20/2017
@@ -24,27 +21,30 @@ import ch.njol.util.Kleenean;
 
 @Name("All particle names")
 @Description({"Gets a list of all particle names used in skDragon"})
-@Examples({	"all particle names"})
+@Examples({"all particle names"})
 public class ExprAllParticleTypeNames extends SimpleExpression<String> {
 
-	static {
-		Skript.registerExpression(ExprAllParticleTypeNames.class, String.class, ExpressionType.SIMPLE,
-				"[all] particle names");
-	}
+    static {
+        Skript.registerExpression(
+                ExprAllParticleTypeNames.class,
+                String.class,
+                ExpressionType.SIMPLE,
+                "[all] particle names"
+        );
+    }
 
     @Override
-    @Nullable
-    protected String[] get(Event e) {
+    protected String @NotNull [] get(@NotNull Event e) {
         return ParticleUtil.getAllNames();
     }
 
     @Override
-    public boolean init(Expression<?>[] e, int i, Kleenean k, SkriptParser.ParseResult p) {
+    public boolean init(Expression<?> @NotNull [] e, int i, @NotNull Kleenean k, SkriptParser.@NotNull ParseResult p) {
         return true;
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
+    public @NotNull Class<? extends String> getReturnType() {
         return String.class;
     }
 
@@ -54,7 +54,7 @@ public class ExprAllParticleTypeNames extends SimpleExpression<String> {
     }
 
     @Override
-    public String toString(@Nullable Event e, boolean b) {
+    public @NotNull String toString(@Nullable Event e, boolean b) {
         return "particle names";
     }
 }

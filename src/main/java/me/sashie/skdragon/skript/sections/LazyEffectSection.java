@@ -5,6 +5,7 @@ import ch.njol.skript.config.SectionNode;
 import ch.njol.skript.config.SimpleNode;
 import ch.njol.skript.log.SkriptLogger;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A effect section that doesn't need to parse your current section separated.
@@ -17,7 +18,7 @@ public abstract class LazyEffectSection extends EffectSection {
 
     public LazyEffectSection() {
         Node current = SkriptLogger.getNode();
-        if (current != null && current instanceof SectionNode) {
+        if (current instanceof SectionNode) {
             section = (SectionNode) current;
             map.put(getClass(), this);
             //An internal effect, to detect the end of a section.
@@ -33,7 +34,7 @@ public abstract class LazyEffectSection extends EffectSection {
     }
 
     @Override
-    public boolean check(Event e) {
+    public boolean check(@NotNull Event e) {
         execute(e);
         return true; //Always returns true, so it will run its section, like a normal condition.
     }

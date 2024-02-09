@@ -9,10 +9,9 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
-import me.sashie.skdragon.skript.sections.ParticleSection;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2024.
@@ -20,7 +19,7 @@ import org.bukkit.event.Event;
 
 @Name("Particles - Current/last created particle effect ID")
 @Description({"Gets the last created particle effect ID for use in particle effect sections"})
-@Examples({	""})
+@Examples({""})
 public class ExprCurrentParticleEffectID extends SimpleExpression<String> {
 
     static {
@@ -29,24 +28,22 @@ public class ExprCurrentParticleEffectID extends SimpleExpression<String> {
     }
 
     @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
+    public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
         return true;
     }
 
     @Override
-    protected String[] get(Event e) {
-        return new String[]{
-                ParticleEffectSection.getID()
-        };
+    protected String @NotNull [] get(@NotNull Event e) {
+        return new String[]{ParticleEffectSection.getID()};
     }
 
     @Override
-    public Class<? extends String> getReturnType() {
+    public @NotNull Class<? extends String> getReturnType() {
         return String.class;
     }
 
     @Override
-    public String toString(Event e, boolean debug) {
+    public @NotNull String toString(Event e, boolean debug) {
         return "the last created particle effect id";
     }
 

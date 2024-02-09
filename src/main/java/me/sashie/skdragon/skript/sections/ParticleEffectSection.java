@@ -9,56 +9,61 @@ import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.ParticleEffect;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 public class ParticleEffectSection extends EffectSection {
 
-	private static String id;
-	private Expression<ParticleEffect> effectType;
-	private Expression<String> name;
-	private SkriptNode skriptNode;
+    static {
+        Skript.registerCondition(
+                ParticleEffectSection.class,
+                "(create|make|register) [a] [new] particle effect %particleeffect% with id %string%"
+        );
+    }
 
-	static {
-		Skript.registerCondition(ParticleEffectSection.class,
-				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string%");
-	}
+    private static String id;
+    private Expression<ParticleEffect> effectType;
+    private Expression<String> name;
+    private SkriptNode skriptNode;
 
-	@Override
-	public void execute(Event event) {
-		String id = this.name.getSingle(event);
-		ParticleEffect effectType = this.effectType.getSingle(event);
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean init(Expression<?> @NotNull [] exprs, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+        if (checkIfCondition())
+            return false;
+        if (!hasSection()) {
+            Skript.error("A particle effect creation scope is useless without any content!");
+            return false;
+        }
+		
+        effectType = (Expression<ParticleEffect>) exprs[0];
+        name = (Expression<String>) exprs[1];
+        skriptNode = new SkriptNode(SkriptLogger.getNode());
 
-		if (id == null || effectType == null)
-			return;
+        loadSection(true);
+        return true;
+    }
 
-		ParticleEffectSection.id = id;
-		EffectAPI.register(id, effectType, skriptNode);
+    @Override
+    public void execute(Event event) {
+        String id = this.name.getSingle(event);
+        ParticleEffect effectType = this.effectType.getSingle(event);
 
-		runSection(event);
-	}
+        if (id == null || effectType == null)
+            return;
 
-	public static String getID() {
-		return id;
-	}
+        ParticleEffectSection.id = id;
+        EffectAPI.register(id, effectType, skriptNode);
 
-	@Override
-	public String toString(Event event, boolean debug) {
-		return "register particle effect " + effectType.toString(event, debug) + " with id " + name.toString(event, debug);
-	}
+        runSection(event);
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-		if (checkIfCondition())
-			return false;
-		if (!hasSection()) {
-			Skript.error("A particle effect creation scope is useless without any content!");
-			return false;
-		}
-		effectType = (Expression<ParticleEffect>) exprs[0];
-		name = (Expression<String>) exprs[1];
-		skriptNode = new SkriptNode(SkriptLogger.getNode());
+    public static String getID() {
+        return id;
+    }
 
-		loadSection(true);
-		return true;
-	}
+    @Override
+    public @NotNull String toString(Event event, boolean debug) {
+        return "register particle effect " + effectType.toString(event, debug) + " with id " + name.toString(event, debug);
+    }
+
 }

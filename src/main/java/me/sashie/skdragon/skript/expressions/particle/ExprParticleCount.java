@@ -24,40 +24,39 @@ import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
  * Created by Sashie on 12/12/2016.
  */
-
 @Name("Particles - Particle amount/count")
 @Description({"The amount of a single particle type to be displayed"})
-@Examples({	"set particle amount of effect \"uniqueID\" to 20"})
+@Examples({"set particle amount of effect \"uniqueID\" to 20"})
 public class ExprParticleCount extends CustomParticlePropertyExpression<Number> {
 
-	static {
-		register(ExprParticleCount.class, Number.class, "(amount|count)");
-	}
+    static {
+        register(ExprParticleCount.class, Number.class, "(amount|count)");
+    }
 
-	@Override
-	public Number getParticle(ParticleBuilder<?> p) {
-		return p.getParticleData().getAmount();
-	}
+    @Override
+    public Number getParticle(ParticleBuilder<?> p) {
+        return p.getParticleData().getAmount();
+    }
 
-	@Override
-	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
-		int i = ((Number) (delta[0])).intValue();
-		p.getParticleData().setAmount(i > 0 ? i : 1);
-	}
+    @Override
+    public void setParticle(ParticleBuilder<?> p, Object[] delta) {
+        int i = ((Number) (delta[0])).intValue();
+        p.getParticleData().setAmount(i > 0 ? i : 1);
+    }
 
-	@Override
-	public Class<? extends Number> getReturnType() {
-		return Number.class;
+    @Override
+    public @NotNull Class<? extends Number> getReturnType() {
+        return Number.class;
+    }
 
-	}
-
-	@Override
-	protected String getPropertyName() {
-		return "amount";
-	}
+    @Override
+    protected String getPropertyName() {
+        return "amount";
+    }
 }

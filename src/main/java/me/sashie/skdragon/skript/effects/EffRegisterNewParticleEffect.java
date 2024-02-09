@@ -19,9 +19,6 @@
 
 package me.sashie.skdragon.skript.effects;
 
-import me.sashie.skdragon.particles.ParticleBuilder;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -35,56 +32,61 @@ import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.ParticleEffect;
+import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.Utils;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nonnull;
 
 /**
  * Created by Sashie on 12/12/2017.
  */
-
 @Name("Register new particle effect")
-@Description({ "Registers a new particle effect, once it is registered you can start or stop it using those expressions. Optionally you can also set the particles it uses however you can do this any time before or after starting the effect." })
-@Examples({ "register new particle effect circle with id \"%player%\"" })
+@Description({"Registers a new particle effect, once it is registered you can start or stop it using those expressions. Optionally you can also set the particles it uses however you can do this any time before or after starting the effect."})
+@Examples({"register new particle effect circle with id \"%player%\""})
 public class EffRegisterNewParticleEffect extends Effect {
 
-	static {
-		Skript.registerEffect(EffRegisterNewParticleEffect.class,
-				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string% [using %-particles%]");
-	}
+    static {
+        Skript.registerEffect(EffRegisterNewParticleEffect.class,
+                "(create|make|register) [a] [new] particle effect %particleeffect% with id %string% [using %-particles%]");
+    }
 
-	private Expression<ParticleEffect> effectType;	
-	private Expression<String> name;
-	private Expression<ParticleBuilder<?>> particles;
-	private static SkriptNode skriptNode;
+    private Expression<ParticleEffect> exprType;
+    private Expression<String> exprId;
+    private Expression<ParticleBuilder<?>> exprParticles;
+    private static SkriptNode skriptNode;
 
-	@Override
-	protected void execute(Event event) {
-		String id = this.name.getSingle(event);
-		ParticleEffect effectType = this.effectType.getSingle(event);
+    @Override
+    @SuppressWarnings("unchecked")
+    public boolean init(Expression<?>[] expressions, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+        this.exprType = (Expression<ParticleEffect>) expressions[0];
+        this.exprId = (Expression<String>) expressions[1];
+        this.exprParticles = (Expression<ParticleBuilder<?>>) expressions[2];
 
-		if (id == null || effectType == null)
-			return;
+        skriptNode = new SkriptNode(SkriptLogger.getNode());
 
-		EffectData effect = EffectAPI.register(id, effectType, skriptNode);
+        return true;
+    }
 
-		if (this.particles != null && this.particles.getArray(event) != null) {
-			ParticleBuilder<?>[] particles = this.particles.getArray(event);
-			effect.setParticles(particles, skriptNode);
-		}
+    @Override
+    protected void execute(@Nonnull Event e) {
+        String id = Utils.verifyVar(e, exprId, null);
+        ParticleEffect type = Utils.verifyVar(e, exprType, null);
 
-	}
+        if (id == null || type == null) return;
 
-	@Override
-	public String toString(Event event, boolean debug) {
-		return "register particle effect " + effectType.toString(event, debug) + " with id " + name.toString(event, debug) + (particles != null ? " using " + particles.toString(event, debug) : "");
-	}
+        EffectData effect = EffectAPI.register(id, type, skriptNode);
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expressions, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-		this.effectType = (Expression<ParticleEffect>) expressions[0];
-		this.name = (Expression<String>) expressions[1];
-		this.particles = (Expression<ParticleBuilder<?>>) expressions[2];
-		skriptNode = new SkriptNode(SkriptLogger.getNode());
+        ParticleBuilder<?>[] particles = Utils.verifyVars(e, exprParticles, null);
+        if (particles != null) {
+            effect.setParticles(particles, skriptNode);
+        }
+    }
 
-		return true;
-	}
+    @Override
+    public @NotNull String toString(Event event, boolean debug) {
+        return "register particle effect " + exprType.toString(event, debug) + " with id " + exprId.toString(event, debug) + (exprParticles != null ? " using " + exprParticles.toString(event, debug) : "");
+    }
+
 }

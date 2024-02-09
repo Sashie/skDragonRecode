@@ -27,6 +27,7 @@ import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IStyle;
 import me.sashie.skdragon.effects.special.Wings;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -34,45 +35,45 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 
 @Name("Particles - Effect style")
 @Description({"Get or set the style number of an effect returns 1 if that effect only has one style"})
-@Examples({	"set style of effect \"uniqueID\" to 2"})
+@Examples({"set style of effect \"uniqueID\" to 2"})
 public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 
-	static {
-		register(ExprEffectStyle.class, Number.class, "style");
-	}
+    static {
+        register(ExprEffectStyle.class, Number.class, "style");
+    }
 
-	@Override
-	public Number getPropertyValue(EffectData effect) {
-		if (effect instanceof IStyle) {
-			return ((IStyle) effect).getStyleProperty().getStyle();
-		}
-		return null;
-	}
+    @Override
+    public Number getPropertyValue(EffectData effect) {
+        if (effect instanceof IStyle) {
+            return ((IStyle) effect).getStyleProperty().getStyle();
+        }
+        return null;
+    }
 
-	@Override
-	public void setPropertyValue(EffectData effect, Object[] delta) {
-		if (effect instanceof IStyle) {
-			Number b = (Number) (delta[0]);
-			if (effect instanceof Wings) {
-				((Wings) effect).setStyle(b.intValue());
-			} else {
-				((IStyle) effect).getStyleProperty().setStyle(b.intValue());
-			}
-		}
-	}
+    @Override
+    public void setPropertyValue(EffectData effect, Object[] delta) {
+        if (effect instanceof IStyle) {
+            Number b = (Number) (delta[0]);
+            if (effect instanceof Wings) {
+                ((Wings) effect).setStyle(b.intValue());
+            } else {
+                ((IStyle) effect).getStyleProperty().setStyle(b.intValue());
+            }
+        }
+    }
 
-	@Override
-	public Class<? extends Number> getReturnType() {
-		return Number.class;
-	}
+    @Override
+    public @NotNull Class<? extends Number> getReturnType() {
+        return Number.class;
+    }
 
-	@Override
-	public String getPropertyName() {
-		return "style";
-	}
+    @Override
+    public String getPropertyName() {
+        return "style";
+    }
 
-	@Override
-	protected EffectProperty getEffectProperty() {
-		return EffectProperty.STYLE;
-	}
+    @Override
+    protected EffectProperty getEffectProperty() {
+        return EffectProperty.STYLE;
+    }
 }
