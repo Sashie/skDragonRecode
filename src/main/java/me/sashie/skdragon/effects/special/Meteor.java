@@ -20,10 +20,6 @@ import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public class Meteor extends SpecialEffect implements IExtra, IRadius {
 
 	private ExtraProperty extraProperty;

@@ -2,9 +2,7 @@ package me.sashie.skdragon.debug;
 
 import me.sashie.skdragon.SkDragonRecode;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
+
 public class ParticleEffectException extends RuntimeException {
 
 	public ParticleEffectException(String error) {

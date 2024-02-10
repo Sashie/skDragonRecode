@@ -1,21 +1,4 @@
-/*
-	This file is part of skDragon - A Skript addon
-	  
-	Copyright (C) 2016 - 2021  Sashie
 
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
 
 package me.sashie.skdragon.skript.effects;
 
@@ -39,9 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-/**
- * Created by Sashie on 12/12/2017.
- */
+
 @Name("Register new particle effect")
 @Description({"Registers a new particle effect, once it is registered you can start or stop it using those expressions. Optionally you can also set the particles it uses however you can do this any time before or after starting the effect."})
 @Examples({"register new particle effect circle with id \"%player%\""})

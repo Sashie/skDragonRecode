@@ -43,9 +43,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sashie on 10/30/2017.
- */
+
 public abstract class CustomParticlePropertyExpression<T> extends CustomPropertyExpression<String, T> implements Converter<String, T> {
 
 	public static <T> void register(final Class<? extends Expression<T>> c, final Class<T> type, final String property) {

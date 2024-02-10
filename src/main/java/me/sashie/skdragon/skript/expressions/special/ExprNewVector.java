@@ -16,9 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
+
 
 @Name("New Vector")
 @Description({"Constructs a new vector either from a location/entity"})

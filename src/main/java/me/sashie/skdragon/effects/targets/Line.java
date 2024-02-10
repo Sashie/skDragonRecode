@@ -18,10 +18,6 @@ import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public class Line extends TargetEffect implements IDensity {
 
 	private DensityProperty densityProperty;

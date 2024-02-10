@@ -10,10 +10,6 @@ import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.util.DynamicLocation;
 
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public class Band extends SpecialEffect {
 
 	DynamicLocation loc;

@@ -51,9 +51,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Sashie on 1/13/2024
- */
+
 
 @Name("Particles - Colors")
 @Description({"Gets and sets a single color or list of colors from one of the particles of a particle effect"})

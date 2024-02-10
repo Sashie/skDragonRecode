@@ -4,10 +4,6 @@ import me.sashie.skdragon.effects.properties.ExtraProperty;
 import me.sashie.skdragon.effects.properties.IExtra;
 import me.sashie.skdragon.util.DynamicLocation;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public abstract class WingsEffect extends SpecialEffect implements IExtra {
 
 	private ExtraProperty extraProperty;

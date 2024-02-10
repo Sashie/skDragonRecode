@@ -47,9 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 
-/**
- * Created by Sashie on 10/30/2017.
- */
+
 
 @Name("Particles - Particle type")
 @Description({"Gets or sets the particles in an effect, some effects have more than one particle"})

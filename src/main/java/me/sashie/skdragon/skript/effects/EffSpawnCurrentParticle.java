@@ -15,9 +15,7 @@ import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by Sashie on 12/12/2024.
- */
+
 
 @Name("Particles - Draw last created/current particle")
 @Description({"Draws the last created particle"})

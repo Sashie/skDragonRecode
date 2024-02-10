@@ -14,10 +14,6 @@ import me.sashie.skdragon.util.VectorUtils;
 
 
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotation, IVelocity, IExtra {
 
 	AxisProperty axisProperty;

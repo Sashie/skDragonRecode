@@ -6,9 +6,7 @@ import org.bukkit.util.Vector;
 import me.sashie.skdragon.util.DynamicLocation;
 
 
-/**
- * Created by Sashie on 9/30/2017.
- */
+
 
 /**
  * 

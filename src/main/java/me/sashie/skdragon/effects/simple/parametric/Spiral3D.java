@@ -9,11 +9,9 @@ import me.sashie.skdragon.effects.properties.StyleProperty;
 import me.sashie.skdragon.util.EffectUtils;
 
 /**
- * Created by Sashie on 8/28/2017.
- * 
- * 		x = r * cos(t)
- * 		z = r * sin(t)
- * 		y = c * t
+ * x = r * cos(t)
+ * z = r * sin(t)
+ * y = c * t
  */
 public class Spiral3D extends Parametric3DEffect implements IRadius, IStyle {
 
@@ -53,7 +51,7 @@ public class Spiral3D extends Parametric3DEffect implements IRadius, IStyle {
 	public EffectProperty[] acceptProperties() {
 		return EffectUtils.array(EffectProperty.STYLE, EffectProperty.RADIUS, EffectProperty.EXTRA);
 	}
-	
+
 	@Override
 	public RadiusProperty getRadiusProperty() {
 		return radiusProperty;

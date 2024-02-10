@@ -3,11 +3,8 @@ package me.sashie.skdragon.effects.simple.parametric;
 import me.sashie.skdragon.effects.Parametric2DEffect;
 
 /**
- * Created by Sashie on 8/11/2017.
- * 
- * 		x = (a + b) * cos(t) - (b + c) * cos(((a + b) / b) * t)
- * 		z = (a + b) * sin(t) - (b + c) * sin(((a + b) / b) * t)
- * 
+ * x = (a + b) * cos(t) - (b + c) * cos(((a + b) / b) * t)
+ * z = (a + b) * sin(t) - (b + c) * sin(((a + b) / b) * t)
  */
 //examples
 

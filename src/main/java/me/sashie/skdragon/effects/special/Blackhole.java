@@ -17,10 +17,6 @@ import me.sashie.skdragon.util.MathUtils;
 import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-/**
- * Created by Sashie on 12/12/2021
- */
-
 public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
 
 	private ExtraProperty extraProperty;

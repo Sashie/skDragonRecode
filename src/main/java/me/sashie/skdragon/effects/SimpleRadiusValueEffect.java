@@ -6,10 +6,6 @@ import me.sashie.skdragon.effects.properties.IRadius;
 import me.sashie.skdragon.effects.properties.RadiusProperty;
 import me.sashie.skdragon.util.EffectUtils;
 
-/**
- * Created by Sashie on 8/9/2021.
- */
-
 public abstract class SimpleRadiusValueEffect extends SimpleEffect implements IRadius, IExtra {
 
 	private RadiusProperty radiusProperty;

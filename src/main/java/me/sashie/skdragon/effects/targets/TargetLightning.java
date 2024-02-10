@@ -20,10 +20,6 @@ import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.RandomUtils;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public class TargetLightning extends TargetEffect implements IRadius, IDensity, IStyle, IExtra {
 	
 	private RadiusProperty radiusProperty;
