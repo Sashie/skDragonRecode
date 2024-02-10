@@ -1,5 +1,3 @@
-
-
 package me.sashie.skdragon.skript.effects;
 
 import ch.njol.skript.Skript;
@@ -16,7 +14,6 @@ import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
-
 
 
 @Name("Remove particle effects")
@@ -47,7 +44,7 @@ public class EffRemoveParticleEffects extends Effect {
 	@Override
 	protected void execute(@NotNull Event e) {
 		if (exprId == null) {
-			EffectAPI.stopAll();
+			EffectAPI.unregisterAll();
 			return;
 		}
 
