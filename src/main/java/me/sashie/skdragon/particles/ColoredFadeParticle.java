@@ -17,9 +17,9 @@ public class ColoredFadeParticle extends ParticleBuilder<FadeParticleData> {
 		super(new FadeParticleData());
 	}
 
-    public ColoredFadeParticle(Particle particle) {
-    	super(new FadeParticleData());
-    	this.data.particle = particle;
+	public ColoredFadeParticle(Particle particle) {
+		super(new FadeParticleData());
+		this.data.particle = particle;
 	}
 
 	public ColoredFadeParticle(FadeParticleData inputData) {

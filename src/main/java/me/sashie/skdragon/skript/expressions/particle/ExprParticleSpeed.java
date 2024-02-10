@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -25,13 +25,14 @@ import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.particles.NormalParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
 @Name("Particles - Particle speed")
 @Description({"Some particle types have a speed option that changes how the particle moves along its preset path"})
-@Examples({	"set particle speed of effect \"uniqueID\" to .05"})
+@Examples({"set particle speed of effect \"uniqueID\" to .05"})
 public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> {
 
 	static {
@@ -56,7 +57,7 @@ public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> 
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 

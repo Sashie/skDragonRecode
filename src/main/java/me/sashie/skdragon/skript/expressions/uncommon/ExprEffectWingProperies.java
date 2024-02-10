@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.WingsEffect;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2024.
@@ -35,9 +36,9 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 @Description({"Get or set the angle, flap range and flap step of a wing effect",
 		" - Flap range is how far the wings will flap back and forth, default is 20",
 		" - Flap step is how fast the wings flap, default is 0.3"})
-@Examples({	"set wing angle of effect \"uniqueID\" to 10",
-			"set wing flap range of effect \"uniqueID\" to 10",
-			"set wing flap step of effect \"uniqueID\" to 1"})
+@Examples({"set wing angle of effect \"uniqueID\" to 10",
+		"set wing flap range of effect \"uniqueID\" to 10",
+		"set wing flap step of effect \"uniqueID\" to 1"})
 public class ExprEffectWingProperies extends CustomEffectPropertyExpression<Number> {
 
 	static {
@@ -47,19 +48,12 @@ public class ExprEffectWingProperies extends CustomEffectPropertyExpression<Numb
 	@Override
 	public Number getPropertyValue(EffectData effect) {
 		if (effect instanceof WingsEffect) {
-			float value = 0.0f;
-			switch(this.mark) {
-				case 1:
-					value = ((WingsEffect) effect).getWingAngle();
-					break;
-				case 2:
-					value = ((WingsEffect) effect).getFlapRange();
-					break;
-				case 3:
-					value = ((WingsEffect) effect).getFlapStep();
-					break;
-			}
-			return value;
+			return switch (this.mark) {
+				case 1 -> ((WingsEffect) effect).getWingAngle();
+				case 2 -> ((WingsEffect) effect).getFlapRange();
+				case 3 -> ((WingsEffect) effect).getFlapStep();
+				default -> 0.0f;
+			};
 		}
 		return null;
 	}
@@ -68,7 +62,7 @@ public class ExprEffectWingProperies extends CustomEffectPropertyExpression<Numb
 	public void setPropertyValue(EffectData effect, Object[] delta) {
 		if (effect instanceof WingsEffect) {
 			Number n = (Number) (delta[0]);
-			switch(this.mark) {
+			switch (this.mark) {
 				case 1:
 					((WingsEffect) effect).setWingAngle(n.floatValue());
 					break;
@@ -83,25 +77,18 @@ public class ExprEffectWingProperies extends CustomEffectPropertyExpression<Numb
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 
 	@Override
 	public String getPropertyName() {
-		String property = "";
-		switch(this.mark) {
-			case 1:
-				property = "angle";
-				break;
-			case 2:
-				property = "flap range";
-				break;
-			case 3:
-				property = "flap step";
-				break;
-		}
-		return "wing " + property;
+		return "wing " + switch (this.mark) {
+			case 1 -> "angle";
+			case 2 -> "flap range";
+			case 3 -> "flap step";
+			default -> "";
+		};
 	}
 
 	@Override

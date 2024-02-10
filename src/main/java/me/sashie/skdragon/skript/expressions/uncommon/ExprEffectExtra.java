@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,18 +26,22 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IExtra;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
-
 @Name("Particles - Effect extra value")
 @Description({"Get or set the extra value of an effect if it has this property. To learn more please see the individual particle effects!"})
-@Examples({	"set extra value of effect \"uniqueID\" to 20"})
+@Examples({"set extra value of effect \"uniqueID\" to 20"})
 public class ExprEffectExtra extends CustomArrayPropertyExpression<Number> {
 
 	static {
-		register(ExprEffectExtra.class, Number.class, "extra [value]");
+		register(
+				ExprEffectExtra.class,
+				Number.class,
+				"extra [value]"
+		);
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public class ExprEffectExtra extends CustomArrayPropertyExpression<Number> {
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 

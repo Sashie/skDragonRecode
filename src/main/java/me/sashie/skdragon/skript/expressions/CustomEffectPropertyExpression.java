@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,6 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Changer.ChangeMode;
@@ -43,6 +36,12 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sashie on 10/30/2017.
@@ -50,7 +49,7 @@ import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyExpression<String, T> implements Converter<String, T> {
 
 	public static <T> void register(final Class<? extends Expression<T>> c, final Class<T> type, final String property) {
-		Skript.registerExpression(c, type, ExpressionType.PROPERTY, 
+		Skript.registerExpression(c, type, ExpressionType.PROPERTY,
 				"[the] " + property + " of [the] [particle] effect %string%",
 				"[particle] effect %string%'[s] " + property,
 				property + " of [the] [particle] effect");
@@ -62,7 +61,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 	protected SkriptNode skriptNode;
 
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
 		if (matchedPattern == 2) {
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				this.scope = true;
@@ -88,6 +87,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 
 	/**
 	 * To be overridden
+	 *
 	 * @return
 	 */
 	protected EffectProperty getEffectProperty() {
@@ -113,7 +113,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 				for (EffectProperty property : effect.getEffectProperties()) {
 					if (getEffectProperty() != property)
 						continue;
-					synchronized(effect) {
+					synchronized (effect) {
 						return getPropertyValue(effect);
 					}
 				}
@@ -122,7 +122,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 			} else {
 				// If getEffectProperty is null that means the property should always work by default and no checks are needed
 				// Some properties are used in all effects
-				synchronized(effect) {
+				synchronized (effect) {
 					return getPropertyValue(effect);
 				}
 			}
@@ -131,7 +131,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 	}
 
 	@Override
-	public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
+	public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
 		this.mode = mode;
 		if (scope) {
 			set(ParticleEffectSection.getID(), delta);
@@ -149,12 +149,12 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 				}
 				set(id, delta);
 			}
-			
+
 			if (!failedEffects.isEmpty()) {
 				//StringBuilder sb = new StringBuilder();
 				//for (String s : failedEffects) {
-				//    sb.append(s);
-				//    sb.append(", ");
+				//	sb.append(s);
+				//	sb.append(", ");
 				//}
 				SkDragonRecode.warn("One or more particle effects didn't exist! (" + failedEffects.toString().replaceAll("\\[|\\]", "") + ")", skriptNode);
 			}
@@ -167,7 +167,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 			for (EffectProperty property : effect.getEffectProperties()) {
 				if (getEffectProperty() != property)
 					continue;
-				synchronized(effect) {
+				synchronized (effect) {
 					setPropertyValue(effect, delta);
 					return;
 				}
@@ -175,7 +175,7 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 			SkDragonRecode.warn("Effect '" + id + "' does not have an editable property for " + getEffectProperty().getName(), skriptNode);
 		} else {
 			//If getEffectProperty is null that means the property should always work by default
-			synchronized(effect) {
+			synchronized (effect) {
 				setPropertyValue(effect, delta);
 			}
 		}
@@ -187,14 +187,14 @@ public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyEx
 	}
 
 	@Override
-	public Class<? extends T>[] acceptChange(final Changer.ChangeMode mode) {
+	public Class<? extends T> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
 		if (mode == Changer.ChangeMode.SET)
 			return CollectionUtils.array(getReturnType());
 		return null;
 	}
 
 	@Override
-	public String toString(@Nullable Event e, boolean debug) {
+	public @NotNull String toString(@Nullable Event e, boolean debug) {
 		return "the " + (getEffectProperty() == null ? getPropertyName() : this.getEffectProperty().getName()) + " of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug));
 	}
 }

@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,14 +19,6 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import me.sashie.skdragon.particles.ParticleBuilder;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Converter;
@@ -40,9 +32,16 @@ import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
+import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 import me.sashie.skdragon.skript.sections.ParticleSection;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sashie on 10/30/2017.
@@ -53,13 +52,11 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 		Skript.registerExpression(c, type, ExpressionType.PROPERTY,
 				"[the] [%-number%(st|nd|rd|th)] particle " + property + " of [the] [particle] effect %string%",
 				"[particle] effect %string%'[s] [%-number%(st|nd|rd|th)] particle " + property,
-
 				"[%-number%(st|nd|rd|th)] particle " + property + " of [the] [particle] effect",
-
 				property + " of [the] particle",
 				"particle " + property);
 	}
-	
+
 	protected boolean scope, isParticleEffectSection, isParticleSection;
 	protected Expression<Number> particleNumberExpr;
 	protected int particleNumber;
@@ -69,7 +66,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 	protected EffectData effect;
 
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
 		if (matchedPattern == 2) {
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				this.scope = true;
@@ -97,11 +94,12 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
 		return true;
 	}
-/*
-	public int getMark() {
-		return mark;
-	}
-*/
+
+	/*
+		public int getMark() {
+			return mark;
+		}
+	*/
 	protected final void setParticleExpr(Expression<Number> expr) {
 		this.particleNumberExpr = expr;
 	}
@@ -118,16 +116,13 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 
 	/**
 	 * Place code to get a particle property
-	 * 
-	 * @param p
-	 * @return
 	 */
 	public abstract T getParticle(ParticleBuilder<?> p);
 
 	/**
 	 * Place code to set a particle property
 	 *
-	 * @param p The particle of which the property is changing
+	 * @param p	 The particle of which the property is changing
 	 * @param delta Skript input value for property expressions
 	 */
 	public abstract void setParticle(ParticleBuilder<?> p, Object[] delta);
@@ -149,7 +144,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 				return null;
 			}
 
-			synchronized(effect) {
+			synchronized (effect) {
 				return getParticle(effect.getParticleBuilders()[particleNumber - 1]);
 			}
 		} else {
@@ -188,12 +183,12 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 				}
 				set(id, delta);
 			}
-			
+
 			if (!failedEffects.isEmpty()) {
 				StringBuilder sb = new StringBuilder();
 				for (String s : failedEffects) {
-				    sb.append(s);
-				    sb.append(", ");
+					sb.append(s);
+					sb.append(", ");
 				}
 				SkDragonRecode.warn("One or more particle effects didn't exist! (" + sb.toString() + ")", skriptNode);
 			}
@@ -208,7 +203,7 @@ public abstract class CustomParticlePropertyExpression<T> extends CustomProperty
 			return;
 		}
 
-		synchronized(effect) {
+		synchronized (effect) {
 			setParticle(effect.getParticleBuilders()[particleNumber - 1], delta);
 		}
 	}

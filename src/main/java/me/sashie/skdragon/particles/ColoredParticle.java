@@ -19,9 +19,9 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 		super(new ColoredParticleData());
 	}
 
-    public ColoredParticle(Particle particle) {
-    	super(new ColoredParticleData());
-    	this.data.particle = particle;
+	public ColoredParticle(Particle particle) {
+		super(new ColoredParticleData());
+		this.data.particle = particle;
 	}
 
 	public ColoredParticle(ColoredParticleData inputData) {

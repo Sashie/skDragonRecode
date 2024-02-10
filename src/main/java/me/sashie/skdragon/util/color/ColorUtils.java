@@ -207,7 +207,7 @@ public class ColorUtils {
 	 * Generate terrain color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 */
 	public static Color[] terrain(int n) {
 		int k = n / 2;
@@ -256,7 +256,7 @@ public class ColorUtils {
 	 * Generate topo color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 */
 	public static Color[] topo(int n) {
 		int j = n / 3;
@@ -297,7 +297,7 @@ public class ColorUtils {
 	 * Generate jet color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 */
 	public static Color[] jet(int n) {
 		int m = (int) Math.ceil(n / 4);
@@ -345,7 +345,7 @@ public class ColorUtils {
 	 * Generate red-green color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 */
 	public static Color[] redgreen(int n) {
 		Color[] palette = new ColorRGB[n];
@@ -360,9 +360,9 @@ public class ColorUtils {
 	 * Generate red-blue color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 * @param alpha
-	 *            the parameter in [0,1] for transparency.
+	 *			the parameter in [0,1] for transparency.
 	 */
 	public static Color[] redblue(int n, float alpha) {
 		Color[] palette = new Color[n];
@@ -377,7 +377,7 @@ public class ColorUtils {
 	 * Generate heat color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 */
 	public static Color[] heat(int n) {
 		int j = n / 4;
@@ -405,7 +405,7 @@ public class ColorUtils {
 	 * Generate rainbow color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 */
 	public static Color[] rainbow(int n) {
 		return rainbow(n, 0.0f, (float) (n - 1) / n);
@@ -415,11 +415,11 @@ public class ColorUtils {
 	 * Generate rainbow color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 * @param start
-	 *            the start of h in the HSV color model.
+	 *			the start of h in the HSV color model.
 	 * @param end
-	 *            the start of h in the HSV color model.
+	 *			the start of h in the HSV color model.
 	 */
 	private static Color[] rainbow(int n, float start, float end) {
 		return rainbow(n, start, end, 1.0f, 1.0f);
@@ -429,15 +429,15 @@ public class ColorUtils {
 	 * Generate rainbow color palette.
 	 * 
 	 * @param n
-	 *            the number of colors in the palette.
+	 *			the number of colors in the palette.
 	 * @param start
-	 *            the start of h in the HSV color model.
+	 *			the start of h in the HSV color model.
 	 * @param end
-	 *            the start of h in the HSV color model.
+	 *			the start of h in the HSV color model.
 	 * @param s
-	 *            the s in the HSV color model.
+	 *			the s in the HSV color model.
 	 * @param v
-	 *            the v in the HSV color model.
+	 *			the v in the HSV color model.
 	 */
 	private static Color[] rainbow(int n, float start, float end, float s, float v) {
 		Color[] palette = new Color[n];

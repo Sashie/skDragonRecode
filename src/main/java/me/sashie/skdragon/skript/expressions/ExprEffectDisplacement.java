@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,13 +19,13 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import org.bukkit.util.Vector;
-
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -33,11 +33,15 @@ import me.sashie.skdragon.effects.EffectProperty;
 
 @Name("Particles - Vector displacement")
 @Description({"Sets or gets the displacement of a given particle effect from its location"})
-@Examples({	"set displacement vector of effect \"uniqueID\" to vector 0, 1 and 0"})
+@Examples({"set displacement vector of effect \"uniqueID\" to vector 0, 1 and 0"})
 public class ExprEffectDisplacement extends CustomEffectPropertyExpression<Vector> {
 
 	static {
-		register(ExprEffectDisplacement.class, Vector.class, "displacement [vector]");
+		register(
+				ExprEffectDisplacement.class,
+				Vector.class,
+				"displacement [vector]"
+		);
 	}
 
 	@Override
@@ -52,7 +56,7 @@ public class ExprEffectDisplacement extends CustomEffectPropertyExpression<Vecto
 	}
 
 	@Override
-	public Class<? extends Vector> getReturnType() {
+	public @NotNull Class<? extends Vector> getReturnType() {
 		return Vector.class;
 	}
 

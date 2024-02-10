@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,16 +19,15 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import org.bukkit.Location;
-
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.util.coll.CollectionUtils;
 import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
+import org.bukkit.Location;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -36,11 +35,15 @@ import me.sashie.skdragon.util.EffectUtils;
 
 @Name("Particles - Location")
 @Description({"Similar to the location vector expression this one instead sets the location from either another location or an entity. Adding and removing locations instead of to the location"})
-@Examples({	"set location of effect \"uniqueID\" to location of player"})
+@Examples({"set location of effect \"uniqueID\" to location of player"})
 public class ExprEffectLocation extends CustomEffectPropertyExpression<Object> {
 
 	static {
-		register(ExprEffectLocation.class, Object.class, "location[s]");
+		register(
+				ExprEffectLocation.class,
+				Object.class,
+				"location[s]"
+		);
 	}
 
 	@Override
@@ -69,14 +72,14 @@ public class ExprEffectLocation extends CustomEffectPropertyExpression<Object> {
 	}
 
 	@Override
-	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
+	public Class<?> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
 		if (mode == Changer.ChangeMode.SET || mode == Changer.ChangeMode.ADD || mode == Changer.ChangeMode.REMOVE || mode == Changer.ChangeMode.RESET)
 			return CollectionUtils.array(Object[].class);
 		return null;
 	}
 
 	@Override
-	public Class<? extends Object> getReturnType() {
+	public @NotNull Class<?> getReturnType() {
 		return Location.class;
 	}
 

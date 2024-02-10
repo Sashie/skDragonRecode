@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -28,14 +28,14 @@ import me.sashie.skdragon.effects.properties.IVelocity;
 import me.sashie.skdragon.effects.properties.VelocityProperty;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
-
 @Name("Particles - Effect rotation vector")
 @Description({"Rotates specific effects using a vector, requires auto rotation expression for the effect be set to true"})
-@Examples({	"set rotation vector of effect \"uniqueID\" to vector 20, 50 and 100"})
+@Examples({"set rotation vector of effect \"uniqueID\" to vector 20, 50 and 100"})
 public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression<Vector> {
 
 	static {
@@ -46,9 +46,9 @@ public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression
 	public Vector getPropertyValue(EffectData effect) {
 		if (effect instanceof IVelocity) {
 			VelocityProperty property = ((IVelocity) effect).getVelocityProperty();
-			double x =  property.getAngularVelocityX();
-			double y =  property.getAngularVelocityX();
-			double z =  property.getAngularVelocityX();
+			double x = property.getAngularVelocityX();
+			double y = property.getAngularVelocityX();
+			double z = property.getAngularVelocityX();
 			return new Vector(x, y, z);
 		}
 		return null;
@@ -59,12 +59,11 @@ public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression
 		if (effect instanceof IVelocity) {
 			Vector v = (Vector) (delta[0]);
 			((IVelocity) effect).getVelocityProperty().setAngularVelocity(v.getX(), v.getY(), v.getZ());
-
 		}
 	}
 
 	@Override
-	public Class<? extends Vector> getReturnType() {
+	public @NotNull Class<? extends Vector> getReturnType() {
 		return Vector.class;
 	}
 

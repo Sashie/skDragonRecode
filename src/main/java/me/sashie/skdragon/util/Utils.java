@@ -1,21 +1,10 @@
 package me.sashie.skdragon.util;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bukkit.Bukkit;
+import ch.njol.skript.lang.Expression;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.block.Block;
-import org.bukkit.block.data.Waterlogged;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class Utils {
 
@@ -42,5 +31,25 @@ public class Utils {
 
 		return null;
 	}
-    
+
+	public static <T> @Nullable T verifyVar(@NotNull Event e, @Nullable Expression<T> expression) {
+		return verifyVar(e, expression, null);
+	}
+
+	public static <T> T verifyVar(@NotNull Event e, @Nullable Expression<T> expression, T defaultValue) {
+		return expression == null ? defaultValue : (expression.getSingle(e) == null ? defaultValue : expression.getSingle(e));
+	}
+
+	public static <T> T[] verifyVars(@NotNull Event e, @Nullable Expression<T> expression, T[] defaultValue) {
+		if (expression == null) {
+			return defaultValue;
+		}
+
+		if (expression.getArray(e) == null || expression.getArray(e).length == 0) {
+			return defaultValue;
+		} else {
+			return expression.getArray(e);
+		}
+	}
+
 }

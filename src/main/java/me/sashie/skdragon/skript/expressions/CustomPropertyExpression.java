@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,12 +19,12 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import org.bukkit.event.Event;
-
 import ch.njol.skript.classes.Converter;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.registrations.Converters;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class CustomPropertyExpression<F, T> extends SimpleExpression<T> {
 	private Expression<? extends F> expr;
@@ -37,11 +37,11 @@ public abstract class CustomPropertyExpression<F, T> extends SimpleExpression<T>
 		return this.expr;
 	}
 
-	protected T[] get(Event e) {
+	protected T @NotNull [] get(@NotNull Event e) {
 		return this.get(e, this.expr.getArray(e));
 	}
 
-	public final T[] getAll(Event e) {
+	public final T @NotNull [] getAll(@NotNull Event e) {
 		return this.get(e, this.expr.getAll(e));
 	}
 
@@ -64,7 +64,7 @@ public abstract class CustomPropertyExpression<F, T> extends SimpleExpression<T>
 		return this.expr.getAnd();
 	}
 
-	public Expression<? extends T> simplify() {
+	public @NotNull Expression<? extends T> simplify() {
 		this.expr = this.expr.simplify();
 		return this;
 	}

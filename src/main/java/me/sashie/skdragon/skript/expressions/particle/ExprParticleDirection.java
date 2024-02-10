@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,13 +26,14 @@ import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2024.
  */
 @Name("Particles - Particle Direction")
 @Description({"Some particle types have a direction option that changes how the particle moves along its preset path"})
-@Examples({	"set particle direction of \"uniqueID\" to vector from player"})
+@Examples({"set particle direction of \"uniqueID\" to vector from player"})
 public class ExprParticleDirection extends CustomParticlePropertyExpression<Vector> {
 
 	static {
@@ -57,7 +58,7 @@ public class ExprParticleDirection extends CustomParticlePropertyExpression<Vect
 	}
 
 	@Override
-	public Class<? extends Vector> getReturnType() {
+	public @NotNull Class<? extends Vector> getReturnType() {
 		return Vector.class;
 	}
 

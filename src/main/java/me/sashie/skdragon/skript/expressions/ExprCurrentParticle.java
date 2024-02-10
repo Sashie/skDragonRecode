@@ -12,6 +12,7 @@ import ch.njol.util.Kleenean;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.sections.ParticleSection;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -19,38 +20,40 @@ import org.bukkit.event.Event;
 
 @Name("Particles - Current/last created particle")
 @Description({"Gets the last created particle for use in particle sections"})
-@Examples({	""})
+@Examples({""})
 public class ExprCurrentParticle extends SimpleExpression<ParticleBuilder> {
 
-    static {
-        Skript.registerExpression(ExprCurrentParticle.class, ParticleBuilder.class, ExpressionType.SIMPLE,
-                "[the] ([last] created|current) particle");
-    }
+	static {
+		Skript.registerExpression(
+				ExprCurrentParticle.class,
+				ParticleBuilder.class,
+				ExpressionType.SIMPLE,
+				"[the] ([last] created|current) particle"
+		);
+	}
 
-    @Override
-    public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, SkriptParser.ParseResult parser) {
-        return true;
-    }
+	@Override
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, SkriptParser.@NotNull ParseResult parser) {
+		return true;
+	}
 
-    @Override
-    protected ParticleBuilder[] get(Event e) {
-        return new ParticleBuilder[]{
-                ParticleSection.getParticle()
-        };
-    }
+	@Override
+	protected ParticleBuilder @NotNull [] get(@NotNull Event e) {
+		return new ParticleBuilder[]{ParticleSection.getParticle()};
+	}
 
-    @Override
-    public Class<? extends ParticleBuilder> getReturnType() {
-        return ParticleBuilder.class;
-    }
+	@Override
+	public @NotNull Class<? extends ParticleBuilder> getReturnType() {
+		return ParticleBuilder.class;
+	}
 
-    @Override
-    public String toString(Event e, boolean debug) {
-        return "the last created particle";
-    }
+	@Override
+	public @NotNull String toString(Event e, boolean debug) {
+		return "the last created particle";
+	}
 
-    @Override
-    public boolean isSingle() {
-        return true;
-    }
+	@Override
+	public boolean isSingle() {
+		return true;
+	}
 }

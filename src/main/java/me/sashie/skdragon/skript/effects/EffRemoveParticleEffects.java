@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,9 +19,6 @@
 
 package me.sashie.skdragon.skript.effects;
 
-import me.sashie.skdragon.effects.ParticleEffect;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
@@ -33,6 +30,9 @@ import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
 import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.debug.SkriptNode;
+import me.sashie.skdragon.util.Utils;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2017.
@@ -40,48 +40,43 @@ import me.sashie.skdragon.debug.SkriptNode;
 
 @Name("Remove particle effects")
 @Description({"Removes all particle effects or one of a given ID name"})
-@Examples({	"unregister particle effect \"%player%\"",
-	"unregister all particle effects"})
+@Examples({"unregister particle effect \"%player%\"",
+		"unregister all particle effects"})
 public class EffRemoveParticleEffects extends Effect {
 
 	static {
-		Skript.registerEffect(EffRemoveParticleEffects.class, 
+		Skript.registerEffect(
+				EffRemoveParticleEffects.class,
 				"(unregister|remove) particle effect [(with id|named)] %string%",
-				"(unregister|remove) all particle effects");
+				"(unregister|remove) all particle effects"
+		);
 	}
 
-	private boolean all;
-	private Expression<String> name;
+	private Expression<String> exprId = null;
 	private SkriptNode skriptNode;
 
 	@Override
-	protected void execute(Event event) {
-		if (all) {
-			EffectAPI.unregisterAll();
-		} else {
-			String id = this.name.getSingle(event);
-
-			if (id != null)
-				EffectAPI.unregister(id, skriptNode);
-		}
-	}
-
-	@Override
-	public String toString(Event event, boolean debug) {
-		if (all)
-			return "remove all particle effects";
-		else
-			return "remove particle effect named " + this.name.toString(event, debug);
-	}
-
-	@Override
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] expressions, int matchedPattern, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-		this.all = matchedPattern == 1;
-		if (!all)
-			this.name = (Expression<String>) expressions[0];
+	public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		if (matchedPattern == 0) exprId = (Expression<String>) expressions[0];
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
-
 		return true;
 	}
+
+	@Override
+	protected void execute(@NotNull Event e) {
+		if (exprId == null) {
+			EffectAPI.stopAll();
+			return;
+		}
+
+		String id = Utils.verifyVar(e, exprId, null);
+		EffectAPI.unregister(id, skriptNode); //even warn when the entry (e.g. a var) is null
+	}
+
+	@Override
+	public @NotNull String toString(Event event, boolean debug) {
+		return exprId == null ? "remove all particle effects" : "remove particle effect named " + exprId.toString(event, debug);
+	}
+
 }

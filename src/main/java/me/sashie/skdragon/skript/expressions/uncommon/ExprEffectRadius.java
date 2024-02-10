@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IRadius;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -33,8 +34,8 @@ import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
 
 @Name("Particles - Effect radius")
 @Description({"Sets or gets the radius of most effects",
-	"Also used for parametric equation effect types as well(can use negative numbers)"})
-@Examples({	"set radius of effect \"uniqueID\" to 2"})
+		"Also used for parametric equation effect types as well(can use negative numbers)"})
+@Examples({"set radius of effect \"uniqueID\" to 2"})
 public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
 
 	static {
@@ -65,7 +66,7 @@ public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 

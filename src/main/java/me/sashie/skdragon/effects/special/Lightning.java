@@ -45,14 +45,14 @@ public class Lightning extends SpecialRadiusDensityEffect implements IAxis {
 		updateVector(x, y, z);
 
 		double densityValue = 1.5 / this.getDensityProperty().getDensity(1);
-        for (float count = this.getRadiusProperty().getRadius(1) * 20, i = 0; i < count; ++i) {
-        	this.getParticleBuilder(1).sendParticles(this.bolt, this.getPlayers());
-        	this.bolt.add(vector);
-            if (RandomUtils.getRandomDouble() < densityValue) {
+		for (float count = this.getRadiusProperty().getRadius(1) * 20, i = 0; i < count; ++i) {
+			this.getParticleBuilder(1).sendParticles(this.bolt, this.getPlayers());
+			this.bolt.add(vector);
+			if (RandomUtils.getRandomDouble() < densityValue) {
 				updateVector(x, y, z);
 				vector.normalize().multiply(0.1);
-            }
-        }
+			}
+		}
 	}
 
 	public void updateVector(double x, double y, double z) {

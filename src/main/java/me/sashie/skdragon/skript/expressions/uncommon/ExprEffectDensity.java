@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,18 +26,22 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IDensity;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
-
 @Name("Particles - Effect density")
 @Description({"Get or set the density of an effect if it has this property"})
-@Examples({	"set 1st density of effect \"uniqueID\" to 20"})
+@Examples({"set 1st density of effect \"uniqueID\" to 20"})
 public class ExprEffectDensity extends CustomArrayPropertyExpression<Number> {
 
 	static {
-		register(ExprEffectDensity.class, Number.class, "density");
+		register(
+				ExprEffectDensity.class,
+				Number.class,
+				"density"
+		);
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public class ExprEffectDensity extends CustomArrayPropertyExpression<Number> {
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 

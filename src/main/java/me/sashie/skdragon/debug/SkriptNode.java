@@ -7,6 +7,7 @@ import ch.njol.skript.config.Node;
  * <p>
  * Because {@link ch.njol.skript.log.SkriptLogger#getNode()} only seems to work inside the init() method
  * <p>
+ *
  * @version 1.3.3
  * @see ch.njol.skript.log.SkriptLogger
  */

@@ -1,7 +1,7 @@
 /*
 	This file is part of skDragon - A Skript addon
 	Parts of this class are from skRayFall, thanks eyesniper <3
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -20,17 +20,6 @@
 
 package me.sashie.skdragon.skript;
 
-import java.awt.*;
-import java.io.StreamCorruptedException;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Locale;
-
-import javax.annotation.Nullable;
-
-import me.sashie.skdragon.util.ParticleUtil;
-import org.bukkit.Particle;
-
 import ch.njol.skript.classes.ClassInfo;
 import ch.njol.skript.classes.Parser;
 import ch.njol.skript.classes.Serializer;
@@ -39,6 +28,11 @@ import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.yggdrasil.Fields;
 import me.sashie.skdragon.effects.ParticleEffect;
+import me.sashie.skdragon.util.ParticleUtil;
+import org.bukkit.Particle;
+
+import javax.annotation.Nonnull;
+import java.io.StreamCorruptedException;
 
 public class Types {
 
@@ -61,24 +55,25 @@ public class Types {
 					.since("1.0")
 					.parser(new Parser<>() {
 
-						@Nullable
 						@Override
-						public Particle parse(String input, ParseContext context) {
+						public Particle parse(@Nonnull String input, @Nonnull ParseContext context) {
 							return ParticleUtil.parse(input.replace(" ", "_"));
 						}
 
 						@Override
+						@Nonnull
 						public String toString(Particle particle, int flags) {
-							return "" + ParticleUtil.getName(particle);
+							return ParticleUtil.getName(particle);
 						}
 
 						@Override
+						@Nonnull
 						public String toVariableNameString(Particle particle) {
 							return "particle:" + toString(particle, 0);
 						}
-					}));
+					})
+			);
 		}
-
 
 		Classes.registerClass(new ClassInfo<ParticleEffect>(ParticleEffect.class, "particleeffect")
 				.user("particleeffects?")
@@ -87,22 +82,26 @@ public class Types {
 				.parser(new Parser<ParticleEffect>() {
 
 					@Override
-					@Nullable
-					public ParticleEffect parse(String input, ParseContext context) {
+					public ParticleEffect parse(@Nonnull String input, @Nonnull ParseContext context) {
 						return ParticleEffect.getByName(input);
 					}
 
 					@Override
+					@Nonnull
 					public String toString(ParticleEffect effect, int flags) {
 						return effect.getName();
 					}
 
 					@Override
+					@Nonnull
 					public String toVariableNameString(ParticleEffect effect) {
 						return effect.getName();
 					}
+
 				}).serializer(new Serializer<ParticleEffect>() {
+
 					@Override
+					@Nonnull
 					public Fields serialize(final ParticleEffect e) {
 						final Fields f = new Fields();
 						f.putObject("name", e.toString());
@@ -110,7 +109,7 @@ public class Types {
 					}
 
 					@Override
-					public void deserialize(final ParticleEffect o, final Fields f) {
+					public void deserialize(final ParticleEffect o, @Nonnull final Fields f) {
 						assert false;
 					}
 
@@ -120,17 +119,16 @@ public class Types {
 					}
 
 					@Override
-					protected ParticleEffect deserialize(final Fields fields) throws StreamCorruptedException {
+					@Nonnull
+					protected ParticleEffect deserialize(@Nonnull final Fields fields) throws StreamCorruptedException {
 						final String name = fields.getObject("name", String.class);
-						final ParticleEffect e = ParticleEffect.valueOf(name);
-						if (e == null)
-							throw new StreamCorruptedException("Missing particle effect " + name);
+						final ParticleEffect e = ParticleEffect.getByName(name);
+						if (e == null) throw new StreamCorruptedException("Missing particle effect " + name);
 						return e;
 					}
 
 					@Override
-					@Nullable
-					public ParticleEffect deserialize(final String s) {
+					public ParticleEffect deserialize(@Nonnull final String s) {
 						return ParticleEffect.valueOf(s);
 					}
 
@@ -138,7 +136,9 @@ public class Types {
 					public boolean mustSyncDeserialization() {
 						return true;
 					}
-				}));
+
+				})
+		);
 
 	}
 

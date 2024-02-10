@@ -32,12 +32,12 @@ public abstract class EffectData {
 	 */
 	public abstract void onUnregister();
 
-    /**
-     * Every effect has a certain amount of particles, for instance a circle uses one particle and an atom uses two particles 
-     * This method is here so that you don't forget to initialize particles for each effect <3
-     * Checking for the amount of particles per effect uses getParticleBuilder().length and can return null or zero
-     */
-    public abstract ParticleBuilder<?>[] defaultParticles();
+	/**
+	 * Every effect has a certain amount of particles, for instance a circle uses one particle and an atom uses two particles 
+	 * This method is here so that you don't forget to initialize particles for each effect <3
+	 * Checking for the amount of particles per effect uses getParticleBuilder().length and can return null or zero
+	 */
+	public abstract ParticleBuilder<?>[] defaultParticles();
 
 	/**
 	 * Defines properties specific to this effect only

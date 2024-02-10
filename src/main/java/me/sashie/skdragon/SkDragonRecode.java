@@ -16,29 +16,28 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
 import java.util.logging.Logger;
 
 public final class SkDragonRecode extends JavaPlugin {
 
-	public final static Logger LOGGER = Bukkit.getServer() != null ? Bukkit.getLogger() : Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+	public final static Logger LOGGER = Bukkit.getLogger();
 
-    private static SkDragonRecode instance;
+	private static SkDragonRecode instance;
 
-    private static SkriptAdapter adapter;
+	private static SkriptAdapter adapter;
 
-    
-    public SkDragonRecode() {
-        if (instance == null) {
-            instance = this;
-        } else {
-            throw new IllegalStateException();
-        }
-    }
 
-    @Override
-    public void onEnable() {
-    	Plugin skript = Bukkit.getServer().getPluginManager().getPlugin("Skript");
+	public SkDragonRecode() {
+		if (instance == null) {
+			instance = this;
+		} else {
+			throw new IllegalStateException();
+		}
+	}
+
+	@Override
+	public void onEnable() {
+		Plugin skript = Bukkit.getServer().getPluginManager().getPlugin("Skript");
 		if (skript != null) {
 			if (Skript.isAcceptRegistrations()) {
 				try {
@@ -50,9 +49,9 @@ public final class SkDragonRecode extends JavaPlugin {
 					e.printStackTrace();
 				}
 
-				if ((Skript.getVersion().getMajor() >= 3 ? true : (Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 6 ? true : false)))
+				if ((Skript.getVersion().getMajor() >= 3 || (Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 6)))
 					adapter = new V2_6();
-				else if ((Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 4 ? true : false))
+				else if ((Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 4))
 					adapter = new V2_4();
 				else
 					adapter = new V2_3();
@@ -62,15 +61,10 @@ public final class SkDragonRecode extends JavaPlugin {
 				//	SkriptYaml.registerTag(this, "particle", Particle.class, new ParticleRepresentedClass(), new ParticleConstructedClass());
 				//	Bukkit.broadcastMessage("skript-yaml found, hooks enabled.");
 				//}
-				
+
 				Metrics metrics = new Metrics(this, 1208);
 
-				metrics.addCustomChart(new SimplePie("skript_version", new Callable<String>() {
-				    @Override
-				    public String call() throws Exception {
-				        return Skript.getVersion().toString();
-				    }
-				}));
+				metrics.addCustomChart(new SimplePie("skript_version", () -> Skript.getVersion().toString()));
 
 			} else {
 				Bukkit.getPluginManager().disablePlugin(this);
@@ -81,19 +75,19 @@ public final class SkDragonRecode extends JavaPlugin {
 			error("Skript not found, plugin disabled.");
 		}
 
-    }
+	}
 
-    @Override
-    public void onDisable() {
+	@Override
+	public void onDisable() {
 
-    }
+	}
 
-    public static SkDragonRecode getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException();
-        }
-        return instance;
-    }
+	public static SkDragonRecode getInstance() {
+		if (instance == null) {
+			throw new IllegalStateException();
+		}
+		return instance;
+	}
 
 	public static SkriptAdapter getSkriptAdapter() {
 		return adapter;

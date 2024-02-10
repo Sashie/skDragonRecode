@@ -56,7 +56,7 @@ public enum EffectProperty {
 	DISPLACEMENT;
 
 
-    public String getName() {
+	public String getName() {
 		return toString().toLowerCase().replace("_", " ");
 	}
 

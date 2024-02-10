@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,14 +19,6 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import java.util.ArrayList;
-
-import javax.annotation.Nullable;
-
-import me.sashie.skdragon.SkDragonRecode;
-import org.bukkit.event.Event;
-import org.bukkit.util.Vector;
-
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Changer.ChangeMode;
 import ch.njol.skript.doc.Description;
@@ -34,8 +26,15 @@ import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.util.coll.CollectionUtils;
 import me.sashie.skdragon.EffectAPI;
+import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.util.DynamicLocation;
+import me.sashie.skdragon.util.Utils;
+import org.bukkit.event.Event;
+import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -43,7 +42,7 @@ import me.sashie.skdragon.util.DynamicLocation;
 
 @Name("Particles - Vector location")
 @Description({""})
-@Examples({	"set vector location of effect \"uniqueID\" to {_v}",
+@Examples({"set vector location of effect \"uniqueID\" to {_v}",
 		"add {_v} to vector location of effect \"uniqueID\"",
 		"remove {_v} from vector location of effect \"uniqueID\""})
 public class ExprEffectLocationFromVector extends CustomEffectPropertyExpression<Vector> {
@@ -56,26 +55,27 @@ public class ExprEffectLocationFromVector extends CustomEffectPropertyExpression
 	public Vector getPropertyValue(EffectData effect) {
 		return null;
 	}
-	
+
 	@Override
-	@Nullable
-	protected Vector[] get(Event e) {
-		String[] s = (String[]) getExpr().getAll(e);
-		if (EffectAPI.ALL_EFFECTS.containsKey(s[0])) {
-			synchronized(EffectAPI.get(s[0], skriptNode)) {
-				ArrayList<Vector> cl = new ArrayList<>();
-				for (DynamicLocation location : EffectAPI.get(s[0], skriptNode).getLocations()) {
-					cl.add(location.toVector());
-				}
-				return cl.toArray(new Vector[cl.size()]);
+	protected Vector @NotNull [] get(@NotNull Event e) {
+		String id = Utils.verifyVar(e, getExpr(), null);
+		if (id == null) return new Vector[0];
+
+		EffectData effect = EffectAPI.get(id, skriptNode);
+		if (effect == null) return new Vector[0];
+
+		synchronized (effect) {
+			ArrayList<Vector> cl = new ArrayList<>();
+			for (DynamicLocation location : effect.getLocations()) {
+				cl.add(location.toVector());
 			}
+			return cl.toArray(new Vector[0]);
 		}
-		return null;
 	}
-	
+
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
-		synchronized(effect) {
+		synchronized (effect) {
 			switch (getMode()) {
 				case ADD:
 					for (int i = 0; i < effect.getLocations().length; i++) {
@@ -102,16 +102,15 @@ public class ExprEffectLocationFromVector extends CustomEffectPropertyExpression
 	}
 
 	@Override
-	public Class<? extends Vector>[] acceptChange(final Changer.ChangeMode mode) {
+	public Class<? extends Vector> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
 		if (mode == ChangeMode.SET || mode == ChangeMode.ADD || mode == ChangeMode.REMOVE)
 			return CollectionUtils.array(Vector.class);
-		return null;
+		return CollectionUtils.array();
 	}
 
 	@Override
-	public Class<? extends Vector> getReturnType() {
+	public @NotNull Class<? extends Vector> getReturnType() {
 		return Vector.class;
-
 	}
 
 	@Override

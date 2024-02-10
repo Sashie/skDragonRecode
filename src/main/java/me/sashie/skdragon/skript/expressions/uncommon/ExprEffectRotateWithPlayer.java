@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,6 +26,7 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IRotation;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -33,7 +34,7 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 
 @Name("Particles - Auto yaw")
 @Description({"Make certain particle effects turn with the player or turn to face the player(depending on the effect type)"})
-@Examples({	"set auto face of effect \"uniqueID\" to true"})
+@Examples({"set auto face of effect \"uniqueID\" to true"})
 public class ExprEffectRotateWithPlayer extends CustomEffectPropertyExpression<Boolean> {
 
 	static {
@@ -57,9 +58,8 @@ public class ExprEffectRotateWithPlayer extends CustomEffectPropertyExpression<B
 	}
 
 	@Override
-	public Class<? extends Boolean> getReturnType() {
+	public @NotNull Class<? extends Boolean> getReturnType() {
 		return Boolean.class;
-
 	}
 
 	@Override

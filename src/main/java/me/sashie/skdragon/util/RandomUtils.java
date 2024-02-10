@@ -74,55 +74,55 @@ public final class RandomUtils {
 		return random.nextDouble() * (2 * Math.PI);
 	}
 
-    public static float randomRangeFloat(float min, float max) {
-    	if (min >= max)
-    		return max;
-        return random.nextFloat() * (max - min) + min;
-    }
+	public static float randomRangeFloat(float min, float max) {
+		if (min >= max)
+			return max;
+		return random.nextFloat() * (max - min) + min;
+	}
 
-    public static double randomRangeDouble(double min, double max) {
-    	if (min >= max)
-    		return max;
-        return random.nextDouble() * (max - min) + min;
-    }
-    
-    public static int randomRangeInt(int min, int max) {
-    	if (min >= max)
-    		return max;
-       	if (min < 0) {
-    		min = 0;
-    	}
-       	if (max < 0) {
-       		max = 0;
-    	}
-        //return (int)((Math.random() < 0.5) ? ((1.0 - Math.random()) * (max - min) + min) : (Math.random() * (max - min) + min));
-        return random.nextInt(max - min + 1) + min;
-    }
-    
-    public static double randomExcludedDouble(double min, double max, double... array) {
-    	double out = min + (max - min) * random.nextDouble();
-    	double output = (Math.random() < 0.5) ? ((1.0 - Math.random()) * (max - min) + min + 1 - array.length) : (Math.random() * (max - min) + min + 1 - array.length);
-        for (int length = array.length, n = 0; n < length && output >= array[n]; ++output, ++n) {}
-        return output;
-    }
+	public static double randomRangeDouble(double min, double max) {
+		if (min >= max)
+			return max;
+		return random.nextDouble() * (max - min) + min;
+	}
+	
+	public static int randomRangeInt(int min, int max) {
+		if (min >= max)
+			return max;
+	   	if (min < 0) {
+			min = 0;
+		}
+	   	if (max < 0) {
+	   		max = 0;
+		}
+		//return (int)((Math.random() < 0.5) ? ((1.0 - Math.random()) * (max - min) + min) : (Math.random() * (max - min) + min));
+		return random.nextInt(max - min + 1) + min;
+	}
+	
+	public static double randomExcludedDouble(double min, double max, double... array) {
+		double out = min + (max - min) * random.nextDouble();
+		double output = (Math.random() < 0.5) ? ((1.0 - Math.random()) * (max - min) + min + 1 - array.length) : (Math.random() * (max - min) + min + 1 - array.length);
+		for (int length = array.length, n = 0; n < length && output >= array[n]; ++output, ++n) {}
+		return output;
+	}
 
-    public static double randomDoubleWithExclusion(double min, double max, double... exclude) {
-    	double output = min + ((max - min + 1 - exclude.length) * random.nextDouble());
-    	/*
-    	for (double i = 0; i < exclude.length; i++) {
-    		if (output == exclude[i]) {
-    			output++;
-    		}
-    	}
-    	*/
-    	for(int i = 0; i < exclude.length; i++) {
-            if(exclude[i] > output) {
-                return output;
-            }
-            output++;
-        }
-        return output;
-    }
+	public static double randomDoubleWithExclusion(double min, double max, double... exclude) {
+		double output = min + ((max - min + 1 - exclude.length) * random.nextDouble());
+		/*
+		for (double i = 0; i < exclude.length; i++) {
+			if (output == exclude[i]) {
+				output++;
+			}
+		}
+		*/
+		for(int i = 0; i < exclude.length; i++) {
+			if(exclude[i] > output) {
+				return output;
+			}
+			output++;
+		}
+		return output;
+	}
 
 	public static int randomIntWithExclusion(int min, int max, int... exclude) {
 		int range = max - min + 1 - exclude.length;
@@ -188,18 +188,18 @@ public final class RandomUtils {
 		return random.nextFloat() * range;
 	}
 
-    /** Returns -1 or 1, randomly. */
+	/** Returns -1 or 1, randomly. */
 	public static int randomSign() {
 		return 1 | (random.nextInt() >> 31);
 	}
 	
 	public static boolean getRandomBoolean() {
-        return random.nextBoolean();
-    }
+		return random.nextBoolean();
+	}
 	
 	public static String getRandomStringFromArray(String... strings) {
-	    List<String> list = Arrays.asList(strings);
-	    return list.get(random.nextInt(list.size()));
+		List<String> list = Arrays.asList(strings);
+		return list.get(random.nextInt(list.size()));
 	}
 	
 	public static boolean chancePercent(int percent) {
@@ -208,33 +208,33 @@ public final class RandomUtils {
 
 	public static class WeightedList<T extends Object> {
 
-	    private class Entry {
-	        double accumulatedWeight;
-	        T object;
-	    }
+		private class Entry {
+			double accumulatedWeight;
+			T object;
+		}
 
-	    private List<Entry> entries = new ArrayList<>();
-	    private double accumulatedWeight;
-	    private Random rand = new Random();
+		private List<Entry> entries = new ArrayList<>();
+		private double accumulatedWeight;
+		private Random rand = new Random();
 
-	    public void addEntry(T object, double weight) {
-	        accumulatedWeight += weight;
-	        Entry e = new Entry();
-	        e.object = object;
-	        e.accumulatedWeight = accumulatedWeight;
-	        entries.add(e);
-	    }
+		public void addEntry(T object, double weight) {
+			accumulatedWeight += weight;
+			Entry e = new Entry();
+			e.object = object;
+			e.accumulatedWeight = accumulatedWeight;
+			entries.add(e);
+		}
 
-	    public T getRandom() {
-	        double r = rand.nextDouble() * accumulatedWeight;
+		public T getRandom() {
+			double r = rand.nextDouble() * accumulatedWeight;
 
-	        for (Entry entry: entries) {
-	            if (entry.accumulatedWeight >= r) {
-	                return entry.object;
-	            }
-	        }
-	        return null; //should only happen when there are no entries
-	    }
+			for (Entry entry: entries) {
+				if (entry.accumulatedWeight >= r) {
+					return entry.object;
+				}
+			}
+			return null; //should only happen when there are no entries
+		}
 	}
 	
 }

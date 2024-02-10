@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016-2022  Sashie
 
 	This program is free software: you can redistribute it and/or modify

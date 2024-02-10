@@ -63,22 +63,22 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 				
 				if (i == this.getLocations().length - 1)
 					init = true;
-	    	} else {
-	    		this.getLocations()[i].update();
+			} else {
+				this.getLocations()[i].update();
 				if (this.getLocations()[i].isDynamic())
 					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
 
-	    		if (this.solidProperty.isSolid()){
-	    			for (int j = 0; j < this.densityProperty.getDensity(1); j++) {
-	    				v.setX(0).setY(0).setZ(0);
-	    				math(j);
-	    				spawnParticle(this.getLocations()[i], rotateShape(v, step));
-	    			}
+				if (this.solidProperty.isSolid()){
+					for (int j = 0; j < this.densityProperty.getDensity(1); j++) {
+						v.setX(0).setY(0).setZ(0);
+						math(j);
+						spawnParticle(this.getLocations()[i], rotateShape(v, step));
+					}
 				} else {
 					math(step);
 					spawnParticle(this.getLocations()[i], rotateShape(v, step));
 				}
-	    	}
+			}
 		}
 	}
 

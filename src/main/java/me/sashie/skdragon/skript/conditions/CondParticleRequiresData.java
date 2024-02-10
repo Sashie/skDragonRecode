@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,21 +19,18 @@
 
 package me.sashie.skdragon.skript.conditions;
 
-import javax.annotation.Nullable;
-
 import ch.njol.skript.Skript;
-import me.sashie.skdragon.particles.ParticleProperty;
-import org.bukkit.Particle;
-import org.bukkit.event.Event;
-
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import ch.njol.skript.lang.Condition;
 import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
-import ch.njol.util.Checker;
 import ch.njol.util.Kleenean;
+import me.sashie.skdragon.particles.ParticleProperty;
+import me.sashie.skdragon.util.Utils;
+import org.bukkit.Particle;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -41,34 +38,33 @@ import ch.njol.util.Kleenean;
 @Name("Particles - Requires material")
 @Description("Checks whether a particle requires material.")
 @Examples({"particle redstone requires material #returns false"})
-public class CondParticleRequiresData extends Condition {
+public class CondParticleRequiresData extends BaseConditions {
 
 	static {
-		Skript.registerCondition(CondParticleRequiresData.class, "particle %particle% requires material", "particle %particle% does not require material");
+		Skript.registerCondition(
+				CondParticleRequiresData.class,
+				"particle %particle% requires material",
+				"particle %particle% does not require material"
+		);
 	}
 
-	private Expression<Particle> particle;
+	private Expression<Particle> exprParticle;
 
-	@SuppressWarnings({"unchecked"})
 	@Override
-	public boolean init(final Expression<?>[] exprs, final int matchedPattern, final Kleenean isDelayed, final ParseResult parseResult) {
-		particle = (Expression<Particle>) exprs[0];
-		setNegated(matchedPattern == 1);
+	public boolean initCondition(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean kleenean, @NotNull ParseResult parseResult) {
+		exprParticle = (Expression<Particle>) exprs[0];
 		return true;
 	}
 
 	@Override
-	public boolean check(final Event e) {
-		return particle.check(e, new Checker<Particle>() {
-			@Override
-			public boolean check(final Particle p) {
-				return ParticleProperty.REQUIRES_DATA.hasProperty(p);
-			}
-		}, isNegated());
+	public boolean checkCondition(@NotNull Event e) {
+		Particle particle = Utils.verifyVar(e, exprParticle, null);
+		return ParticleProperty.REQUIRES_DATA.hasProperty(particle);
 	}
 
 	@Override
-	public String toString(final @Nullable Event e, final boolean debug) {
-		return particle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
+	public String toStringCondition(Event e, boolean debug) {
+		return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
 	}
+
 }

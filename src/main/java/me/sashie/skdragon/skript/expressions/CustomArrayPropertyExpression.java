@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,14 +19,6 @@
 
 package me.sashie.skdragon.skript.expressions;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import org.bukkit.event.Event;
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
 import ch.njol.skript.classes.Converter;
@@ -41,9 +33,15 @@ import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sashie on 10/30/2017.
@@ -51,13 +49,16 @@ import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExpression<String, T> implements Converter<String, T> {
 
 	public static <T> void register(final Class<? extends Expression<T>> c, final Class<T> type, final String property) {
-		Skript.registerExpression(c, type, ExpressionType.PROPERTY,
+		Skript.registerExpression(
+				c,
+				type,
+				ExpressionType.PROPERTY,
 				"[the] [%-number%(st|nd|rd|th)] " + property + " of [the] [particle] effect %string%",
 				"[particle] effect %string%'[s] [%-number%(st|nd|rd|th)] " + property,
-				
-				"[%-number%(st|nd|rd|th)] " + property + " of [the] [particle] effect");
+				"[%-number%(st|nd|rd|th)] " + property + " of [the] [particle] effect"
+		);
 	}
-	
+
 	protected boolean scope = false;
 	private List<String> failedEffects;
 	private Expression<Number> propertyNumberExpr;
@@ -66,7 +67,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 	protected SkriptNode skriptNode;
 
 	@SuppressWarnings("unchecked")
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean isDelayed, ParseResult parseResult) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
 		if (matchedPattern == 2) {
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				this.scope = true;
@@ -85,11 +86,12 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
 		return true;
 	}
-/*
-	public int getMark() {
-		return mark;
-	}
-*/
+
+	/*
+		public int getMark() {
+			return mark;
+		}
+	*/
 	protected final void setPropertyExpr(Expression<Number> expr) {
 		this.propertyNumberExpr = expr;
 	}
@@ -109,6 +111,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 
 	/**
 	 * To be overridden
+	 *
 	 * @return
 	 */
 	protected EffectProperty getEffectProperty() {
@@ -119,7 +122,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 
 	/**
 	 * Place code to get a particle property
-	 * 
+	 *
 	 * @param effect
 	 * @return
 	 */
@@ -140,7 +143,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 		if (EffectAPI.ALL_EFFECTS.containsKey(id)) {
 			EffectData effect = EffectAPI.get(id, skriptNode);
 
-			synchronized(effect) {
+			synchronized (effect) {
 				Object property = getPropertyArray(effect);
 				int length = Array.getLength(property);
 				if (propertyNumber > length) {
@@ -180,8 +183,8 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 			if (!failedEffects.isEmpty()) {
 				StringBuilder sb = new StringBuilder();
 				for (String s : failedEffects) {
-				    sb.append(s);
-				    sb.append(", ");
+					sb.append(s);
+					sb.append(", ");
 				}
 				SkDragonRecode.warn("One or more particle effects didn't exist! (" + sb.toString() + ")", skriptNode);
 			}
@@ -191,7 +194,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 	private void set(String id, Object[] delta) {
 		EffectData effect = EffectAPI.get(id, skriptNode);
 
-		synchronized(effect) {
+		synchronized (effect) {
 			Object property = getPropertyArray(effect);
 			if (property != null && property.getClass().isArray()) {
 				int length = Array.getLength(property);
@@ -216,14 +219,14 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 	}
 
 	@Override
-	public Class<? extends T>[] acceptChange(final Changer.ChangeMode mode) {
+	public Class<? extends T> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
 		if (mode == Changer.ChangeMode.SET)
 			return CollectionUtils.array(getReturnType());
 		return null;
 	}
 
 	@Override
-	public String toString(@Nullable Event e, boolean debug) {
+	public @NotNull String toString(@Nullable Event e, boolean debug) {
 		return "the " + (propertyNumberExpr == null ? "" : propertyNumberExpr.toString(e, debug) + "(st|nd|rd|th) ") + this.getPropertyName() + (this.getExpr() == null ? "" : " of effect " + (scope ? ParticleEffectSection.getID() : this.getExpr().toString(e, debug)));
 	}
 }

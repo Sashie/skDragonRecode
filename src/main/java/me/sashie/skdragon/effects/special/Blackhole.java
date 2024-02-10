@@ -47,29 +47,29 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
 		for (float i = this.getRadiusProperty().getRadius(1); i < this.getDensityProperty().getDensity(2); ++i) {
 			for (double d = 0.0; d <= MathUtils.PI2; d += (MathUtils.PI / this.getDensityProperty().getDensity(1))) {
 				final double angle = step * this.getExtraProperty().getValue(3) + Math.toRadians(i * 30);
-                final double space = i * this.getExtraProperty().getValue(1);
-                
+				final double space = i * this.getExtraProperty().getValue(1);
+				
 				vector.setX(Math.cos(d) * space).setY(i * this.getExtraProperty().getValue(2)).setZ(Math.sin(d) * space);
 
-                VectorUtils.rotateAroundAxisY(vector, angle);
-                this.getParticleBuilder(1).sendParticles(subtract.add(vector), this.getPlayers());
-                if (RandomUtils.randomRangeFloat(0, 100) >= 95) {
-                	this.getParticleBuilder(2).sendParticles(subtract, this.getPlayers());
-                	this.getParticleBuilder(3).sendParticles(subtract, this.getPlayers());
-                }
-                subtract.subtract(vector);
+				VectorUtils.rotateAroundAxisY(vector, angle);
+				this.getParticleBuilder(1).sendParticles(subtract.add(vector), this.getPlayers());
+				if (RandomUtils.randomRangeFloat(0, 100) >= 95) {
+					this.getParticleBuilder(2).sendParticles(subtract, this.getPlayers());
+					this.getParticleBuilder(3).sendParticles(subtract, this.getPlayers());
+				}
+				subtract.subtract(vector);
 			}
 		}
 
-        if (step % 10 == 0) {
+		if (step % 10 == 0) {
 			add.init(subtract).add(RandomUtils.randomRangeFloat(-1.5f, 1.5f), 1.5, RandomUtils.randomRangeFloat(-1.5f, 1.5f));
-            if (this.getParticleBuilder(4) instanceof DirectionParticle) {
-                direction.setX(location.getX()).setY(location.getY()).setZ(location.getZ());
+			if (this.getParticleBuilder(4) instanceof DirectionParticle) {
+				direction.setX(location.getX()).setY(location.getY()).setZ(location.getZ());
 				vector.setX(add.getX()).setY(add.getY()).setZ(add.getZ());
-                ((DirectionParticle) this.getParticleBuilder(4)).getParticleData().direction = direction.subtract(vector).normalize();
-            }
-            this.getParticleBuilder(4).sendParticles(add, this.getPlayers());
-        }
+				((DirectionParticle) this.getParticleBuilder(4)).getParticleData().direction = direction.subtract(vector).normalize();
+			}
+			this.getParticleBuilder(4).sendParticles(add, this.getPlayers());
+		}
 	}
 
 	@Override

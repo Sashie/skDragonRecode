@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -18,15 +18,6 @@
 */
 
 package me.sashie.skdragon.skript.expressions;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nullable;
-
-import me.sashie.skdragon.util.EffectUtils;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 
 import ch.njol.skript.Skript;
 import ch.njol.skript.classes.Changer;
@@ -46,6 +37,15 @@ import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
+import me.sashie.skdragon.util.EffectUtils;
+import me.sashie.skdragon.util.Utils;
+import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
+
+import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Edited by Sashie on 6/20/2017
@@ -53,12 +53,12 @@ import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 
 @Name("Particles - Clientside/visible players of effect")
 @Description({
-		"Gets, sets, adds to and removes from the list of players able to see an effect, if the list is deleted all players can see the effect" })
-@Examples({ "set {_players::*} to players of effect \"uniqueid\"",
+		"Gets, sets, adds to and removes from the list of players able to see an effect, if the list is deleted all players can see the effect"})
+@Examples({"set {_players::*} to players of effect \"uniqueid\"",
 		"set clientside players of effect \"uniqueid\" to {_players::*}",
 		"add player to clientside players of effect \"uniqueid\"",
 		"remove player from clientside players of effect \"uniqueid\"",
-		"delete clientside players of effect \"uniqueid\"" })
+		"delete clientside players of effect \"uniqueid\""})
 public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 
 	static {
@@ -69,32 +69,31 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 	}
 
 	protected boolean scope = false;
-	private Expression<String> name;
+	private Expression<String> exprNames;
 	private SkriptNode skriptNode;
 
 	@Override
-	@Nullable
-	protected Player[] get(Event e) {
+	protected Player @NotNull [] get(@NotNull Event e) {
 		if (scope) {
 			SkDragonRecode.warn("Incorrect use of syntax, can't get values from scope", skriptNode);
-			return null;
+			return new Player[0];
 		}
-		
-		String[] effectIDs = (String[]) this.name.getArray(e);
-		if (effectIDs == null)
-			return null;
 
-		if (effectIDs.length > 1)
+		String[] effectIds = Utils.verifyVars(e, exprNames, null);
+		if (effectIds == null) return new Player[0];
+
+		if (effectIds.length > 1)
 			SkDragonRecode.warn("Only a single ID input can be used for setting players to a list variable. Subsequent IDs will be ignored.", skriptNode);
 
-		final EffectData effect = EffectAPI.get(effectIDs[0], skriptNode);
-		synchronized(effect) {
+		EffectData effect = EffectAPI.get(effectIds[0], skriptNode);
+		if (effect == null) return new Player[0];
+		synchronized (effect) {
 			return effect.getPlayers();
 		}
 	}
 
 	@Override
-	public void change(Event e, Object[] delta, Changer.ChangeMode mode) {
+	public void change(@NotNull Event e, Object @NotNull [] delta, Changer.@NotNull ChangeMode mode) {
 		final Player[] players = new Player[delta.length];
 		for (int i = 0; i < delta.length; i++) {
 			players[i] = (Player) delta[i];
@@ -102,21 +101,23 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 
 		if (scope) {
 			EffectData effect = EffectAPI.get(ParticleEffectSection.getID(), skriptNode);
-			synchronized(effect) {
+			if (effect == null) return;
+			synchronized (effect) {
 				effect.setPlayers(players);
 			}
 		} else {
-			List<String> failedEffects = new ArrayList<String>();
-			String[] effectIDs = (String[]) this.name.getArray(e);
-			if (effectIDs == null)
-				return;
+			List<String> failedEffects = new ArrayList<>();
 
-			for (String id : effectIDs) {
+			String[] effectIds = Utils.verifyVars(e, exprNames, null);
+			if (effectIds == null) return;
+
+			for (String id : effectIds) {
 				if (!EffectAPI.ALL_EFFECTS.containsKey(id)) {
 					failedEffects.add(id);
 					continue;
 				}
 				EffectData effect = EffectAPI.get(id, skriptNode);
+				if (effect == null) return;
 				synchronized (effect) {
 					switch (mode) {
 						case ADD:
@@ -150,19 +151,14 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 			}
 
 			if (!failedEffects.isEmpty()) {
-				StringBuilder sb = new StringBuilder();
-				for (String s : failedEffects) {
-					sb.append(s);
-					sb.append(", ");
-				}
-				SkDragonRecode.warn("One or more particle effects didn't exist! (" + sb.toString() + ")", skriptNode);
+				SkDragonRecode.warn("One or more particle effects didn't exist! (" + String.join(", ", failedEffects) + ")", skriptNode);
 			}
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean init(Expression<?>[] exprs, int matchedPattern, Kleenean k, SkriptParser.ParseResult p) {
+	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean k, SkriptParser.@NotNull ParseResult p) {
 		if (matchedPattern == 2) {
 			if (EffectSection.isCurrentSection(ParticleEffectSection.class)) {
 				this.scope = true;
@@ -170,7 +166,7 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 				return false;
 			}
 		} else {
-			name = (Expression<String>) exprs[0];
+			exprNames = (Expression<String>) exprs[0];
 		}
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
 
@@ -178,12 +174,12 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 	}
 
 	@Override
-	public Class<? extends Player> getReturnType() {
+	public @NotNull Class<? extends Player> getReturnType() {
 		return Player.class;
 	}
 
 	@Override
-	public Class<?>[] acceptChange(final Changer.ChangeMode mode) {
+	public Class<?> @NotNull [] acceptChange(final Changer.@NotNull ChangeMode mode) {
 		return CollectionUtils.array(Player[].class);
 	}
 
@@ -193,7 +189,7 @@ public class ExprEffectAllPlayers extends SimpleExpression<Player> {
 	}
 
 	@Override
-	public String toString(@Nullable Event e, boolean b) {
+	public @NotNull String toString(@Nullable Event e, boolean b) {
 		return "visible players";
 	}
 }

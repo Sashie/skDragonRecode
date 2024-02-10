@@ -9,17 +9,38 @@ import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.ParticleEffect;
 import org.bukkit.event.Event;
+import org.jetbrains.annotations.NotNull;
 
 public class ParticleEffectSection extends EffectSection {
+
+	static {
+		Skript.registerCondition(
+				ParticleEffectSection.class,
+				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string%"
+		);
+	}
 
 	private static String id;
 	private Expression<ParticleEffect> effectType;
 	private Expression<String> name;
 	private SkriptNode skriptNode;
 
-	static {
-		Skript.registerCondition(ParticleEffectSection.class,
-				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string%");
+	@SuppressWarnings("unchecked")
+	@Override
+	public boolean init(Expression<?> @NotNull [] exprs, int i, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
+		if (checkIfCondition())
+			return false;
+		if (!hasSection()) {
+			Skript.error("A particle effect creation scope is useless without any content!");
+			return false;
+		}
+		
+		effectType = (Expression<ParticleEffect>) exprs[0];
+		name = (Expression<String>) exprs[1];
+		skriptNode = new SkriptNode(SkriptLogger.getNode());
+
+		loadSection(true);
+		return true;
 	}
 
 	@Override
@@ -41,24 +62,8 @@ public class ParticleEffectSection extends EffectSection {
 	}
 
 	@Override
-	public String toString(Event event, boolean debug) {
+	public @NotNull String toString(Event event, boolean debug) {
 		return "register particle effect " + effectType.toString(event, debug) + " with id " + name.toString(event, debug);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public boolean init(Expression<?>[] exprs, int i, Kleenean kleenean, SkriptParser.ParseResult parseResult) {
-		if (checkIfCondition())
-			return false;
-		if (!hasSection()) {
-			Skript.error("A particle effect creation scope is useless without any content!");
-			return false;
-		}
-		effectType = (Expression<ParticleEffect>) exprs[0];
-		name = (Expression<String>) exprs[1];
-		skriptNode = new SkriptNode(SkriptLogger.getNode());
-
-		loadSection(true);
-		return true;
-	}
 }

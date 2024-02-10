@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,22 +19,22 @@
 
 package me.sashie.skdragon.skript.expressions.particle;
 
-import me.sashie.skdragon.skript.sections.ParticleSection;
-import me.sashie.skdragon.util.ParticleUtils;
-import org.bukkit.Particle;
-
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
+import me.sashie.skdragon.skript.sections.ParticleSection;
+import me.sashie.skdragon.util.ParticleUtils;
+import org.bukkit.Particle;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
 @Name("Particles - Particle type")
 @Description({"Gets or sets the particle type used. Some data may be lost, for example if you change the particle type from Colorable to Normal it will lose its color data"})
-@Examples({	"set particle type of effect \"uniqueID\" to dust",
+@Examples({"set particle type of effect \"uniqueID\" to dust",
 		"set the 1st particle type of the particle effect \"uniqueID\" to dust"})
 public class ExprParticleType extends CustomParticlePropertyExpression<Particle> {
 
@@ -46,7 +46,7 @@ public class ExprParticleType extends CustomParticlePropertyExpression<Particle>
 	public Particle getParticle(ParticleBuilder<?> p) {
 		return p.getParticleData().getParticle();
 	}
-	
+
 	@Override
 	public void setParticle(ParticleBuilder<?> particle, Object[] delta) {
 		Particle type = (Particle) (delta[0]);
@@ -62,7 +62,7 @@ public class ExprParticleType extends CustomParticlePropertyExpression<Particle>
 	}
 
 	@Override
-	public Class<? extends Particle> getReturnType() {
+	public @NotNull Class<? extends Particle> getReturnType() {
 		return Particle.class;
 	}
 

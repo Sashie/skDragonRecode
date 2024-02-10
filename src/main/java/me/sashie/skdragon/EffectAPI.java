@@ -11,7 +11,6 @@ import me.sashie.skdragon.runnable.RunnableType;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -26,12 +25,12 @@ public class EffectAPI {
 
 	/**
 	 * Determine if this effect has a specific property
-	 * 
+	 *
 	 * @return Whether it has the property or not
 	 */
 	public static boolean hasProperty(EffectData effect, EffectProperty property) {
-		for(EffectProperty p: effect.getEffectProperties()){
-			if(p.equals(property))
+		for (EffectProperty p : effect.getEffectProperties()) {
+			if (p.equals(property))
 				return true;
 		}
 		return false;
@@ -39,7 +38,7 @@ public class EffectAPI {
 
 	/**
 	 * Gets a list of properties for this effect
-	 * 
+	 *
 	 * @return List of properties
 	 */
 	public static List<EffectProperty> getProperties(EffectData effect) {
@@ -51,8 +50,8 @@ public class EffectAPI {
 
 	/**
 	 * Static method for registering an effect externally
-	 *  
-	 * @param id Id of the effect
+	 *
+	 * @param id		 Id of the effect
 	 * @param effectName The effect to register
 	 */
 	public static EffectData register(String id, ParticleEffect effectName, SkriptNode skriptNode) {
@@ -78,7 +77,7 @@ public class EffectAPI {
 
 	/**
 	 * Unregister an effect
-	 * 
+	 *
 	 * @param id ID of the effect
 	 */
 	public static boolean unregister(String id, SkriptNode skriptNode) {
@@ -106,7 +105,6 @@ public class EffectAPI {
 		for (EffectData data : ALL_EFFECTS.values()) {
 			synchronized (data) {
 				releasePools(data);
-				data = null;
 			}
 		}
 		ALL_EFFECTS.clear();
@@ -123,12 +121,12 @@ public class EffectAPI {
 
 	/**
 	 * Gets a registered effect if one exists with the input id
-	 * 
+	 *
 	 * @param id ID of the effect
 	 * @return The effect
 	 */
 	public static EffectData get(String id, SkriptNode skriptNode) {
-		if (ALL_EFFECTS.containsKey(id)) 
+		if (ALL_EFFECTS.containsKey(id))
 			return ALL_EFFECTS.get(id);
 		SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
 		return null;
@@ -136,12 +134,12 @@ public class EffectAPI {
 
 	/**
 	 * General method for starting an effect
-	 * 
-	 * @param id ID of the effect
-	 * @param runType {@link RunnableType RunnableType} to use
+	 *
+	 * @param id		 ID of the effect
+	 * @param runType	{@link RunnableType RunnableType} to use
 	 * @param iterations Number of iterations the effect should run for
-	 * @param ticks Amount of ticks per pulse
-	 * @param async Whether the effect should run async or not
+	 * @param ticks	  Amount of ticks per pulse
+	 * @param async	  Whether the effect should run async or not
 	 */
 	public static void start(String id, RunnableType runType, int iterations, long ticks, boolean async, DynamicLocation[] locations, SkriptNode skriptNode) {
 		start(id, runType, iterations, 0, ticks, async, locations, skriptNode);
@@ -149,63 +147,54 @@ public class EffectAPI {
 
 	/**
 	 * General method for starting an effect with a delay before it
-	 * 
-	 * @param id ID of the effect
-	 * @param runType {@link RunnableType RunnableType} to use
+	 *
+	 * @param id		 ID of the effect
+	 * @param runType	{@link RunnableType RunnableType} to use
 	 * @param iterations Number of iterations the effect should run for
-	 * @param delay Number of ticks before effect starts only used if RunnableType is 'DELAYED'
-	 * @param ticks Amount of ticks per pulse
-	 * @param sync Whether the effect should run async or sync
-	 * @param locations Locations that an effect will target
+	 * @param delay	  Number of ticks before effect starts only used if RunnableType is 'DELAYED'
+	 * @param ticks	  Amount of ticks per pulse
+	 * @param sync	   Whether the effect should run async or sync
+	 * @param locations  Locations that an effect will target
 	 */
 	public static void start(String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, DynamicLocation[] locations, SkriptNode skriptNode) throws ParticleException {
-		EffectData effect = get(id, skriptNode);
-		if (effect == null)
-			return;	//Error already handled TODO add exception...
-		if (effect instanceof TargetEffect)
-			throw new ParticleException("A 'TargetEffect' requires a target location, effect not started", skriptNode);
-
-		effect.setLocations(locations);
-		effect.saveStartLocations();
-
-		if (effect.getLocations() == null || effect.getLocations().length == 0)
-			throw new ParticleException("No location provided for effect " + /*'" + effect.getName() + "'*/ "with id  '" + id + "'", skriptNode);
-
-		start(id, effect, runType, iterations, delay, ticks, sync, skriptNode);
+		start(id, runType, iterations, delay, ticks, sync, locations, null, skriptNode);
 	}
 
 	/**
 	 * General method for starting an effect with a delay before it
 	 *
-	 * @param id ID of the effect
-	 * @param runType {@link RunnableType RunnableType} to use
+	 * @param id		 ID of the effect
+	 * @param runType	{@link RunnableType RunnableType} to use
 	 * @param iterations Number of iterations the effect should run for
-	 * @param delay Number of ticks before effect starts only used if RunnableType is 'DELAYED'
-	 * @param ticks Amount of ticks per pulse
-	 * @param sync Whether the effect should run async or sync
-	 * @param locations Locations that an effect will target
-	 * @param targets Targets locations that a {@link TargetEffect TargetEffect} effect will target
+	 * @param delay	  Number of ticks before effect starts only used if RunnableType is 'DELAYED'
+	 * @param ticks	  Amount of ticks per pulse
+	 * @param sync	   Whether the effect should run async or sync
+	 * @param locations  Locations that an effect will target
+	 * @param targets	Targets locations that a {@link TargetEffect TargetEffect} effect will target
 	 */
 	public static void start(String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, DynamicLocation[] locations, DynamicLocation[] targets, SkriptNode skriptNode) throws ParticleException {
 		EffectData effect = get(id, skriptNode);
-		if (effect == null)
-			return;	//Error already handled
+		if (effect == null) return;
+
+		if (locations == null || locations.length == 0)
+			throw new ParticleException("No location provided for effect with id " + id, skriptNode);
+
+		if (effect instanceof TargetEffect) {
+			if (targets == null)
+				throw new ParticleException("A 'TargetEffect' requires a target location, effect not started", skriptNode);
+
+			((TargetEffect) effect).setTargets(targets);
+		}
 
 		effect.setLocations(locations);
 		effect.saveStartLocations();
 
-		if (!(effect instanceof TargetEffect))
-			throw new ParticleException("Only a 'TargetEffect' can have a target location, " + /* '" + effect.getName() + "'*/ " effect with id '" + id + "' not started", skriptNode);
-
-		((TargetEffect) effect).setTargets(targets);
-
-		if (effect.getLocations() == null || effect.getLocations().length == 0)
-			throw new ParticleException("No location provided for effect " + /*'" + effect.getName() + "'*/ "with id  '" + id + "'", skriptNode);
-
 		start(id, effect, runType, iterations, delay, ticks, sync, skriptNode);
 	}
 
-	private static void start(String id, EffectData effect, RunnableType runType, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode) throws ParticleException {
+	private static void start(
+			String id, EffectData effect, RunnableType runType, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode
+	) throws ParticleException {
 		if (!isRunning(id)) {
 			EffectRunnable runnable = new EffectRunnable(effect, iterations);
 
@@ -236,7 +225,9 @@ public class EffectAPI {
 		}
 	}
 
-	private static void restart(String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode) throws ParticleException {
+	private static void restart(
+			String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode
+	) throws ParticleException {
 		//Reset the effect if any start types are changed or if the effect isn't running
 		EffectData effect = get(id, skriptNode);
 		if (effect == null)
@@ -247,7 +238,7 @@ public class EffectAPI {
 
 			switch (runType) {
 				case INSTANT:
-					if(!sync)
+					if (!sync)
 						runnable.runTaskAsynchronously();
 					else
 						runnable.runTask();
@@ -273,7 +264,7 @@ public class EffectAPI {
 
 	/**
 	 * Stops an effect if one exists
-	 * 
+	 *
 	 * @param id ID of the effect
 	 */
 	public static void stop(String id, SkriptNode skriptNode) {
@@ -282,7 +273,7 @@ public class EffectAPI {
 			Bukkit.getScheduler().cancelTask(taskId);
 			ACTIVE_RUNNABLES.remove(id);
 		} else {
-		 	SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
+			SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
 		}
 	}
 
@@ -301,15 +292,11 @@ public class EffectAPI {
 
 	/**
 	 * Checks whether an effect is running or not
-	 * 
+	 *
 	 * @param id ID of the effect
-	 * @return
 	 */
 	public static boolean isRunning(String id) {
 		Integer taskId = ACTIVE_RUNNABLES.get(id);
-		if (taskId != null) {
-			return true; // Bukkit.getScheduler().isCurrentlyRunning(taskId); // for some reason this returns false on running effect?
-		}
-		return false;
+		return taskId != null; // Bukkit.getScheduler().isCurrentlyRunning(taskId); // for some reason this returns false on running effect?
 	}
 }

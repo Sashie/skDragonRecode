@@ -1,16 +1,11 @@
 package me.sashie.skdragon.util;
 
-import ch.njol.skript.lang.Expression;
+import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+
 import java.util.Arrays;
-
-import me.sashie.skdragon.effects.EffectProperty;
-import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-
-import javax.annotation.Nullable;
 
 public class EffectUtils {
 
@@ -27,22 +22,23 @@ public class EffectUtils {
 		return (EffectProperty[]) ArrayUtils.addAll(array1, array2);
 	}
 */
+
 	/**
 	 * Combines two EffectProperty arrays with a null check similar to Apaches ArrayUtils.addAll(array1, array2)
-	 * 
+	 *
 	 * @param array1
 	 * @param array2
 	 * @return
 	 */
 	public static EffectProperty[] combineArrays(EffectProperty[] array1, EffectProperty[] array2) {
 		if (array1 == null)
-            return array2.clone();
-        else if (array2 == null)
-            return array1.clone();
-	    final EffectProperty[] joinedArray = new EffectProperty[array1.length + array2.length];
-	    System.arraycopy(array1, 0, joinedArray, 0, array1.length);
-	    System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);
-	    return joinedArray;
+			return array2.clone();
+		else if (array2 == null)
+			return array1.clone();
+		final EffectProperty[] joinedArray = new EffectProperty[array1.length + array2.length];
+		System.arraycopy(array1, 0, joinedArray, 0, array1.length);
+		System.arraycopy(array2, 0, joinedArray, array1.length, array2.length);
+		return joinedArray;
 	}
 
 	//not of type Entity or Location and will be ignored
@@ -76,12 +72,6 @@ public class EffectUtils {
 	/**
 	 * A helper method to get a value from registered Skript types after checking for null inputs
 	 */
-	public static <T> T getSingleWithDefault(@Nullable Event event, @Nullable Expression<T> input, T defaultValue) {
-		if(input != null && input.getSingle(event) != null){
-			return input.getSingle(event);
-		} else return defaultValue;
-	}
-
 	public static <T> boolean arrayContains(T[] array, T element) {
 		return Arrays.asList(array).contains(element);
 	}

@@ -8,7 +8,6 @@ import me.sashie.skdragon.effects.special.*;
 import me.sashie.skdragon.effects.targets.Arc;
 import me.sashie.skdragon.effects.targets.Line;
 import me.sashie.skdragon.effects.targets.TargetLightning;
-import me.sashie.skdragon.util.Utils;
 
 public enum ParticleEffect {
 
@@ -61,7 +60,7 @@ public enum ParticleEffect {
 			return new Sphere();
 		}
 	},
-	
+
 	//Special
 	ATOM {
 		@Override
@@ -128,7 +127,7 @@ public enum ParticleEffect {
 	},
 
 	// Target Effects
-	 TARGET_ARC {
+	TARGET_ARC {
 		@Override
 		public EffectData getEffectData() {
 			return new Arc();
@@ -145,8 +144,7 @@ public enum ParticleEffect {
 		public EffectData getEffectData() {
 			return new TargetLightning();
 		}
-	}
-	;
+	};
 
 	public abstract EffectData getEffectData();
 

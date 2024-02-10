@@ -6,7 +6,6 @@ import me.sashie.skdragon.SkDragonRecode;
  * Created by Sashie on 12/12/2016.
  */
 
-@SuppressWarnings("serial")
 public class ParticleException extends RuntimeException {
 
 	public ParticleException(String error) {
@@ -23,7 +22,7 @@ public class ParticleException extends RuntimeException {
 	/*
 	@Override
 	public Throwable fillInStackTrace() {
-	    return null;
+		return null;
 	} 
 	*/
 }

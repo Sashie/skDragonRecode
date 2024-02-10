@@ -1,8 +1,7 @@
 package me.sashie.skdragon.particles.data;
 
-import org.bukkit.Color;
-
 import me.sashie.skdragon.util.DynamicList;
+import org.bukkit.Color;
 
 public class ColoredParticleData extends ParticleData {
 
@@ -13,15 +12,15 @@ public class ColoredParticleData extends ParticleData {
 	}
 
 	public void setColor(Color[] color) {
-		DynamicList<Color> colors = new DynamicList<Color>();
+		DynamicList<Color> colors = new DynamicList<>();
 		for (int i = 0; i < color.length - 1; i++) {
 			colors.add(color[i]);
 		}
-		this.colors = new DynamicList<Color>(color);
+		this.colors = new DynamicList<>(color);
 	}
 
 	public void setColor(int r, int g, int b) {
-		this.colors = new DynamicList<Color>(Color.fromRGB(r, g, b));
+		this.colors = new DynamicList<>(Color.fromRGB(r, g, b));
 	}
 
 	public void setColor(int index, Color color) {

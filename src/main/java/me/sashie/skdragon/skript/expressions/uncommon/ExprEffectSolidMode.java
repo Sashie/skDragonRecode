@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -26,15 +26,15 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.ISolid;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
  * Created by Sashie on 12/12/2016.
  */
-
 @Name("Particles - Effect solid mode")
 @Description({"Some effects particles can either appear solid or moves along its path, such as the circle or other simple effects."})
-@Examples({	"set solid mode of effect \"uniqueID\" to true"})
+@Examples({"set solid mode of effect \"uniqueID\" to true"})
 public class ExprEffectSolidMode extends CustomEffectPropertyExpression<Boolean> {
 
 	static {
@@ -58,9 +58,8 @@ public class ExprEffectSolidMode extends CustomEffectPropertyExpression<Boolean>
 	}
 
 	@Override
-	public Class<? extends Boolean> getReturnType() {
+	public @NotNull Class<? extends Boolean> getReturnType() {
 		return Boolean.class;
-
 	}
 
 	@Override

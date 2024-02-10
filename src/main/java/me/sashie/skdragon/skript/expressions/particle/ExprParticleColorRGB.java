@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -19,37 +19,37 @@
 
 package me.sashie.skdragon.skript.expressions.particle;
 
-import org.bukkit.Color;
-
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
+import org.bukkit.Color;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
  */
 @Name("Particles - Color RGB values")
 @Description({"Gets the current color of a particle, setting a color with this expression will make it a solid color"})
-@Examples({	"set the 1st particle red value of the particle effect \"uniqueID\" to 255"})
+@Examples({"set the 1st particle red value of the particle effect \"uniqueID\" to 255"})
 public class ExprParticleColorRGB extends CustomParticlePropertyExpression<Number> {
 
 	static {
 		register(ExprParticleColorRGB.class, Number.class, "(1¦r[ed]|2¦g[reen]|3¦b[lue]) value");
 	}
-	
+
 	@Override
 	public Number getParticle(ParticleBuilder<?> p) {
 		if (p instanceof ColoredParticle) {
 			switch (mark) {
-			case 1:
-				return ((ColoredParticle) p).getParticleData().colors.get().getRed();
-			case 2:
-				return ((ColoredParticle) p).getParticleData().colors.get().getGreen();
-			case 3:
-				return ((ColoredParticle) p).getParticleData().colors.get().getBlue();
+				case 1:
+					return ((ColoredParticle) p).getParticleData().colors.get().getRed();
+				case 2:
+					return ((ColoredParticle) p).getParticleData().colors.get().getGreen();
+				case 3:
+					return ((ColoredParticle) p).getParticleData().colors.get().getBlue();
 			}
 		}
 
@@ -81,20 +81,17 @@ public class ExprParticleColorRGB extends CustomParticlePropertyExpression<Numbe
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 
 	@Override
 	protected String getPropertyName() {
-		switch (mark) {
-			case 1:
-				return "red value";
-			case 2:
-				return "green value";
-			case 3:
-				return "blue value";
-		}
-		return "";
+		return switch (mark) {
+			case 1 -> "red value";
+			case 2 -> "green value";
+			case 3 -> "blue value";
+			default -> "";
+		};
 	}
 }

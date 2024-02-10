@@ -1,6 +1,6 @@
 /*
 	This file is part of skDragon - A Skript addon
-      
+	  
 	Copyright (C) 2016 - 2021  Sashie
 
 	This program is free software: you can redistribute it and/or modify
@@ -27,6 +27,7 @@ import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IStyle;
 import me.sashie.skdragon.effects.special.Wings;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created by Sashie on 12/12/2016.
@@ -34,7 +35,7 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 
 @Name("Particles - Effect style")
 @Description({"Get or set the style number of an effect returns 1 if that effect only has one style"})
-@Examples({	"set style of effect \"uniqueID\" to 2"})
+@Examples({"set style of effect \"uniqueID\" to 2"})
 public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 
 	static {
@@ -62,7 +63,7 @@ public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 	}
 
 	@Override
-	public Class<? extends Number> getReturnType() {
+	public @NotNull Class<? extends Number> getReturnType() {
 		return Number.class;
 	}
 
