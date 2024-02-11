@@ -20,10 +20,6 @@ import me.sashie.skdragon.effects.properties.SolidProperty;
 import me.sashie.skdragon.effects.properties.VelocityProperty;
 import me.sashie.skdragon.particles.ColoredParticle;
 
-/**
- * Created by Sashie on 5/14/2017.
- */
-
 public abstract class SimpleEffect extends EffectData implements IDensity, ISolid, IRotation, IVelocity, IAxis {
 
 	private DensityProperty densityProperty;

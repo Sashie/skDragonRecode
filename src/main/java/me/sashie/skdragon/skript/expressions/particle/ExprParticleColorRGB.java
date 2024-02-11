@@ -1,22 +1,3 @@
-/*
-	This file is part of skDragon - A Skript addon
-	  
-	Copyright (C) 2016 - 2021  Sashie
-
-	This program is free software: you can redistribute it and/or modify
-	it under the terms of the GNU General Public License as published by
-	the Free Software Foundation, either version 3 of the License, or
-	(at your option) any later version.
-
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
-
-	You should have received a copy of the GNU General Public License
-	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 package me.sashie.skdragon.skript.expressions.particle;
 
 import ch.njol.skript.doc.Description;
@@ -28,9 +9,7 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
+
 @Name("Particles - Color RGB values")
 @Description({"Gets the current color of a particle, setting a color with this expression will make it a solid color"})
 @Examples({"set the 1st particle red value of the particle effect \"uniqueID\" to 255"})

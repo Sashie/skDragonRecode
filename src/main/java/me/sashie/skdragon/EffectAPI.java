@@ -16,11 +16,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
-
 public class EffectAPI {
 
 	/**

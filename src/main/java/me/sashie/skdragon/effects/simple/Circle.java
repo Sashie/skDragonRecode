@@ -3,9 +3,7 @@ package me.sashie.skdragon.effects.simple;
 import me.sashie.skdragon.effects.SimpleRadiusEffect;
 import me.sashie.skdragon.util.MathUtils;
 
-/**
- * Created by Sashie on 8/9/2021.
- */
+
 public class Circle extends SimpleRadiusEffect {
 
 	public Circle() {

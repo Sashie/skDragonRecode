@@ -7,10 +7,6 @@ import me.sashie.skdragon.effects.properties.RadiusProperty;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
-/**
- * Created by Sashie on 8/9/2021.
- */
-
 public abstract class SimpleRadiusEffect extends SimpleEffect implements IRadius {
 
 	private RadiusProperty radiusProperty;

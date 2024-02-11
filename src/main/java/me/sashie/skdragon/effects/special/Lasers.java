@@ -20,10 +20,6 @@ import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.util.color.ColorUtils;
 
-/**
- * Created by Sashie on 10/28/2017.
- */
-
 public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 
 	private ExtraProperty extraProperty;

@@ -9,10 +9,6 @@ import me.sashie.skdragon.effects.properties.RadiusProperty;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
-/**
- * Created by Sashie on 9/30/2017.
- */
-
 public abstract class ScanEffect extends EffectData implements IRadius, IDensity, IExtra {
 
 	private RadiusProperty radiusProperty;

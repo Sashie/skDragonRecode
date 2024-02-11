@@ -14,10 +14,6 @@ import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
-/**
- * Created by Sashie on 12/12/2021.
- */
-
 public class Lightning extends SpecialRadiusDensityEffect implements IAxis {
 
 	AxisProperty axisProperty;

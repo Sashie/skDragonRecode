@@ -16,10 +16,6 @@ import me.sashie.skdragon.util.VectorUtils;
 
 
 
-/**
- * Created by Sashie on 3/16/2018.
- */
-
 public class Wings extends WingsEffect implements IStyle {
 
 	private static double DEFAULT_ANGLE = 110.0f;

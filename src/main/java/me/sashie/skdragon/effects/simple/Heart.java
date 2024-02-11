@@ -2,9 +2,7 @@ package me.sashie.skdragon.effects.simple;
 
 import me.sashie.skdragon.effects.SimpleRadiusValueEffect;
 
-/**
- * Created by Sashie on 8/9/2021.
- */
+
 public class Heart extends SimpleRadiusValueEffect {
 
 	public Heart() {

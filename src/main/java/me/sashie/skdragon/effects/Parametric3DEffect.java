@@ -6,10 +6,6 @@ import org.bukkit.entity.Player;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.Utils;
 
-/**
- * Created by Sashie on 8/11/2017.
- */
-
 public abstract class Parametric3DEffect extends SimpleValueEffect {
 
 	public Parametric3DEffect() {

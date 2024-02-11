@@ -3,11 +3,9 @@ package me.sashie.skdragon.effects.simple.parametric;
 import me.sashie.skdragon.effects.Parametric3DEffect;
 
 /**
- * Created by Sashie on 8/28/2017.
- * 
- * 		x = a * cos(t)
- * 		z = a * sin(t)
- * 		y = b * cos(u)
+ * x = a * cos(t)
+ * z = a * sin(t)
+ * y = b * cos(u)
  */
 public class Lissajous3D extends Parametric3DEffect {
 

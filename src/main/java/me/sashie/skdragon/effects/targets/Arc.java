@@ -16,10 +16,6 @@ import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
 
-/**
- * Created by Sashie on 12/12/2016.
- */
-
 public class Arc extends TargetEffect implements IDensity, IExtra {
 
 	private DensityProperty densityProperty;
