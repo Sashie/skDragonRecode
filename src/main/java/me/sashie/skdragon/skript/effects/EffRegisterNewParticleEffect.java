@@ -1,5 +1,3 @@
-
-
 package me.sashie.skdragon.skript.effects;
 
 import ch.njol.skript.Skript;

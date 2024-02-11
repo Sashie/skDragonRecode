@@ -1,5 +1,3 @@
-
-
 package me.sashie.skdragon.skript.expressions.uncommon;
 
 import ch.njol.skript.doc.Description;

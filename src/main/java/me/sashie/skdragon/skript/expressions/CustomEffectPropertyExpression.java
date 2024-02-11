@@ -1,5 +1,3 @@
-
-
 package me.sashie.skdragon.skript.expressions;
 
 import ch.njol.skript.Skript;

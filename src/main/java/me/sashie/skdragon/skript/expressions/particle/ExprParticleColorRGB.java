@@ -1,5 +1,3 @@
-
-
 package me.sashie.skdragon.skript.expressions.particle;
 
 import ch.njol.skript.doc.Description;

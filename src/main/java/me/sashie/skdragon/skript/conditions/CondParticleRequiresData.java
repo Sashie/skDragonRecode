@@ -1,5 +1,3 @@
-
-
 package me.sashie.skdragon.skript.conditions;
 
 import ch.njol.skript.Skript;
