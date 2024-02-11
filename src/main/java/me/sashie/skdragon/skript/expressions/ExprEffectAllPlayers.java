@@ -30,9 +30,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Edited by Sashie on 6/20/2017
- */
+	
 
 @Name("Particles - Clientside/visible players of effect")
 @Description({

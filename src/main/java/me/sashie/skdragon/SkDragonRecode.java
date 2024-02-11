@@ -1,7 +1,7 @@
 /*
 	This file is part of skDragon - A Skript addon
 
-	Copyright (C) 2016 - 2021  Sashie
+	Copyright (C) 2016 - 2024  Sashie
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@ public final class SkDragonRecode extends JavaPlugin {
 
 
 	public SkDragonRecode() {
+
 		if (instance == null) {
 			instance = this;
 		} else {

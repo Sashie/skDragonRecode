@@ -18,9 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-/**
- * Edited by Sashie on 1/20/2017
- */
+	
 @Name("All particle effect type names")
 @Description({"Gets a list of all particle effect type names used in skDragon ie. circle, dot, sphere"})
 @Examples({"all particle effect names"})
