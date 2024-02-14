@@ -6,17 +6,16 @@ import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.util.coll.CollectionUtils;
-import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.Utils;
+import me.sashie.skdragon.api.EffectAPI;
+import me.sashie.skdragon.api.effects.EffectData;
+import me.sashie.skdragon.api.util.DynamicLocation;
+import me.sashie.skdragon.api.util.Utils;
 import org.bukkit.event.Event;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-
 
 
 @Name("Particles - Vector location")

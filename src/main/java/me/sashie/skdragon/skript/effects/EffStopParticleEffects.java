@@ -9,9 +9,9 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.EffectAPI;
-import me.sashie.skdragon.debug.SkriptNode;
-import me.sashie.skdragon.util.Utils;
+import me.sashie.skdragon.api.EffectAPI;
+import me.sashie.skdragon.api.debug.SkriptNode;
+import me.sashie.skdragon.api.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

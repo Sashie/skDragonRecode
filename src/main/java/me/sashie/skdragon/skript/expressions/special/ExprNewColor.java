@@ -12,8 +12,8 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.util.Color;
 import ch.njol.skript.util.ColorRGB;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.util.Utils;
-import me.sashie.skdragon.util.color.ColorUtils;
+import me.sashie.skdragon.api.util.Utils;
+import me.sashie.skdragon.api.util.color.ColorUtils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

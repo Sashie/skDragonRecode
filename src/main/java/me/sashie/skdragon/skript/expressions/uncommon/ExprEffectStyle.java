@@ -3,13 +3,12 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.properties.IStyle;
-import me.sashie.skdragon.effects.special.Wings;
+import me.sashie.skdragon.api.effects.EffectData;
+import me.sashie.skdragon.api.effects.EffectProperty;
+import me.sashie.skdragon.api.effects.properties.IStyle;
+import me.sashie.skdragon.api.effects.special.Wings;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
-
 
 
 @Name("Particles - Effect style")

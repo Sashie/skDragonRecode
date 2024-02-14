@@ -9,7 +9,7 @@ import ch.njol.skript.log.*;
 import ch.njol.util.Kleenean;
 import ch.njol.util.StringUtils;
 import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.util.ReflectionUtils;
+import me.sashie.skdragon.api.util.ReflectionUtils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

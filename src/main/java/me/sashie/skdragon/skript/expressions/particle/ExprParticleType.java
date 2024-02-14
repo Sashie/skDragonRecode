@@ -3,10 +3,10 @@ package me.sashie.skdragon.skript.expressions.particle;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.api.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import me.sashie.skdragon.skript.sections.ParticleSection;
-import me.sashie.skdragon.util.ParticleUtils;
+import me.sashie.skdragon.api.util.ParticleUtils;
 import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;
 

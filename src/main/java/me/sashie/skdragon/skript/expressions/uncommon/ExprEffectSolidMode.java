@@ -3,12 +3,11 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.properties.ISolid;
+import me.sashie.skdragon.api.effects.EffectData;
+import me.sashie.skdragon.api.effects.EffectProperty;
+import me.sashie.skdragon.api.effects.properties.ISolid;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
-
 
 
 @Name("Particles - Effect solid mode")

@@ -14,24 +14,23 @@ import ch.njol.skript.util.Color;
 import ch.njol.skript.util.ColorRGB;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.debug.ParticleException;
-import me.sashie.skdragon.debug.SkriptNode;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.particles.ColoredParticle;
-import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.api.EffectAPI;
+import me.sashie.skdragon.api.debug.ParticleException;
+import me.sashie.skdragon.api.debug.SkriptNode;
+import me.sashie.skdragon.api.effects.EffectData;
+import me.sashie.skdragon.api.particles.ColoredParticle;
+import me.sashie.skdragon.api.particles.ParticleBuilder;
+import me.sashie.skdragon.api.util.Utils;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 import me.sashie.skdragon.skript.sections.ParticleSection;
-import me.sashie.skdragon.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 @Name("Particles - Colors")
