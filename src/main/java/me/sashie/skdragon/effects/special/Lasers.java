@@ -1,135 +1,137 @@
 package me.sashie.skdragon.effects.special;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import ch.njol.skript.util.Color;
 import ch.njol.skript.util.ColorRGB;
-import me.sashie.skdragon.effects.targets.Line;
-import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.util.*;
-import org.bukkit.Particle;
-import org.bukkit.util.Vector;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
 import me.sashie.skdragon.effects.properties.ExtraProperty;
 import me.sashie.skdragon.effects.properties.IExtra;
+import me.sashie.skdragon.effects.targets.Line;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
+import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.DynamicLocation;
+import me.sashie.skdragon.util.EffectUtils;
+import me.sashie.skdragon.util.MathUtils;
+import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.color.ColorUtils;
+import org.bukkit.Particle;
+import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 
-	private ExtraProperty extraProperty;
-	
-	private List<Animation> lines = new ArrayList<Animation>();
+    private ExtraProperty extraProperty;
 
-	public Lasers() {
-		extraProperty = new ExtraProperty();
-		this.getRadiusProperty().initRadius(3.0f, 0);
-		this.getExtraProperty().initValue(3.0f);
-		this.getDensityProperty().initDensity(20, 15);
-	}
+    private List<Animation> lines = new ArrayList<Animation>();
 
-	@Override
-	public void update(DynamicLocation location, float step) {
-		if (step % 20 == 0) {
-			new Animation(location);
-		}
+    public Lasers() {
+        extraProperty = new ExtraProperty();
+        this.getRadiusProperty().initRadius(3.0f, 0);
+        this.getExtraProperty().initValue(3.0f);
+        this.getDensityProperty().initDensity(20, 15);
+    }
 
-		Iterator<Animation> iterator = null;
-		for (iterator = lines.iterator(); iterator.hasNext();) {
-			Animation line = iterator.next();
+    @Override
+    public void update(DynamicLocation location, float step) {
+        if (step % 20 == 0) {
+            new Animation(location);
+        }
 
-			if (line.start.distance(line.end) >= 0.2) {
-				line.update();
-			} else {
-				line.stop();
-				iterator.remove();
-				return;
-			}
-		}
-	}
+        Iterator<Animation> iterator = null;
+        for (iterator = lines.iterator(); iterator.hasNext(); ) {
+            Animation line = iterator.next();
 
-	private class Animation {
-		DynamicLocation location, start, end;
-		Vector v;
-		double r;
+            if (line.start.distance(line.end) >= 0.2) {
+                line.update();
+            } else {
+                line.stop();
+                iterator.remove();
+                return;
+            }
+        }
+    }
 
-		public Animation(final DynamicLocation loc) {
-			this.location = loc.clone();
-			r = getRadiusProperty().getRadius(1);
-			end = location.clone();
-			end.add(RandomUtils.randomRangeDouble(-r, r), 0.2,
-					RandomUtils.randomRangeDouble(-r, r));
-			
-			start = location.clone();
-			start.add(RandomUtils.randomRangeDouble(-r, r), 0.2,
-					RandomUtils.randomRangeDouble(-r, r));
-			
-			if (getRadiusProperty().getRadius(2) == 0) {
-				location.add(0, getExtraProperty().getValue(1), 0);
-			} else {
-				location.add(RandomUtils.randomRangeFloat(-getRadiusProperty().getRadius(2), getRadiusProperty().getRadius(2)), getExtraProperty().getValue(1),
-						RandomUtils.randomRangeFloat(-getRadiusProperty().getRadius(2), getRadiusProperty().getRadius(2)));
-			}
-			
-			(v = end.toVector().subtract(start.toVector()).normalize()).multiply(0.1);
-			
-			lines.add(this);
-		}
+    private class Animation {
+        DynamicLocation location, start, end;
+        Vector v;
+        double r;
 
-		public void update() {
-			if (start == null) {
-				return;
-			}	
-			start.add(v);
+        public Animation(final DynamicLocation loc) {
+            this.location = loc.clone();
+            r = getRadiusProperty().getRadius(1);
+            end = location.clone();
+            end.add(RandomUtils.randomRangeDouble(-r, r), 0.2,
+                    RandomUtils.randomRangeDouble(-r, r));
 
-			Line.drawLine(getParticleBuilder(1), getPlayers(), start, location, getDensityProperty().getDensity(1));
+            start = location.clone();
+            start.add(RandomUtils.randomRangeDouble(-r, r), 0.2,
+                    RandomUtils.randomRangeDouble(-r, r));
 
-			if (getParticleBuilder(2) instanceof DirectionParticle) {
-				((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = v.clone().multiply(1);
-			}
-			getParticleBuilder(2).sendParticles(start, getPlayers());
-			
-			if (getParticleBuilder(3) instanceof DirectionParticle) {
-				((DirectionParticle) getParticleBuilder(3)).getParticleData().direction = v.clone().multiply(-0.5).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f)));
-			}
-			getParticleBuilder(3).sendParticles(start, getPlayers());
+            if (getRadiusProperty().getRadius(2) == 0) {
+                location.add(0, getExtraProperty().getValue(1), 0);
+            } else {
+                location.add(RandomUtils.randomRangeFloat(-getRadiusProperty().getRadius(2), getRadiusProperty().getRadius(2)), getExtraProperty().getValue(1),
+                        RandomUtils.randomRangeFloat(-getRadiusProperty().getRadius(2), getRadiusProperty().getRadius(2)));
+            }
 
-		}
+            (v = end.toVector().subtract(start.toVector()).normalize()).multiply(0.1);
 
-		public void stop() {
-			for (double angle = 0.0; angle <= MathUtils.PI2; angle += (MathUtils.PI / getDensityProperty().getDensity(2))) {
-				if (getParticleBuilder(2) instanceof DirectionParticle) {
-					((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = new Vector(Math.cos(angle), 0.0, Math.sin(angle));
-				}
-				getParticleBuilder(2).sendParticles(start, getPlayers());
-			}
-		}
-	}
+            lines.add(this);
+        }
 
-	@Override
-	public void onUnregister() {/** ignore */}
+        public void update() {
+            if (start == null) {
+                return;
+            }
+            start.add(v);
 
-	@Override
-	public EffectProperty[] acceptProperties() {
-		return EffectUtils.array(EffectProperty.EXTRA);
-	}
+            Line.drawLine(getParticleBuilder(1), getPlayers(), start, location, getDensityProperty().getDensity(1));
 
-	@Override
-	public ParticleBuilder<?>[] defaultParticles() {
-		ColoredParticle p1 = new ColoredParticle(Particle.REDSTONE);
-		p1.getParticleData().colors = ColorUtils.generateMultiGradient2(new ColorRGB[]{ new ColorRGB(232, 54, 23),  new ColorRGB(234, 120, 14), new ColorRGB(232, 54, 23) }, 50);
-		DirectionParticle p2 = new DirectionParticle(Particle.SMOKE_LARGE);
-		p2.getParticleData().speed = 0.08f;
-		return new ParticleBuilder<?>[] { p1, p2, new DirectionParticle(Particle.FLAME) };
-	}
+            if (getParticleBuilder(2) instanceof DirectionParticle) {
+                ((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = v.clone().multiply(1);
+            }
+            getParticleBuilder(2).sendParticles(start, getPlayers());
 
-	@Override
-	public ExtraProperty getExtraProperty() {
-		return extraProperty;
-	}
+            if (getParticleBuilder(3) instanceof DirectionParticle) {
+                ((DirectionParticle) getParticleBuilder(3)).getParticleData().direction = v.clone().multiply(-0.5).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f)));
+            }
+            getParticleBuilder(3).sendParticles(start, getPlayers());
+
+        }
+
+        public void stop() {
+            for (double angle = 0.0; angle <= MathUtils.PI2; angle += (MathUtils.PI / getDensityProperty().getDensity(2))) {
+                if (getParticleBuilder(2) instanceof DirectionParticle) {
+                    ((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = new Vector(Math.cos(angle), 0.0, Math.sin(angle));
+                }
+                getParticleBuilder(2).sendParticles(start, getPlayers());
+            }
+        }
+    }
+
+    @Override
+    public void onUnregister() {
+    }
+
+    @Override
+    public EffectProperty[] acceptProperties() {
+        return EffectUtils.array(EffectProperty.EXTRA);
+    }
+
+    @Override
+    public ParticleBuilder<?>[] defaultParticles() {
+        ColoredParticle p1 = new ColoredParticle(Particle.REDSTONE);
+        p1.getParticleData().colors = ColorUtils.generateMultiGradient2(new ColorRGB[]{new ColorRGB(232, 54, 23), new ColorRGB(234, 120, 14), new ColorRGB(232, 54, 23)}, 50);
+        DirectionParticle p2 = new DirectionParticle(Particle.SMOKE_LARGE);
+        p2.getParticleData().speed = 0.08f;
+        return new ParticleBuilder<?>[]{p1, p2, new DirectionParticle(Particle.FLAME)};
+    }
+
+    @Override
+    public ExtraProperty getExtraProperty() {
+        return extraProperty;
+    }
 }

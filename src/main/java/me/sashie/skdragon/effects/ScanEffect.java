@@ -1,148 +1,146 @@
 package me.sashie.skdragon.effects;
 
-import me.sashie.skdragon.effects.properties.DensityProperty;
-import me.sashie.skdragon.effects.properties.ExtraProperty;
-import me.sashie.skdragon.effects.properties.IDensity;
-import me.sashie.skdragon.effects.properties.IExtra;
-import me.sashie.skdragon.effects.properties.IRadius;
-import me.sashie.skdragon.effects.properties.RadiusProperty;
+import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
 public abstract class ScanEffect extends EffectData implements IRadius, IDensity, IExtra {
 
-	private RadiusProperty radiusProperty;
-	private DensityProperty densityProperty;
-	private ExtraProperty extraProperty;
+    private final RadiusProperty radiusProperty;
+    private final DensityProperty densityProperty;
+    private final ExtraProperty extraProperty;
 
-	private boolean init;
-	boolean scan = false;
+    private boolean init;
+    boolean scan = false;
 
-	public ScanEffect() {
-		radiusProperty = new RadiusProperty();
-		densityProperty = new DensityProperty();
-		extraProperty = new ExtraProperty();
+    public ScanEffect() {
+        radiusProperty = new RadiusProperty();
+        densityProperty = new DensityProperty();
+        extraProperty = new ExtraProperty();
 
-		init = false;
-	}
+        init = false;
+    }
 
-	public void init(DynamicLocation location) {};
+    public void init(DynamicLocation location) {
+    }
 
-	public abstract void update(DynamicLocation location, float step);
+    ;
 
-	@Override
-	public void update(float step) {
+    public abstract void update(DynamicLocation location, float step);
 
-		for (int i = 0; i < this.getLocations().length; i++) {
-			if (!init) {
-				if (!this.getLocations()[i].isDynamic())
-					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-				init(this.getLocations()[i]);
-				if (i == this.getLocations().length) {
-					init = true;
-				}
-			} else {
-				this.getLocations()[i].update();
-				if (this.getLocations()[i].isDynamic())
-					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-				update(this.getLocations()[i], step);
-			}
-		}
-	}
+    @Override
+    public void update(float step) {
 
-	public void setScan(boolean scan) {
-		this.scan = scan;
-	}
+        for (int i = 0; i < this.getLocations().length; i++) {
+            if (!init) {
+                if (!this.getLocations()[i].isDynamic())
+                    this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
+                init(this.getLocations()[i]);
+                if (i == this.getLocations().length) {
+                    init = true;
+                }
+            } else {
+                this.getLocations()[i].update();
+                if (this.getLocations()[i].isDynamic())
+                    this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
+                update(this.getLocations()[i], step);
+            }
+        }
+    }
 
-	public boolean getScan() {
-		return scan;
-	}
+    public void setScan(boolean scan) {
+        this.scan = scan;
+    }
 
-	protected float heightCounter;
-	protected float heightCounterRev = this.getExtraProperty().getValue(1);
-	protected float stepHeight = (this.getExtraProperty().getValue(1) / this.getDensityProperty().getDensity(1));
-	float stepHeightDown = (this.getExtraProperty().getValue(1) / this.getDensityProperty().getDensity(1));
+    public boolean getScan() {
+        return scan;
+    }
 
-	public void heightScan() {
-		scan(heightCounter, stepHeight, this.getExtraProperty().getValue(1), false);
-	}
+    protected float heightCounter;
+    protected float heightCounterRev = this.getExtraProperty().getValue(1);
+    protected float stepHeight = (this.getExtraProperty().getValue(1) / this.getDensityProperty().getDensity(1));
+    float stepHeightDown = (this.getExtraProperty().getValue(1) / this.getDensityProperty().getDensity(1));
 
-	public void heightScanRev() {
-		scan(heightCounterRev, stepHeightDown, this.getExtraProperty().getValue(1), true);
-	}
+    public void heightScan() {
+        scan(heightCounter, stepHeight, this.getExtraProperty().getValue(1), false);
+    }
 
-	protected float midPoint = this.getExtraProperty().getValue(1) / 2;
-	protected float middleCounterUp = midPoint;
-	protected float middleCounterDown = midPoint;
-	float stepHalfUp = (midPoint / this.getDensityProperty().getDensity(1));
-	float stepHalfDown = (midPoint / this.getDensityProperty().getDensity(1));
+    public void heightScanRev() {
+        scan(heightCounterRev, stepHeightDown, this.getExtraProperty().getValue(1), true);
+    }
 
-	public void middleScanUp() {
-		if (scan) {
-			if (middleCounterUp > this.getExtraProperty().getValue(1))
-				stepHalfUp = -stepHalfUp;
-			else if (middleCounterUp < midPoint)
-				stepHalfUp = -stepHalfUp;
-		} else {
-			if (middleCounterUp > this.getExtraProperty().getValue(1))
-				middleCounterUp = midPoint;
-			if (middleCounterUp < midPoint)
-				middleCounterUp = this.getExtraProperty().getValue(1);
-		}
-		middleCounterUp += stepHalfUp;
-	}
+    protected float midPoint = this.getExtraProperty().getValue(1) / 2;
+    protected float middleCounterUp = midPoint;
+    protected float middleCounterDown = midPoint;
+    float stepHalfUp = (midPoint / this.getDensityProperty().getDensity(1));
+    float stepHalfDown = (midPoint / this.getDensityProperty().getDensity(1));
 
-	public void middleScanDown() {
-		scan(middleCounterDown, stepHalfDown, midPoint, true);
-	}
+    public void middleScanUp() {
+        if (scan) {
+            if (middleCounterUp > this.getExtraProperty().getValue(1))
+                stepHalfUp = -stepHalfUp;
+            else if (middleCounterUp < midPoint)
+                stepHalfUp = -stepHalfUp;
+        } else {
+            if (middleCounterUp > this.getExtraProperty().getValue(1))
+                middleCounterUp = midPoint;
+            if (middleCounterUp < midPoint)
+                middleCounterUp = this.getExtraProperty().getValue(1);
+        }
+        middleCounterUp += stepHalfUp;
+    }
 
-	protected float radiusCounter;
-	protected float radiusCounterRev = this.getRadiusProperty().getRadius(1);
-	float stepRadius = (this.getRadiusProperty().getRadius(1) / this.getDensityProperty().getDensity(1));
-	float stepRadiusRev = (this.getRadiusProperty().getRadius(1) / this.getDensityProperty().getDensity(1));
+    public void middleScanDown() {
+        scan(middleCounterDown, stepHalfDown, midPoint, true);
+    }
 
-	public void radiusScan() {
-		scan(radiusCounter, stepRadius, this.getRadiusProperty().getRadius(1), false);
-	}
+    protected float radiusCounter;
+    protected float radiusCounterRev = this.getRadiusProperty().getRadius(1);
+    float stepRadius = (this.getRadiusProperty().getRadius(1) / this.getDensityProperty().getDensity(1));
+    float stepRadiusRev = (this.getRadiusProperty().getRadius(1) / this.getDensityProperty().getDensity(1));
 
-	public void radiusScanRev() {
+    public void radiusScan() {
+        scan(radiusCounter, stepRadius, this.getRadiusProperty().getRadius(1), false);
+    }
 
-		scan(radiusCounterRev, stepRadiusRev, this.getRadiusProperty().getRadius(1), true);
-	}
-	
-	public void scan(float counter, float step, float radius, boolean reverse) {
-		if (scan) {
-			if (counter > radius || counter < 0)
-				step = -step;
-		} else {
-			if (counter > radius)
-				counter = 0;
-			else if (counter < 0)
-				counter = radius;
-		}
-		if (reverse)
-			counter -= step;
-		else
-			counter += step;
-	}
+    public void radiusScanRev() {
 
-	@Override
-	public EffectProperty[] acceptDefaultProperties() {
-		return EffectUtils.array(EffectProperty.RADIUS, EffectProperty.DENSITY, EffectProperty.EXTRA, EffectProperty.DISPLACEMENT);
-	}
+        scan(radiusCounterRev, stepRadiusRev, this.getRadiusProperty().getRadius(1), true);
+    }
 
-	@Override
-	public RadiusProperty getRadiusProperty() {
-		return radiusProperty;
-	}
+    public void scan(float counter, float step, float radius, boolean reverse) {
+        if (scan) {
+            if (counter > radius || counter < 0)
+                step = -step;
+        } else {
+            if (counter > radius)
+                counter = 0;
+            else if (counter < 0)
+                counter = radius;
+        }
+        if (reverse)
+            counter -= step;
+        else
+            counter += step;
+    }
 
-	@Override
-	public DensityProperty getDensityProperty() {
-		return densityProperty;
-	}
+    @Override
+    public EffectProperty[] acceptDefaultProperties() {
+        return EffectUtils.array(EffectProperty.RADIUS, EffectProperty.DENSITY, EffectProperty.EXTRA, EffectProperty.DISPLACEMENT);
+    }
 
-	@Override
-	public ExtraProperty getExtraProperty() {
-		return extraProperty;
-	}
+    @Override
+    public RadiusProperty getRadiusProperty() {
+        return radiusProperty;
+    }
+
+    @Override
+    public DensityProperty getDensityProperty() {
+        return densityProperty;
+    }
+
+    @Override
+    public ExtraProperty getExtraProperty() {
+        return extraProperty;
+    }
 }
