@@ -6,7 +6,6 @@ import me.sashie.skdragon.effects.Parametric2DEffect;
  * x = (a + b) * cos(t) - b * cos((a / b + 1) * t)
  * z = (a + b) * sin(t) - b * sin((a / b + 1) * t)
  */
-
 public class Epicycloid2D extends Parametric2DEffect {
 
 	public Epicycloid2D() {

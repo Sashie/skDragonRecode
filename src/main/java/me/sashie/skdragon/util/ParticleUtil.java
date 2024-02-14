@@ -1,9 +1,7 @@
 package me.sashie.skdragon.util;
 
 import ch.njol.skript.Skript;
-import ch.njol.skript.aliases.ItemType;
 import ch.njol.util.StringUtils;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.Particle.DustTransition;
@@ -14,11 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /*
  * Thanks to ShaneBee at SkBee for the original code.
@@ -28,9 +22,11 @@ public class ParticleUtil {
 	private static final Map<String, Particle> PARTICLES = new HashMap<>();
 	private static final Map<Particle, String> PARTICLE_NAMES = new HashMap<>();
 
-	// Load and map Minecraft particle names
-	// Bukkit does not have any API for getting the Minecraft names of particles (how stupid)
-	// This method fetches them from the server and maps them with the Bukkit particle enums
+	/*
+	 * Load and map Minecraft particle names
+	 * Bukkit does not have any API for getting the Minecraft names of particles (how stupid)
+	 * This method fetches them from the server and maps them with the Bukkit particle enums
+	 */
 	static {
 		// Added in Spigot 1.20.2 (Oct 20/2023)
 		if (Skript.methodExists(Particle.class, "getKey")) {
@@ -141,36 +137,6 @@ public class ParticleUtil {
 		}
 		// For future particle data additions that haven't been added here yet
 		return "UNKNOWN";
-	}
-
-	@Nullable
-	public static Object getData(Particle particle, Object data) {
-		Class<?> dataType = particle.getDataType();
-		if (dataType == Void.class) {
-			return null;
-		} else if (dataType == Float.class && data instanceof Number) {
-			return ((Number) data).floatValue();
-		} else if (dataType == Integer.class && data instanceof Number) {
-			return ((Number) data).intValue();
-		} else if (dataType == ItemStack.class && data instanceof ItemType) {
-			return ((ItemType) data).getRandom();
-		} else if (dataType == DustOptions.class && data instanceof DustOptions) {
-			return data;
-		} else if (dataType == DustTransition.class && data instanceof DustTransition) {
-			return data;
-		} else if (dataType == Vibration.class && data instanceof Vibration) {
-			return data;
-		} else if (dataType == BlockData.class) {
-			if (data instanceof BlockData) {
-				return data;
-			} else if (data instanceof ItemType) {
-				Material material = ((ItemType) data).getMaterial();
-				if (material.isBlock()) {
-					return material.createBlockData();
-				}
-			}
-		}
-		return null;
 	}
 
 }

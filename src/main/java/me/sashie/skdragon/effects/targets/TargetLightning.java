@@ -1,31 +1,23 @@
 package me.sashie.skdragon.effects.targets;
 
+import me.sashie.skdragon.effects.EffectProperty;
+import me.sashie.skdragon.effects.TargetEffect;
+import me.sashie.skdragon.effects.properties.*;
+import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.DynamicLocation;
+import me.sashie.skdragon.util.EffectUtils;
+import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
-import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.TargetEffect;
-import me.sashie.skdragon.effects.properties.DensityProperty;
-import me.sashie.skdragon.effects.properties.ExtraProperty;
-import me.sashie.skdragon.effects.properties.IDensity;
-import me.sashie.skdragon.effects.properties.IExtra;
-import me.sashie.skdragon.effects.properties.IRadius;
-import me.sashie.skdragon.effects.properties.IStyle;
-import me.sashie.skdragon.effects.properties.RadiusProperty;
-import me.sashie.skdragon.effects.properties.StyleProperty;
-import me.sashie.skdragon.particles.ColoredParticle;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.EffectUtils;
-import me.sashie.skdragon.util.RandomUtils;
-
 public class TargetLightning extends TargetEffect implements IRadius, IDensity, IStyle, IExtra {
-	
-	private RadiusProperty radiusProperty;
-	private StyleProperty styleProperty;
-	private ExtraProperty extraProperty;
-	private DensityProperty densityProperty;
+
+	private final RadiusProperty radiusProperty;
+	private final StyleProperty styleProperty;
+	private final ExtraProperty extraProperty;
+	private final DensityProperty densityProperty;
 	private DynamicLocation loc;
 
 	public TargetLightning() {
@@ -33,7 +25,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 		radiusProperty = new RadiusProperty();
 		styleProperty = new StyleProperty();
 		extraProperty = new ExtraProperty();
-		
+
 		this.getExtraProperty().initValue(0.5f);
 		this.getRadiusProperty().initRadius(0.5f);
 		this.getDensityProperty().initDensity(40);
@@ -43,7 +35,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 	public void update(DynamicLocation location, DynamicLocation target, float step) {
 		electricity(location, target, this.getRadiusProperty().getRadius(1), this.getDensityProperty().getDensity(1));
 	}
-	
+
 	public void electricity(DynamicLocation startLoc, DynamicLocation endLoc, float maxOffset, int density) {
 		double currentX = startLoc.getX();
 		double currentY = startLoc.getY();
@@ -51,7 +43,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 		double lastX = startLoc.getX();
 		double lastY = startLoc.getY();
 		double lastZ = startLoc.getZ();
-		
+
 		//int segments = (int) (startLoc.distance(endLoc) / distanceBetweenPoints) + 1;
 		//int segments = (int) (startLoc.distanceSquared(endLoc) / distanceBetweenPoints) + 1;
 		double distance = startLoc.distanceSquared(endLoc);
@@ -68,27 +60,27 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 		int dps = density / segments;
 		if (dps <= 1)
 			dps = 1;
-		
+
 		for (int i = 0; i < segments; i++) {
 			currentX = ((endLoc.getX() - startLoc.getX()) / segments) * i + startLoc.getX();
 			currentY = ((endLoc.getY() - startLoc.getY()) / segments) * i + startLoc.getY();
 			currentZ = ((endLoc.getZ() - startLoc.getZ()) / segments) * i + startLoc.getZ();
-			
+
 			// offsetting
 			currentX += maxOffset * RandomUtils.random(1f) * RandomUtils.randomSign();
 			currentY += maxOffset * RandomUtils.random(1f) * RandomUtils.randomSign();
 			currentZ += maxOffset * RandomUtils.random(1f) * RandomUtils.randomSign();
-			
+
 			Vector start = new Vector(lastX, lastY, lastZ);
 			Vector end = new Vector(currentX, currentY, currentZ);
-			
+
 			line(start, end, dps);
-			
+
 			lastX = currentX;
 			lastY = currentY;
 			lastZ = currentZ;
 		}
-		
+
 		line(new Vector(currentX, currentY, currentZ), new Vector(endLoc.getX(), endLoc.getY(), endLoc.getZ()), dps);
 	}
 
@@ -119,7 +111,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE)};
 	}
 
 	@Override

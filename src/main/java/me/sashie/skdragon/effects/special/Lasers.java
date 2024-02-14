@@ -1,29 +1,30 @@
 package me.sashie.skdragon.effects.special;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import ch.njol.skript.util.Color;
 import ch.njol.skript.util.ColorRGB;
-import me.sashie.skdragon.effects.targets.Line;
-import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.util.*;
-import org.bukkit.Particle;
-import org.bukkit.util.Vector;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
 import me.sashie.skdragon.effects.properties.ExtraProperty;
 import me.sashie.skdragon.effects.properties.IExtra;
+import me.sashie.skdragon.effects.targets.Line;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
+import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.DynamicLocation;
+import me.sashie.skdragon.util.EffectUtils;
+import me.sashie.skdragon.util.MathUtils;
+import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.color.ColorUtils;
+import org.bukkit.Particle;
+import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 
 	private ExtraProperty extraProperty;
-	
+
 	private List<Animation> lines = new ArrayList<Animation>();
 
 	public Lasers() {
@@ -40,7 +41,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 		}
 
 		Iterator<Animation> iterator = null;
-		for (iterator = lines.iterator(); iterator.hasNext();) {
+		for (iterator = lines.iterator(); iterator.hasNext(); ) {
 			Animation line = iterator.next();
 
 			if (line.start.distance(line.end) >= 0.2) {
@@ -64,27 +65,27 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 			end = location.clone();
 			end.add(RandomUtils.randomRangeDouble(-r, r), 0.2,
 					RandomUtils.randomRangeDouble(-r, r));
-			
+
 			start = location.clone();
 			start.add(RandomUtils.randomRangeDouble(-r, r), 0.2,
 					RandomUtils.randomRangeDouble(-r, r));
-			
+
 			if (getRadiusProperty().getRadius(2) == 0) {
 				location.add(0, getExtraProperty().getValue(1), 0);
 			} else {
 				location.add(RandomUtils.randomRangeFloat(-getRadiusProperty().getRadius(2), getRadiusProperty().getRadius(2)), getExtraProperty().getValue(1),
 						RandomUtils.randomRangeFloat(-getRadiusProperty().getRadius(2), getRadiusProperty().getRadius(2)));
 			}
-			
+
 			(v = end.toVector().subtract(start.toVector()).normalize()).multiply(0.1);
-			
+
 			lines.add(this);
 		}
 
 		public void update() {
 			if (start == null) {
 				return;
-			}	
+			}
 			start.add(v);
 
 			Line.drawLine(getParticleBuilder(1), getPlayers(), start, location, getDensityProperty().getDensity(1));
@@ -93,7 +94,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 				((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = v.clone().multiply(1);
 			}
 			getParticleBuilder(2).sendParticles(start, getPlayers());
-			
+
 			if (getParticleBuilder(3) instanceof DirectionParticle) {
 				((DirectionParticle) getParticleBuilder(3)).getParticleData().direction = v.clone().multiply(-0.5).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f)));
 			}
@@ -112,7 +113,8 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 	}
 
 	@Override
-	public void onUnregister() {/** ignore */}
+	public void onUnregister() {
+	}
 
 	@Override
 	public EffectProperty[] acceptProperties() {
@@ -122,10 +124,10 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
 		ColoredParticle p1 = new ColoredParticle(Particle.REDSTONE);
-		p1.getParticleData().colors = ColorUtils.generateMultiGradient2(new ColorRGB[]{ new ColorRGB(232, 54, 23),  new ColorRGB(234, 120, 14), new ColorRGB(232, 54, 23) }, 50);
+		p1.getParticleData().colors = ColorUtils.generateMultiGradient2(new ColorRGB[]{new ColorRGB(232, 54, 23), new ColorRGB(234, 120, 14), new ColorRGB(232, 54, 23)}, 50);
 		DirectionParticle p2 = new DirectionParticle(Particle.SMOKE_LARGE);
 		p2.getParticleData().speed = 0.08f;
-		return new ParticleBuilder<?>[] { p1, p2, new DirectionParticle(Particle.FLAME) };
+		return new ParticleBuilder<?>[]{p1, p2, new DirectionParticle(Particle.FLAME)};
 	}
 
 	@Override

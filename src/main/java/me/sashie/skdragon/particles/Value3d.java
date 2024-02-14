@@ -56,12 +56,13 @@ public class Value3d implements Cloneable {
 		this.z = z;
 	}
 
-//	public Vector toBukkitVector() {
-//		return new Vector(this.getX(), this.getY(), this.getZ());
-//	}
+	public Vector toVector() {
+		return new Vector(this.getX(), this.getY(), this.getZ());
+	}
 
 	@Override
 	public Value3d clone() {
+		//Todo: Sure, that that not has to be super.clone() or something?
 		return new Value3d(this);
 	}
 }

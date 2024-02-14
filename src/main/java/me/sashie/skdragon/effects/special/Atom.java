@@ -1,25 +1,23 @@
 package me.sashie.skdragon.effects.special;
 
-import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.util.pool.ObjectPoolManager;
-import org.bukkit.Particle;
-import org.bukkit.util.Vector;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
 import me.sashie.skdragon.effects.properties.ExtraProperty;
 import me.sashie.skdragon.effects.properties.IExtra;
 import me.sashie.skdragon.particles.ColoredParticle;
+import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.VectorUtils;
-
+import me.sashie.skdragon.util.pool.ObjectPoolManager;
+import org.bukkit.Particle;
+import org.bukkit.util.Vector;
 
 
 public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 
-	private ExtraProperty extraProperty;
+	private final ExtraProperty extraProperty;
 	Vector vector;
 
 	public Atom() {
@@ -40,8 +38,8 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 			double angle = step * angularVelocity;
 			for (int j = 0; j < this.getDensityProperty().getDensity(2); j++) {
 				double xRotation = densityAngle * j;
-				vector.setX(Math.sin(angle) * ( 0.6 + this.getRadiusProperty().getRadius(2) ));
-				vector.setY(Math.cos(angle) * ( 0.6 + this.getRadiusProperty().getRadius(2) ));
+				vector.setX(Math.sin(angle) * (0.6 + this.getRadiusProperty().getRadius(2)));
+				vector.setY(Math.cos(angle) * (0.6 + this.getRadiusProperty().getRadius(2)));
 				vector.setZ(0);
 				VectorUtils.rotateAroundAxisX(vector, xRotation);
 				VectorUtils.rotateAroundAxisY(vector, this.getExtraProperty().getValue(2));
@@ -72,7 +70,7 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE), new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE), new ColoredParticle(Particle.REDSTONE)};
 	}
 
 	@Override

@@ -1,8 +1,5 @@
 package me.sashie.skdragon.effects.targets;
 
-import org.bukkit.Particle;
-import org.bukkit.util.Vector;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.TargetEffect;
 import me.sashie.skdragon.effects.properties.DensityProperty;
@@ -14,12 +11,14 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
+import org.bukkit.Particle;
+import org.bukkit.util.Vector;
 
 
 public class Arc extends TargetEffect implements IDensity, IExtra {
 
-	private DensityProperty densityProperty;
-	private ExtraProperty extraProperty;
+	private final DensityProperty densityProperty;
+	private final ExtraProperty extraProperty;
 
 	public Arc() {
 		densityProperty = new DensityProperty();
@@ -61,7 +60,7 @@ public class Arc extends TargetEffect implements IDensity, IExtra {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE)};
 	}
 
 	@Override

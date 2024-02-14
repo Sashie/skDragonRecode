@@ -1,6 +1,9 @@
 package me.sashie.skdragon.util;
 
-import java.util.*;
+import java.util.AbstractList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.RandomAccess;
 
 public class DynamicList<E> extends AbstractList<E>
 		implements List<E>, RandomAccess, Cloneable {
@@ -31,11 +34,6 @@ public class DynamicList<E> extends AbstractList<E>
 	public E get(int index) {
 		checkIndex(index);
 		return (E) elements[index];
-	}
-
-	public E getNext() {
-		next();
-		return get(currentIndex);
 	}
 
 	@Override
@@ -84,13 +82,6 @@ public class DynamicList<E> extends AbstractList<E>
 		currentIndex += 1;
 		if (currentIndex >= size())
 			currentIndex = 0;
-		return get(currentIndex);
-	}
-
-	public E prev() {
-		currentIndex -= 1;
-		if (currentIndex <= 0)
-			currentIndex = size();
 		return get(currentIndex);
 	}
 

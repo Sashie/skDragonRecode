@@ -15,8 +15,8 @@ import me.sashie.skdragon.util.EffectUtils;
  */
 public class Spiral3D extends Parametric3DEffect implements IRadius, IStyle {
 
-	private RadiusProperty radiusProperty;
-	private StyleProperty styleProperty;
+	private final RadiusProperty radiusProperty;
+	private final StyleProperty styleProperty;
 
 	public Spiral3D() {
 		radiusProperty = new RadiusProperty();

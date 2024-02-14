@@ -1,9 +1,5 @@
 package me.sashie.skdragon.effects.special;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialEffect;
 import me.sashie.skdragon.effects.properties.ExtraProperty;
@@ -19,6 +15,10 @@ import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Meteor extends SpecialEffect implements IExtra, IRadius {
 
@@ -43,7 +43,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 		}
 
 		Iterator<Animation> iterator = null;
-		for (iterator = meteors.iterator(); iterator.hasNext();) {
+		for (iterator = meteors.iterator(); iterator.hasNext(); ) {
 			Animation meteor = iterator.next();
 
 			if (meteor.needsUpdate()) {
@@ -111,7 +111,8 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 	}
 
 	@Override
-	public void onUnregister() {/** ignore */}
+	public void onUnregister() {
+	}
 
 	@Override
 	public EffectProperty[] acceptProperties() {
@@ -122,7 +123,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 	public ParticleBuilder<?>[] defaultParticles() {
 		DirectionParticle particle = new DirectionParticle(Particle.FLAME);
 		particle.getParticleData().speed = 0.1f;
-		return new ParticleBuilder[] { new DirectionParticle(Particle.FLAME), new DirectionParticle(Particle.SMOKE_LARGE), particle };
+		return new ParticleBuilder[]{new DirectionParticle(Particle.FLAME), new DirectionParticle(Particle.SMOKE_LARGE), particle};
 	}
 
 	@Override

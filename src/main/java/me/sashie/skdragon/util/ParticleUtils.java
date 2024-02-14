@@ -1,22 +1,14 @@
 package me.sashie.skdragon.util;
 
-import me.sashie.skdragon.effects.ParticleEffect;
+import me.sashie.skdragon.debug.ParticleException;
+import me.sashie.skdragon.debug.SkriptNode;
+import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.particles.*;
 import me.sashie.skdragon.particles.data.*;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.Vibration;
-import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Player;
-
-import me.sashie.skdragon.debug.SkriptNode;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.debug.ParticleException;
-import me.sashie.skdragon.runnable.CounterRunnable;
-import me.sashie.skdragon.runnable.EffectRunnable;
 import org.bukkit.inventory.ItemStack;
 
 public class ParticleUtils {
@@ -96,15 +88,10 @@ public class ParticleUtils {
 			return location.clone().add(
 					RandomUtils.randomRangeDouble(-data.offset.getX(), data.offset.getX()),
 					RandomUtils.randomRangeDouble(-data.offset.getY(), data.offset.getY()),
-					RandomUtils.randomRangeDouble(-data.offset.getZ(), data.offset.getZ()));
+					RandomUtils.randomRangeDouble(-data.offset.getZ(), data.offset.getZ())
+			);
 		}
 		return location;
-	}
-
-	// Enum to specify the shape of the particles
-	public enum SizeShape {
-		ROUND,
-		SQUARE
 	}
 
 	public static ParticleBuilder<?>[] isSupported(ParticleData[] data, SkriptNode skriptNode) throws ParticleException {
@@ -115,37 +102,6 @@ public class ParticleUtils {
 			out[i] = createParticle(data[i]);
 		}
 		return out;
-	}
-
-	public static boolean isAirBlock(Block block) {
-		return block.getType() == Material.AIR;
-	}
-
-	public static void sendTimedParticles(ParticleBuilder<?> builder, DynamicLocation location, Player[] player, int iterations, long ticks) {
-		new CounterRunnable() {
-			@Override
-			public int runCounter(int iteration) {
-				builder.sendParticles(location, player);
-				return iterations;
-			}
-		}.runTaskTimerAsynchronously(0, ticks);
-	}
-
-	public static void sendTimedEffectParticles(ParticleBuilder<?> builder, ParticleEffect effect, Location location, Player[] player, int iterations, long ticks) {
-		new EffectRunnable(effect.getEffectData(), iterations).runTaskTimerAsynchronously(0, ticks);
-	}
-
-	public static void sendEffectParticles(ParticleBuilder<?> builder, ParticleEffect effect, Location location, Player[] player, int iterations) {
-		new EffectRunnable(effect.getEffectData(), iterations).runTaskAsynchronously();
-	}
-
-	public static void sendParticle(DynamicLocation location, Player[] player, ParticleData data, ParticleEffect effect, int iterations, long ticks) {
-		ParticleBuilder<?> builder = createParticle(data);
-		if (effect != null) {
-			sendTimedEffectParticles(builder, effect, location, player, iterations, ticks);
-		} else {
-			builder.sendParticles(location, player);
-		}
 	}
 
 }

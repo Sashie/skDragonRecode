@@ -17,18 +17,8 @@ public class EffectUtils {
 		return array;
 	}
 
-/*
-	public static EffectProperty[] combineArrays(final EffectProperty[] array1, final EffectProperty[] array2) {
-		return (EffectProperty[]) ArrayUtils.addAll(array1, array2);
-	}
-*/
-
 	/**
 	 * Combines two EffectProperty arrays with a null check similar to Apaches ArrayUtils.addAll(array1, array2)
-	 *
-	 * @param array1
-	 * @param array2
-	 * @return
 	 */
 	public static EffectProperty[] combineArrays(EffectProperty[] array1, EffectProperty[] array2) {
 		if (array1 == null)
@@ -76,7 +66,7 @@ public class EffectUtils {
 		return Arrays.asList(array).contains(element);
 	}
 
-	public static <T> T[] addToArray(T[] array, T newElement) {
+	public static <T> void addToArray(T[] array, T newElement) {
 		int arrayLength = array.length;
 
 		// Check if the array is full
@@ -93,8 +83,6 @@ public class EffectUtils {
 				break;
 			}
 		}
-
-		return array;
 	}
 
 	public static <T> T[] addArray(T[] originalArray, T[] elementsToAdd) {
@@ -110,7 +98,7 @@ public class EffectUtils {
 		return newArray;
 	}
 
-	public static <T> T[] removeFromArray(T[] array, T elementToRemove) {
+	public static <T> void removeFromArray(T[] array, T elementToRemove) {
 		int start = 0;
 		int end = array.length - 1;
 
@@ -127,30 +115,12 @@ public class EffectUtils {
 				break;
 			}
 		}
-
-		// Check if the array is significantly empty and resize if necessary
-		if (array.length > 16 && countNonNullElements(array) < array.length / 4) {
-			int newSize = Math.max(array.length / 2, 16);
-			array = resizeArray(array, newSize);
-		}
-
-		return array;
 	}
 
 	private static <T> T[] resizeArray(T[] array, int newSize) {
 		T[] newArray = (T[]) new Object[newSize];
 		System.arraycopy(array, 0, newArray, 0, Math.min(array.length, newSize));
 		return newArray;
-	}
-
-	private static <T> int countNonNullElements(T[] array) {
-		int count = 0;
-		for (T element : array) {
-			if (element != null) {
-				count++;
-			}
-		}
-		return count;
 	}
 
 	public static double[][] convertLocationArrayToArray(Location[] locationArray) {

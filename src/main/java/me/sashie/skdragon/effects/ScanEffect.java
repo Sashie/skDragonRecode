@@ -1,19 +1,14 @@
 package me.sashie.skdragon.effects;
 
-import me.sashie.skdragon.effects.properties.DensityProperty;
-import me.sashie.skdragon.effects.properties.ExtraProperty;
-import me.sashie.skdragon.effects.properties.IDensity;
-import me.sashie.skdragon.effects.properties.IExtra;
-import me.sashie.skdragon.effects.properties.IRadius;
-import me.sashie.skdragon.effects.properties.RadiusProperty;
+import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
 public abstract class ScanEffect extends EffectData implements IRadius, IDensity, IExtra {
 
-	private RadiusProperty radiusProperty;
-	private DensityProperty densityProperty;
-	private ExtraProperty extraProperty;
+	private final RadiusProperty radiusProperty;
+	private final DensityProperty densityProperty;
+	private final ExtraProperty extraProperty;
 
 	private boolean init;
 	boolean scan = false;
@@ -26,7 +21,10 @@ public abstract class ScanEffect extends EffectData implements IRadius, IDensity
 		init = false;
 	}
 
-	public void init(DynamicLocation location) {};
+	public void init(DynamicLocation location) {
+	}
+
+	;
 
 	public abstract void update(DynamicLocation location, float step);
 
@@ -109,7 +107,7 @@ public abstract class ScanEffect extends EffectData implements IRadius, IDensity
 
 		scan(radiusCounterRev, stepRadiusRev, this.getRadiusProperty().getRadius(1), true);
 	}
-	
+
 	public void scan(float counter, float step, float radius, boolean reverse) {
 		if (scan) {
 			if (counter > radius || counter < 0)

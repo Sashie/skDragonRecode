@@ -1,8 +1,5 @@
 package me.sashie.skdragon.debug;
 
-import me.sashie.skdragon.SkDragonRecode;
-
-
 public class ParticleEffectException extends RuntimeException {
 
 	public ParticleEffectException(String error) {
@@ -11,16 +8,4 @@ public class ParticleEffectException extends RuntimeException {
 		//SKDragonAddon.error(error);
 	}
 
-	public ParticleEffectException(String error, SkriptNode skriptNode) {
-		//super(error);
-		super(error, null, true, false);
-		SkDragonRecode.error(error, skriptNode);
-	}
-	
-	/*
-	@Override
-	public Throwable fillInStackTrace() {
-		return null;
-	} 
-	*/
 }

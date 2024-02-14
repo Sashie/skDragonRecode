@@ -1,9 +1,5 @@
 package me.sashie.skdragon.effects.special;
 
-import me.sashie.skdragon.util.pool.ObjectPoolManager;
-import org.bukkit.Particle;
-import org.bukkit.util.Vector;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
 import me.sashie.skdragon.effects.properties.ExtraProperty;
@@ -11,24 +7,23 @@ import me.sashie.skdragon.effects.properties.IExtra;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.EffectUtils;
-import me.sashie.skdragon.util.MathUtils;
-import me.sashie.skdragon.util.RandomUtils;
-import me.sashie.skdragon.util.VectorUtils;
+import me.sashie.skdragon.util.*;
+import me.sashie.skdragon.util.pool.ObjectPoolManager;
+import org.bukkit.Particle;
+import org.bukkit.util.Vector;
 
 public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
 
-	private ExtraProperty extraProperty;
+	private final ExtraProperty extraProperty;
 	Vector vector, direction;
 	DynamicLocation add, subtract;
 
 	public Blackhole() {
 		extraProperty = new ExtraProperty();
 
-		this.getExtraProperty().initValue(new float[] { 0.4f, 0.3f, 0.5f });
-		this.getDensityProperty().initDensity(new int[] { 10, 5 });
-		this.getRadiusProperty().initRadius(new float[] { 1.5f });
+		this.getExtraProperty().initValue(0.4f, 0.3f, 0.5f);
+		this.getDensityProperty().initDensity(10, 5);
+		this.getRadiusProperty().initRadius(1.5f);
 
 		vector = ObjectPoolManager.getVectorPool().acquire();
 		direction = ObjectPoolManager.getVectorPool().acquire();
@@ -44,7 +39,7 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
 			for (double d = 0.0; d <= MathUtils.PI2; d += (MathUtils.PI / this.getDensityProperty().getDensity(1))) {
 				final double angle = step * this.getExtraProperty().getValue(3) + Math.toRadians(i * 30);
 				final double space = i * this.getExtraProperty().getValue(1);
-				
+
 				vector.setX(Math.cos(d) * space).setY(i * this.getExtraProperty().getValue(2)).setZ(Math.sin(d) * space);
 
 				VectorUtils.rotateAroundAxisY(vector, angle);
@@ -92,7 +87,7 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
 		DirectionParticle particle4 = new DirectionParticle(Particle.FLAME);
 		particle4.getParticleData().speed = 0.1f;
 
-		return new ParticleBuilder<?>[] { particle1, particle2, particle3, particle4 };
+		return new ParticleBuilder<?>[]{particle1, particle2, particle3, particle4};
 	}
 
 	@Override

@@ -1,17 +1,15 @@
- package me.sashie.skdragon.effects.special;
-
-import me.sashie.skdragon.effects.properties.*;
-import org.bukkit.Particle;
-import org.bukkit.util.Vector;
+package me.sashie.skdragon.effects.special;
 
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
+import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
-
+import org.bukkit.Particle;
+import org.bukkit.util.Vector;
 
 
 public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotation, IVelocity, IExtra {
@@ -20,7 +18,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 	VelocityProperty velocityProperty;
 	ExtraProperty extraProperty;
 	RotationProperty rotationProperty;
-	
+
 	public Rings() {
 		axisProperty = new AxisProperty();
 		velocityProperty = new VelocityProperty();
@@ -59,7 +57,6 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 
 	@Override
 	public void onUnregister() {
-
 	}
 
 	@Override
@@ -69,7 +66,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE)};
 	}
 
 	@Override

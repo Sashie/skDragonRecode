@@ -1,28 +1,23 @@
 package me.sashie.skdragon.effects.targets;
 
+import me.sashie.skdragon.effects.EffectProperty;
+import me.sashie.skdragon.effects.TargetEffect;
+import me.sashie.skdragon.effects.properties.DensityProperty;
+import me.sashie.skdragon.effects.properties.IDensity;
+import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.DynamicLocation;
+import me.sashie.skdragon.util.EffectUtils;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.TargetEffect;
-import me.sashie.skdragon.effects.properties.DensityProperty;
-import me.sashie.skdragon.effects.properties.ExtraProperty;
-import me.sashie.skdragon.effects.properties.IDensity;
-import me.sashie.skdragon.effects.properties.IExtra;
-import me.sashie.skdragon.effects.properties.IRadius;
-import me.sashie.skdragon.effects.properties.RadiusProperty;
-import me.sashie.skdragon.particles.ColoredParticle;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.EffectUtils;
-
 
 public class Line extends TargetEffect implements IDensity {
 
-	private DensityProperty densityProperty;
+	private final DensityProperty densityProperty;
 
-	public Line() {		
+	public Line() {
 		densityProperty = new DensityProperty();
 		this.getDensityProperty().initDensity(40);
 	}
@@ -56,7 +51,7 @@ public class Line extends TargetEffect implements IDensity {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE)};
 	}
 
 	@Override

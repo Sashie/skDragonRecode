@@ -1,11 +1,9 @@
 package me.sashie.skdragon.util;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 public class DynamicLocation extends Location {
 
@@ -22,12 +20,12 @@ public class DynamicLocation extends Location {
 	public DynamicLocation(Location location) {
 		super(location.getWorld(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 	}
-	
+
 	public DynamicLocation(Entity entity) {
 		super(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(), entity.getLocation().getYaw(), entity.getLocation().getPitch());
 		this.entity = entity;
 	}
-	
+
 	public DynamicLocation update() {
 		if (entity != null) {
 			this.setX(entity.getLocation().getX());
@@ -48,66 +46,40 @@ public class DynamicLocation extends Location {
 	}
 
 	@Override
-	public Vector toVector() {
+	public @NotNull Vector toVector() {
 		return new Vector(this.getX(), this.getY(), this.getZ());
 	}
 
-	public DynamicLocation lerp(final DynamicLocation target, float alpha) {
-		double x = this.getX();
-		double y = this.getY();
-		double z = this.getZ();
-		
-		x += alpha * (target.getX() - this.getX());
-		y += alpha * (target.getY() - this.getZ());
-		z += alpha * (target.getZ() - this.getZ());
-
-		this.setX(x);
-		this.setY(y);
-		this.setZ(z);
-		
+	@Override
+	public @NotNull DynamicLocation add(final @NotNull Vector vec) {
+		super.add(vec);
 		return this;
 	}
 
 	@Override
-	public DynamicLocation add(final Vector vec) {
-		this.setX(this.getX() + vec.getX());
-		this.setY(this.getY() + vec.getY());
-		this.setZ(this.getZ() + vec.getZ());
+	public @NotNull DynamicLocation add(final double x, final double y, final double z) {
+		return this.add(new Vector(x, y, z));
+	}
+
+	@Override
+	public @NotNull DynamicLocation subtract(final @NotNull Vector vec) {
+		super.subtract(vec);
 		return this;
 	}
 
 	@Override
-	public DynamicLocation add(final double x, final double y, final double z) {
-		this.setX(this.getX() + x);
-		this.setY(this.getY() + y);
-		this.setZ(this.getZ() + z);
+	public @NotNull DynamicLocation subtract(final double x, final double y, final double z) {
+		return this.subtract(new Vector(x, y, z));
+	}
+
+	@Override
+	public @NotNull DynamicLocation multiply(final double m) {
+		super.multiply(m);
 		return this;
 	}
 
 	@Override
-	public DynamicLocation subtract(final Vector vec) {
-		this.setX(this.getX() - vec.getX());
-		this.setY(this.getY() - vec.getY());
-		this.setZ(this.getZ() - vec.getZ());
-		return this;
-	}
-	@Override
-	public DynamicLocation subtract(final double x, final double y, final double z) {
-		this.setX(this.getX() - x);
-		this.setY(this.getY() - y);
-		this.setZ(this.getZ() - z);
-		return this;
-	}
-	@Override
-	public DynamicLocation multiply(final double m) {
-		this.setX(this.getX() * m);
-		this.setY(this.getY() * m);
-		this.setZ(this.getZ() * m);
-		return this;
-	}
-
-	@Override
-	public DynamicLocation clone() {
+	public @NotNull DynamicLocation clone() {
 		return new DynamicLocation(this);
 	}
 
