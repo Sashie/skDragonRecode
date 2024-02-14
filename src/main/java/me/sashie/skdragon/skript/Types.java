@@ -7,8 +7,8 @@ import ch.njol.skript.expressions.base.EventValueExpression;
 import ch.njol.skript.lang.ParseContext;
 import ch.njol.skript.registrations.Classes;
 import ch.njol.yggdrasil.Fields;
-import me.sashie.skdragon.api.effects.ParticleEffect;
-import me.sashie.skdragon.api.util.ParticleUtil;
+import me.sashie.skdragon.project.effects.ParticleEffect;
+import me.sashie.skdragon.project.util.ParticleUtil;
 import org.bukkit.Particle;
 
 import javax.annotation.Nonnull;

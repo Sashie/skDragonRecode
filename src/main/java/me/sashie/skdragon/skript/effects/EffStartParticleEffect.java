@@ -10,12 +10,12 @@ import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.skript.util.Timespan;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.api.EffectAPI;
-import me.sashie.skdragon.api.debug.SkriptNode;
-import me.sashie.skdragon.api.runnable.RunnableType;
-import me.sashie.skdragon.api.util.DynamicLocation;
-import me.sashie.skdragon.api.util.EffectUtils;
-import me.sashie.skdragon.api.util.Utils;
+import me.sashie.skdragon.project.EffectAPI;
+import me.sashie.skdragon.project.debug.SkriptNode;
+import me.sashie.skdragon.project.runnable.RunnableType;
+import me.sashie.skdragon.project.util.DynamicLocation;
+import me.sashie.skdragon.project.util.EffectUtils;
+import me.sashie.skdragon.project.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,8 +39,7 @@ public class EffStartParticleEffect extends Effect {
 	static {
 		Skript.registerEffect(
 				EffStartParticleEffect.class,
-				"(start|run) [sync] particle effect %string% at %objects% " +
-						"[targeting %-objects%] [delayed by %-timespan%] [repeat(ed|ing) [%-number% times] with [an] interval of %-timespan%]"
+				"(start|run) [sync] particle effect %string% at %objects% [targeting %-objects%] [delayed by %-timespan%] [repeat(ed|ing) [%-number% times] with [an] interval of %-timespan%]"
 		);
 	}
 

@@ -9,7 +9,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.api.util.ParticleUtil;
+import me.sashie.skdragon.project.util.ParticleUtil;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

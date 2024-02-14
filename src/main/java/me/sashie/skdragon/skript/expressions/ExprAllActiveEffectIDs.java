@@ -9,7 +9,7 @@ import ch.njol.skript.lang.ExpressionType;
 import ch.njol.skript.lang.SkriptParser.ParseResult;
 import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.api.EffectAPI;
+import me.sashie.skdragon.project.EffectAPI;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

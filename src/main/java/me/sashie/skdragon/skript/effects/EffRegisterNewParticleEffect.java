@@ -9,12 +9,12 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
-import me.sashie.skdragon.api.EffectAPI;
-import me.sashie.skdragon.api.debug.SkriptNode;
-import me.sashie.skdragon.api.effects.EffectData;
-import me.sashie.skdragon.api.effects.ParticleEffect;
-import me.sashie.skdragon.api.particles.ParticleBuilder;
-import me.sashie.skdragon.api.util.Utils;
+import me.sashie.skdragon.project.EffectAPI;
+import me.sashie.skdragon.project.debug.SkriptNode;
+import me.sashie.skdragon.project.effects.EffectData;
+import me.sashie.skdragon.project.effects.ParticleEffect;
+import me.sashie.skdragon.project.particles.ParticleBuilder;
+import me.sashie.skdragon.project.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,8 +27,10 @@ import javax.annotation.Nonnull;
 public class EffRegisterNewParticleEffect extends Effect {
 
 	static {
-		Skript.registerEffect(EffRegisterNewParticleEffect.class,
-				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string% [using %-particles%]");
+		Skript.registerEffect(
+				EffRegisterNewParticleEffect.class,
+				"(create|make|register) [a] [new] particle effect %particleeffect% with id %string% [using %-particles%]"
+		);
 	}
 
 	private Expression<ParticleEffect> exprType;
