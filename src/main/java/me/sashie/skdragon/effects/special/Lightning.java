@@ -15,69 +15,69 @@ import org.bukkit.util.Vector;
 
 public class Lightning extends SpecialRadiusDensityEffect implements IAxis {
 
-    AxisProperty axisProperty;
-    Vector vector;
-    DynamicLocation bolt;
+	AxisProperty axisProperty;
+	Vector vector;
+	DynamicLocation bolt;
 
-    public Lightning() {
-        this.axisProperty = new AxisProperty();
+	public Lightning() {
+		this.axisProperty = new AxisProperty();
 
-        this.getRadiusProperty().initRadius(1.5f);
-        this.getDensityProperty().initDensity(10);
+		this.getRadiusProperty().initRadius(1.5f);
+		this.getDensityProperty().initDensity(10);
 
-        bolt = ObjectPoolManager.getDynamicLocationPool().acquire();
-        vector = ObjectPoolManager.getVectorPool().acquire();
-    }
+		bolt = ObjectPoolManager.getDynamicLocationPool().acquire();
+		vector = ObjectPoolManager.getVectorPool().acquire();
+	}
 
-    @Override
-    public void update(DynamicLocation location, float step) {
-        this.bolt.init(location);
+	@Override
+	public void update(DynamicLocation location, float step) {
+		this.bolt.init(location);
 
-        double x = 1 - this.getAxisProperty().getAxis().getX();
-        double y = 1 - this.getAxisProperty().getAxis().getY();
-        double z = 1 - this.getAxisProperty().getAxis().getZ();
+		double x = 1 - this.getAxisProperty().getAxis().getX();
+		double y = 1 - this.getAxisProperty().getAxis().getY();
+		double z = 1 - this.getAxisProperty().getAxis().getZ();
 
-        updateVector(x, y, z);
+		updateVector(x, y, z);
 
-        double densityValue = 1.5 / this.getDensityProperty().getDensity(1);
-        for (float count = this.getRadiusProperty().getRadius(1) * 20, i = 0; i < count; ++i) {
-            this.getParticleBuilder(1).sendParticles(this.bolt, this.getPlayers());
-            this.bolt.add(vector);
-            if (RandomUtils.getRandomDouble() < densityValue) {
-                updateVector(x, y, z);
-                vector.normalize().multiply(0.1);
-            }
-        }
-    }
+		double densityValue = 1.5 / this.getDensityProperty().getDensity(1);
+		for (float count = this.getRadiusProperty().getRadius(1) * 20, i = 0; i < count; ++i) {
+			this.getParticleBuilder(1).sendParticles(this.bolt, this.getPlayers());
+			this.bolt.add(vector);
+			if (RandomUtils.getRandomDouble() < densityValue) {
+				updateVector(x, y, z);
+				vector.normalize().multiply(0.1);
+			}
+		}
+	}
 
-    public void updateVector(double x, double y, double z) {
-        Vector xyzVector = new Vector(
-                (RandomUtils.getRandomDouble() * 2 - 1) * x * 0.1,
-                (RandomUtils.getRandomDouble() * 2 - 1) * y * 0.1,
-                (RandomUtils.getRandomDouble() * 2 - 1) * z * 0.1
-        );
+	public void updateVector(double x, double y, double z) {
+		Vector xyzVector = new Vector(
+				(RandomUtils.getRandomDouble() * 2 - 1) * x * 0.1,
+				(RandomUtils.getRandomDouble() * 2 - 1) * y * 0.1,
+				(RandomUtils.getRandomDouble() * 2 - 1) * z * 0.1
+		);
 
-        vector.add(xyzVector);
-    }
+		vector.add(xyzVector);
+	}
 
-    @Override
-    public void onUnregister() {
-        ObjectPoolManager.getDynamicLocationPool().release(bolt);
-        ObjectPoolManager.getVectorPool().release(vector);
-    }
+	@Override
+	public void onUnregister() {
+		ObjectPoolManager.getDynamicLocationPool().release(bolt);
+		ObjectPoolManager.getVectorPool().release(vector);
+	}
 
-    @Override
-    public EffectProperty[] acceptProperties() {
-        return EffectUtils.array(EffectProperty.AXIS);
-    }
+	@Override
+	public EffectProperty[] acceptProperties() {
+		return EffectUtils.array(EffectProperty.AXIS);
+	}
 
-    @Override
-    public ParticleBuilder<?>[] defaultParticles() {
-        return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE)};
-    }
+	@Override
+	public ParticleBuilder<?>[] defaultParticles() {
+		return new ParticleBuilder<?>[]{new ColoredParticle(Particle.REDSTONE)};
+	}
 
-    @Override
-    public AxisProperty getAxisProperty() {
-        return axisProperty;
-    }
+	@Override
+	public AxisProperty getAxisProperty() {
+		return axisProperty;
+	}
 }

@@ -5,24 +5,24 @@ import me.sashie.skdragon.util.MathUtils;
 
 public class VelocityProperty {
 
-    private final Value3d angularVelocity = new Value3d(MathUtils.PI / 200, MathUtils.PI / 170, MathUtils.PI / 155);
+	private final Value3d angularVelocity = new Value3d(MathUtils.PI / 200, MathUtils.PI / 170, MathUtils.PI / 155);
 
-    public double getAngularVelocityX() {
-        return angularVelocity.getX();
-    }
+	public double getAngularVelocityX() {
+		return angularVelocity.getX();
+	}
 
-    public double getAngularVelocityY() {
-        return angularVelocity.getY();
-    }
+	public double getAngularVelocityY() {
+		return angularVelocity.getY();
+	}
 
-    public double getAngularVelocityZ() {
-        return angularVelocity.getZ();
-    }
+	public double getAngularVelocityZ() {
+		return angularVelocity.getZ();
+	}
 	
-    public void setAngularVelocity(double x, double y, double z) {
-        this.angularVelocity.setX(MathUtils.PI / (x == 0 ? 1 : x));
-        this.angularVelocity.setY(MathUtils.PI / (y == 0 ? 1 : y));
-        this.angularVelocity.setZ(MathUtils.PI / (z == 0 ? 1 : z));
-    }
+	public void setAngularVelocity(double x, double y, double z) {
+		this.angularVelocity.setX(MathUtils.PI / (x == 0 ? 1 : x));
+		this.angularVelocity.setY(MathUtils.PI / (y == 0 ? 1 : y));
+		this.angularVelocity.setZ(MathUtils.PI / (z == 0 ? 1 : z));
+	}
 
 }

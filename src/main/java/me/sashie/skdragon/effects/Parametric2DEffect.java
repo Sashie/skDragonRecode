@@ -8,19 +8,19 @@ import me.sashie.skdragon.util.MathUtils;
 
 public abstract class Parametric2DEffect extends SimpleValueEffect {
 
-    public Parametric2DEffect() {
-        this.getDensityProperty().initDensity(60);
-    }
+	public Parametric2DEffect() {
+		this.getDensityProperty().initDensity(60);
+	}
 
-    public abstract double vectorX(double angle);
+	public abstract double vectorX(double angle);
 
-    public abstract double vectorZ(double angle);
+	public abstract double vectorZ(double angle);
 
-    @Override
-    public void math(float step) {
-        double angle = step * MathUtils.PI2 / this.getDensityProperty().getDensity(1);
-        v.setX(vectorX(angle));
-        v.setZ(vectorZ(angle));
-    }
+	@Override
+	public void math(float step) {
+		double angle = step * MathUtils.PI2 / this.getDensityProperty().getDensity(1);
+		v.setX(vectorX(angle));
+		v.setZ(vectorZ(angle));
+	}
 
 }

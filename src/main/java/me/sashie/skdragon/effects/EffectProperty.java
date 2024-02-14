@@ -14,47 +14,47 @@ package me.sashie.skdragon.effects;
  */
 public enum EffectProperty {
 	 
-    STYLE,
+	STYLE,
 
-    // --> IMAGE STUFF
-    FILE,
+	// --> IMAGE STUFF
+	FILE,
 
-    // <-- IMAGE STUFF
+	// <-- IMAGE STUFF
 
-    // --> ITEM STUFF
-    ITEM,
-    // <-- ITEM STUFF
+	// --> ITEM STUFF
+	ITEM,
+	// <-- ITEM STUFF
 
-    TEXT,
-    WINGS,
+	TEXT,
+	WINGS,
 
-    SOLID_SHAPE,
-    AUTO_FACE,
-    ROTATIONAL_PLANE,
-    AUTO_ROTATE,
-
-
-    DENSITY,
-    EXTRA,
-    RADIUS,
-    BOOLEAN,
-    TIMESPAN,
+	SOLID_SHAPE,
+	AUTO_FACE,
+	ROTATIONAL_PLANE,
+	AUTO_ROTATE,
 
 
-    XYZ_ANGULAR_VELOCITY,
+	DENSITY,
+	EXTRA,
+	RADIUS,
+	BOOLEAN,
+	TIMESPAN,
 
 
-    AXIS,
-
-    /**
-     *
-     */
-    DISPLACEMENT;
+	XYZ_ANGULAR_VELOCITY,
 
 
-    public String getName() {
-        return toString().toLowerCase().replace("_", " ");
-    }
+	AXIS,
+
+	/**
+	 *
+	 */
+	DISPLACEMENT;
+
+
+	public String getName() {
+		return toString().toLowerCase().replace("_", " ");
+	}
 
 
 }
