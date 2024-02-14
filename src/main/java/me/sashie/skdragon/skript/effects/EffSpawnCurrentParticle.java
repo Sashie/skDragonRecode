@@ -9,9 +9,9 @@ import ch.njol.skript.lang.Expression;
 import ch.njol.skript.lang.SkriptParser;
 import ch.njol.util.Kleenean;
 import me.sashie.skdragon.skript.sections.ParticleSection;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.Utils;
-import me.sashie.skdragon.util.pool.ObjectPoolManager;
+import me.sashie.skdragon.project.util.DynamicLocation;
+import me.sashie.skdragon.project.util.Utils;
+import me.sashie.skdragon.project.util.pool.ObjectPoolManager;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 

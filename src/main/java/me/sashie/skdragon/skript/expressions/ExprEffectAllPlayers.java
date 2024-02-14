@@ -12,14 +12,14 @@ import ch.njol.skript.lang.util.SimpleExpression;
 import ch.njol.skript.log.SkriptLogger;
 import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
-import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.debug.SkriptNode;
-import me.sashie.skdragon.effects.EffectData;
+import me.sashie.skdragon.project.EffectAPI;
+import me.sashie.skdragon.project.debug.SkriptNode;
+import me.sashie.skdragon.project.effects.EffectData;
+import me.sashie.skdragon.project.util.EffectUtils;
+import me.sashie.skdragon.project.util.Utils;
 import me.sashie.skdragon.skript.sections.EffectSection;
 import me.sashie.skdragon.skript.sections.ParticleEffectSection;
-import me.sashie.skdragon.util.EffectUtils;
-import me.sashie.skdragon.util.Utils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-	
 
 @Name("Particles - Clientside/visible players of effect")
 @Description({

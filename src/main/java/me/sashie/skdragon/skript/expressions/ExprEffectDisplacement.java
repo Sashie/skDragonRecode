@@ -3,11 +3,10 @@ package me.sashie.skdragon.skript.expressions;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.effects.EffectProperty;
+import me.sashie.skdragon.project.effects.EffectData;
+import me.sashie.skdragon.project.effects.EffectProperty;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
-
 
 
 @Name("Particles - Vector displacement")

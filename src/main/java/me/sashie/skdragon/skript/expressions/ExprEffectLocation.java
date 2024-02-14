@@ -5,11 +5,10 @@ import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
 import ch.njol.util.coll.CollectionUtils;
-import me.sashie.skdragon.effects.EffectData;
-import me.sashie.skdragon.util.EffectUtils;
+import me.sashie.skdragon.project.effects.EffectData;
+import me.sashie.skdragon.project.util.EffectUtils;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
-
 
 
 @Name("Particles - Location")
