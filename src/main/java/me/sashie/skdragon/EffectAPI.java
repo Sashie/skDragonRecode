@@ -18,19 +18,6 @@ import java.util.List;
 public class EffectAPI {
 
 	/**
-	 * Determine if this effect has a specific property
-	 *
-	 * @return Whether it has the property or not
-	 */
-	public static boolean hasProperty(EffectData effect, EffectProperty property) {
-		for (EffectProperty p : effect.getEffectProperties()) {
-			if (p.equals(property))
-				return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Gets a list of properties for this effect
 	 *
 	 * @return List of properties
@@ -39,8 +26,17 @@ public class EffectAPI {
 		return Arrays.asList(effect.getEffectProperties());
 	}
 
-	public static HashMap<String, EffectData> ALL_EFFECTS = new HashMap<>();
-	public static HashMap<String, Integer> ACTIVE_RUNNABLES = new HashMap<>();
+	/**
+	 * Determine if this effect has a specific property
+	 *
+	 * @return Whether it has the property or not
+	 */
+	public static boolean hasProperty(EffectData effect, EffectProperty property) {
+		return getProperties(effect).contains(property);
+	}
+
+	public final static HashMap<String, EffectData> ALL_EFFECTS = new HashMap<>();
+	public final static HashMap<String, Integer> ACTIVE_RUNNABLES = new HashMap<>();
 
 	/**
 	 * Static method for registering an effect externally
@@ -49,23 +45,20 @@ public class EffectAPI {
 	 * @param effectName The effect to register
 	 */
 	public static EffectData register(String id, ParticleEffect effectName, SkriptNode skriptNode) {
-		EffectData effect = effectName.getEffectData();
-		return set(id, effect, skriptNode);
+		return set(id, effectName.getEffectData(), skriptNode);
 	}
 
 	private static EffectData set(String id, EffectData effect, SkriptNode skriptNode) {
-		if (ALL_EFFECTS.containsKey(id)) {
-			EffectData data = ALL_EFFECTS.get(id);
-			synchronized (data) {
+		EffectData checkEffect = ALL_EFFECTS.getOrDefault(id, null);
+		if (checkEffect != null) {
+			synchronized (checkEffect) {
 				if (isRunning(id)) {
 					stop(id, skriptNode);
 				}
-				releasePools(data);
-				ALL_EFFECTS.remove(id);
+				releasePools(checkEffect);
 			}
 		}
 		ALL_EFFECTS.put(id, effect);
-
 		return effect;
 	}
 
@@ -75,18 +68,17 @@ public class EffectAPI {
 	 * @param id ID of the effect
 	 */
 	public static boolean unregister(String id, SkriptNode skriptNode) {
-		if (!ALL_EFFECTS.containsKey(id)) {
+		EffectData effect = ALL_EFFECTS.getOrDefault(id, null);
+		if (effect == null) {
 			SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
 			return false;
 		}
-		EffectData data = ALL_EFFECTS.get(id);
-		synchronized (data) {
+		synchronized (effect) {
 			if (isRunning(id)) {
 				stop(id, skriptNode);
 			}
-			releasePools(data);
+			releasePools(effect);
 			ALL_EFFECTS.remove(id);
-			data = null;
 		}
 		return true;
 	}
@@ -120,10 +112,10 @@ public class EffectAPI {
 	 * @return The effect
 	 */
 	public static EffectData get(String id, SkriptNode skriptNode) {
-		if (ALL_EFFECTS.containsKey(id))
-			return ALL_EFFECTS.get(id);
-		SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
-		return null;
+		EffectData effect = ALL_EFFECTS.getOrDefault(id, null);
+		if (effect == null)
+			SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
+		return effect;
 	}
 
 	/**
@@ -218,7 +210,7 @@ public class EffectAPI {
 
 			ACTIVE_RUNNABLES.put(id, runnable.getTaskId());
 		} else {
-			SkDragonRecode.error("Effect " + /*'" + effect.getName() + "'*/ "with id '" + id + "' is already running", skriptNode);
+			SkDragonRecode.error("Effect with id '" + id + "' is already running", skriptNode);
 		}
 	}
 
@@ -292,7 +284,7 @@ public class EffectAPI {
 	 * @param id ID of the effect
 	 */
 	public static boolean isRunning(String id) {
-		Integer taskId = ACTIVE_RUNNABLES.get(id);
-		return taskId != null; // Bukkit.getScheduler().isCurrentlyRunning(taskId); // for some reason this returns false on running effect?
+		// Bukkit.getScheduler().isCurrentlyRunning(taskId); // for some reason this returns false on running effect?
+		return ACTIVE_RUNNABLES.containsKey(id);
 	}
 }
