@@ -9,7 +9,7 @@ public class DynamicLocationPool {
 	private final ObjectPool<DynamicLocation> pool;
 
 	public DynamicLocationPool() {
-		pool = new ObjectPool<>(() -> new DynamicLocation());
+		pool = new ObjectPool<>(DynamicLocation::new);
 	}
 
 	public DynamicLocation acquire(Object center) {
