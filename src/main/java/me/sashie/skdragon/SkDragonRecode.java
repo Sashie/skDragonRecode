@@ -40,81 +40,77 @@ import java.util.logging.Logger;
 
 public final class SkDragonRecode extends JavaPlugin {
 
-	public final static Logger LOGGER = Bukkit.getLogger();
-	private static SkDragonRecode INSTANCE;
-	private static SkriptAdapter adapter;
+    public final static Logger LOGGER = Bukkit.getLogger();
+    private static SkDragonRecode INSTANCE;
+    private static SkriptAdapter adapter;
 
-	@Override
-	public void onEnable() {
-		INSTANCE = this;
+    @Override
+    public void onEnable() {
+        INSTANCE = this;
 
-		Plugin skript = Bukkit.getServer().getPluginManager().getPlugin("Skript");
-		if (skript != null && Skript.isAcceptRegistrations()) {
-			try {
-				SkriptAddon addonInstance = Skript.registerAddon(this);
-				addonInstance.loadClasses("me.sashie.skdragon", "skript");
-			} catch (IOException e) {
-				error("Something unnormal happened...");
-				e.printStackTrace();
-			}
+        Plugin skript = Bukkit.getServer().getPluginManager().getPlugin("Skript");
+        if (skript != null && Skript.isAcceptRegistrations()) {
+            try {
+                SkriptAddon addonInstance = Skript.registerAddon(this);
+                addonInstance.loadClasses("me.sashie.skdragon", "skript");
+            } catch (IOException e) {
+                error("Something unnormal happened...");
+                e.printStackTrace();
+            }
 
-		} else {
-			error("Unable to find Skript, or Skript is not accepting registrations.");
-			Bukkit.getPluginManager().disablePlugin(this);
-			return;
-		}
+            if ((Skript.getVersion().getMajor() >= 3 || (Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 6)))
+                adapter = new V2_6();
+            else if ((Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 4))
+                adapter = new V2_4();
+            else
+                adapter = new V2_3();
 
-		if ((Skript.getVersion().getMajor() >= 3 || (Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 6)))
-			adapter = new V2_6();
-		else if ((Skript.getVersion().getMajor() == 2 && Skript.getVersion().getMinor() >= 4))
-			adapter = new V2_4();
-		else
-			adapter = new V2_3();
+            //Plugin skriptYaml = Bukkit.getServer().getPluginManager().getPlugin("skript-yaml");
+            //if (skriptYaml != null) {
+            //	SkriptYaml.registerTag(this, "particle", Particle.class, new ParticleRepresentedClass(), new ParticleConstructedClass());
+            //	Bukkit.broadcastMessage("skript-yaml found, hooks enabled.");
+            //}
 
-		//Plugin skriptYaml = Bukkit.getServer().getPluginManager().getPlugin("skript-yaml");
-		//if (skriptYaml != null) {
-		//	SkriptYaml.registerTag(this, "particle", Particle.class, new ParticleRepresentedClass(), new ParticleConstructedClass());
-		//	Bukkit.broadcastMessage("skript-yaml found, hooks enabled.");
-		//}
+            Metrics metrics = new Metrics(this, 1208);
+            metrics.addCustomChart(new SimplePie("skript_version", () -> Skript.getVersion().toString()));
+        } else {
+            error("Unable to find Skript, or Skript is not accepting registrations.");
+        }
 
-		Metrics metrics = new Metrics(this, 1208);
-		metrics.addCustomChart(new SimplePie("skript_version", () -> Skript.getVersion().toString()));
+        TabExecutor tabExecutor = new EffectCommand();
+        this.getCommand("skdragon").setExecutor(tabExecutor);
+        this.getCommand("skdragon").setTabCompleter(tabExecutor);
+    }
 
+    @Override
+    public void onDisable() {
+        EffectAPI.unregisterAll();
+    }
 
-		TabExecutor tabExecutor = new EffectCommand();
-		this.getCommand("skdragon").setExecutor(tabExecutor);
-		this.getCommand("skdragon").setTabCompleter(tabExecutor);
-	}
+    public static SkDragonRecode getInstance() {
+        if (INSTANCE == null) {
+            throw new IllegalStateException();
+        }
+        return INSTANCE;
+    }
 
-	@Override
-	public void onDisable() {
-		EffectAPI.unregisterAll();
-	}
+    public static SkriptAdapter getSkriptAdapter() {
+        return adapter;
+    }
 
-	public static SkDragonRecode getInstance() {
-		if (INSTANCE == null) {
-			throw new IllegalStateException();
-		}
-		return INSTANCE;
-	}
+    public static void warn(String error, SkriptNode skriptNode) {
+        LOGGER.warning("[skDragon] " + error + (skriptNode != null ? " " + skriptNode : ""));
+    }
 
-	public static SkriptAdapter getSkriptAdapter() {
-		return adapter;
-	}
+    public static void error(String error) {
+        LOGGER.severe("[skDragon] " + error);
+    }
 
-	public static void warn(String error, SkriptNode skriptNode) {
-		LOGGER.warning("[skDragon] " + error + (skriptNode != null ? " " + skriptNode : ""));
-	}
+    public static void error(String error, SkriptNode skriptNode) {
+        LOGGER.severe("[skDragon] " + error + (skriptNode != null ? " " + skriptNode : ""));
+    }
 
-	public static void error(String error) {
-		LOGGER.severe("[skDragon] " + error);
-	}
-
-	public static void error(String error, SkriptNode skriptNode) {
-		LOGGER.severe("[skDragon] " + error + (skriptNode != null ? " " + skriptNode : ""));
-	}
-
-	public static void message(final CommandSender commandSender, String message) {
-		commandSender.sendMessage(message);
-	}
+    public static void message(final CommandSender commandSender, String message) {
+        commandSender.sendMessage(message);
+    }
 }
