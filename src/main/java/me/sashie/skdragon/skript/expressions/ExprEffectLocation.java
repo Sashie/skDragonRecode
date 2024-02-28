@@ -10,8 +10,6 @@ import me.sashie.skdragon.util.EffectUtils;
 import org.bukkit.Location;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Location")
 @Description({"Similar to the location vector expression this one instead sets the location from either another location or an entity. Adding and removing locations instead of to the location"})
 @Examples({"set location of effect \"uniqueID\" to location of player"})

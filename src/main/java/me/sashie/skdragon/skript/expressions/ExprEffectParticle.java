@@ -15,7 +15,6 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.particles.ParticleBuilder;
@@ -27,8 +26,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-
-
 
 @Name("Particles - Particle type")
 @Description({"Gets or sets the particles in an effect, some effects have more than one particle"})
@@ -79,8 +76,10 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 		EffectData effect = EffectAPI.get(id, skriptNode);
 		if (effect == null) return null;
 
-		if (particleNumber > effect.getParticleBuilders().length)
-			throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (particleNumber > effect.getParticleBuilders().length) {
+			SkDragonRecode.error("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+			return null;
+		}
 
 		synchronized (effect) {
 			return effect.getParticleBuilders()[particleNumber - 1];
@@ -118,8 +117,10 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 		EffectData effect = EffectAPI.get(id, skriptNode);
 		if (effect == null) return;
 
-		if (particleNumber > effect.getParticleBuilders().length)
-			throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (particleNumber > effect.getParticleBuilders().length) {
+			SkDragonRecode.error("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+			return;
+		}
 
 		synchronized (effect) {
 			effect.getParticleBuilders()[particleNumber - 1] = p;
@@ -130,7 +131,8 @@ public class ExprEffectParticle extends PropertyExpression<String, ParticleBuild
 	protected ParticleBuilder<?> @NotNull [] get(@NotNull Event e, String @NotNull [] source) {
 		particleNumber = Utils.verifyVar(e, exprParticleNumber, 1).intValue();
 		if (scope) {
-			throw new ParticleException("Incorrect use of syntax, can't get values inside a scope", skriptNode);
+			SkDragonRecode.error("Incorrect use of syntax, can't get values inside a scope", skriptNode);
+			return new ParticleBuilder[0];
 		}
 		return super.get(source, this);
 	}

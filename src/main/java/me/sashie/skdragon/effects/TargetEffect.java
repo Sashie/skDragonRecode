@@ -5,9 +5,6 @@ import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.util.DynamicLocation;
 
-
-
-
 /**
  * 
  * Effects using this type require a target location 'setTarget(DynamicLocation)' and optionally a target displacement 'setTargetDisplacement(Vector)'
@@ -32,10 +29,10 @@ public abstract class TargetEffect extends EffectData {
 	}
 
 	public void init(DynamicLocation location) {};
-	public abstract void update(DynamicLocation location, DynamicLocation target, float step);
+	public abstract void update(DynamicLocation location, DynamicLocation target);
 	
 	@Override
-	public void update(float step) {
+	public void update() {
 		if (targets == null) {
 			this.triggerStop(true);
 			return;
@@ -64,7 +61,7 @@ public abstract class TargetEffect extends EffectData {
 					this.getLocations()[i].update();
 					if (this.getLocations()[i].isDynamic())
 						this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-					update(this.getLocations()[i], targets[j], step);
+					update(this.getLocations()[i], targets[j]);
 				}
 			}
 		}

@@ -16,7 +16,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.Set;
 
-
 @Name("Particles - All active effects")
 @Description({"Lists all currently running effects"})
 @Examples({"set {list::*} to all active particle effects"})

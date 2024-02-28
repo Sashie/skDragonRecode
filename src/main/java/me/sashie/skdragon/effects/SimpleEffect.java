@@ -2,33 +2,27 @@ package me.sashie.skdragon.effects;
 
 import java.util.List;
 
+import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.*;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
-import me.sashie.skdragon.effects.properties.AxisProperty;
-import me.sashie.skdragon.effects.properties.DensityProperty;
-import me.sashie.skdragon.effects.properties.IAxis;
-import me.sashie.skdragon.effects.properties.IDensity;
-import me.sashie.skdragon.effects.properties.IRotation;
-import me.sashie.skdragon.effects.properties.ISolid;
-import me.sashie.skdragon.effects.properties.IVelocity;
-import me.sashie.skdragon.effects.properties.RotationProperty;
-import me.sashie.skdragon.effects.properties.SolidProperty;
-import me.sashie.skdragon.effects.properties.VelocityProperty;
 import me.sashie.skdragon.particles.ColoredParticle;
 
-public abstract class SimpleEffect extends EffectData implements IDensity, ISolid, IRotation, IVelocity, IAxis {
+public abstract class SimpleEffect extends EffectData implements IDensity, ISolid, IRotation, IVelocity, IAxis, ISwingStep, IFill {
 
 	private DensityProperty densityProperty;
 	private SolidProperty solidProperty;
 	private RotationProperty rotationProperty;
 	private VelocityProperty velocityProperty;
 	private AxisProperty axisProperty;
-	
+	private SwingStepProperty stepProperty;
+	private FillProperty fillProperty;
+
 	private boolean init;
+	private DynamicList<Vector> particleVectors;
 	protected Vector v;
 
 	public SimpleEffect() {
@@ -38,7 +32,10 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 		rotationProperty = new RotationProperty();
 		velocityProperty = new VelocityProperty();
 		axisProperty = new AxisProperty();
+		stepProperty = new SwingStepProperty();
+		fillProperty = new FillProperty();
 
+		particleVectors = new DynamicList<>();
 		v = ObjectPoolManager.getVectorPool().acquire();
 
 		this.getDensityProperty().initDensity(20);
@@ -46,17 +43,17 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 
 	public void init(DynamicLocation location) {};
 	public abstract void math(float step);
-	
+
 	@Override
-	public void update(float step) {
+	public void update() {
 		for (int i = 0; i < this.getLocations().length; i++) {
-			
+
 			if (!init) {
 				if (!this.getLocations()[i].isDynamic())
 					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-				
+
 				init(this.getLocations()[i]);
-				
+
 				if (i == this.getLocations().length - 1)
 					init = true;
 			} else {
@@ -64,16 +61,35 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 				if (this.getLocations()[i].isDynamic())
 					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
 
-				if (this.solidProperty.isSolid()){
-					for (int j = 0; j < this.densityProperty.getDensity(1); j++) {
+				float step = stepProperty.getStep();
+				int density = this.densityProperty.getDensity(1);
+
+				if (this.solidProperty.isSolid()) {
+					for (int j = 0; j < density; j++) {
 						v.setX(0).setY(0).setZ(0);
 						math(j);
 						spawnParticle(this.getLocations()[i], rotateShape(v, step));
+					}
+				} else if (this.fillProperty.isFill()) {
+					math(step);
+					Vector clone = ObjectPoolManager.getVectorPool().acquire(v);
+					particleVectors.add(clone);
+					for (Vector particleVector : particleVectors) {
+						spawnParticle(this.getLocations()[i], rotateShape(particleVector, step));
+					}
+					if (step >= density || step <= 0) {
+						for (Vector v : particleVectors) {
+							ObjectPoolManager.getVectorPool().release(v);
+						}
+						particleVectors.clear();
 					}
 				} else {
 					math(step);
 					spawnParticle(this.getLocations()[i], rotateShape(v, step));
 				}
+
+				stepProperty.update(density);
+
 			}
 		}
 	}
@@ -90,7 +106,7 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return EffectUtils.array(EffectProperty.AUTO_ROTATE, EffectProperty.XYZ_ANGULAR_VELOCITY, EffectProperty.AXIS, EffectProperty.DENSITY, EffectProperty.SOLID_SHAPE, EffectProperty.DISPLACEMENT);
+		return EffectUtils.array(EffectProperty.AUTO_ROTATE, EffectProperty.XYZ_ANGULAR_VELOCITY, EffectProperty.AXIS, EffectProperty.DENSITY, EffectProperty.SOLID_SHAPE, EffectProperty.DISPLACEMENT, EffectProperty.FILL, EffectProperty.SWING_STEP);
 	}
 
 	@Override
@@ -117,6 +133,17 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 	public AxisProperty getAxisProperty() {
 		return axisProperty;
 	}
+
+	@Override
+	public SwingStepProperty getSwingStepProperty() {
+		return stepProperty;
+	}
+
+	@Override
+	public FillProperty getFillProperty() {
+		return fillProperty;
+	}
+
 
 	public void spawnParticle(List<Vector> vectors) {
 		for (int i = 0; i < this.getLocations().length; i++) {

@@ -42,7 +42,6 @@ public class DirectionParticle extends ParticleBuilder<DirectionParticleData> {
 	public void sendParticles(DynamicLocation location, Player... player) {
 		if (ParticleProperty.DIRECTIONAL.hasProperty(this.data.getParticle())) {
 			if (player == null || player.length == 0) {
-				//location.getWorld().spawnParticle(this.data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, this.data.direction.getX(), this.data.direction.getY(), this.data.direction.getZ(), this.data.speed);
 				for (int i = 0; i < data.amount; i++) {
 					location.getWorld().spawnParticle(this.data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, this.data.direction.getX(), this.data.direction.getY(), this.data.direction.getZ(), this.data.speed, null);
 				}

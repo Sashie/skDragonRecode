@@ -1,6 +1,6 @@
 package me.sashie.skdragon.effects.properties;
 
-import me.sashie.skdragon.debug.ParticleEffectException;
+import me.sashie.skdragon.SkDragonRecode;
 
 public class TimespanProperty {
 
@@ -10,17 +10,18 @@ public class TimespanProperty {
 		return timespan;
 	}
 
-	public Long getTimespan(int index) throws ParticleEffectException {
+	public Long getTimespan(int index) {
 		if (index > this.timespan.length) {
-			throw new ParticleEffectException("This effect only uses " + this.timespan.length + " density values not " + index);
-			//return null;
+			SkDragonRecode.error("This effect only uses " + this.timespan.length + " density values not " + index);
+			return 0L;
 		}
 		return timespan[index - 1];
 	}
 
-	public void setTimespan(int index, long timespan) throws ParticleEffectException {
+	public void setTimespan(int index, long timespan) {
 		if (index > this.timespan.length) {
-			throw new ParticleEffectException("This effect only uses " + this.timespan.length + " density values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.timespan.length + " density values not " + index);
+			return;
 		}
 		this.timespan[index - 1] = timespan;
 	}

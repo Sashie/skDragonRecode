@@ -33,4 +33,8 @@ public class ParticleData {
 		this.offset = offset;
 	}
 
+	public void setOffset(double x, double y, double z) {
+		this.offset.setX(x).setY(y).setZ(z);
+	}
+
 }

@@ -15,7 +15,6 @@ import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-
 public class Arc extends TargetEffect implements IDensity, IExtra {
 
 	private DensityProperty densityProperty;
@@ -31,7 +30,7 @@ public class Arc extends TargetEffect implements IDensity, IExtra {
 	}
 
 	@Override
-	public void update(DynamicLocation location, DynamicLocation target, float step) {
+	public void update(DynamicLocation location, DynamicLocation target) {
 		Vector link = target.toVector().subtract(location.toVector());
 		float length = (float) link.length();
 		float pitch = (float) (this.getExtraProperty().getValue(2) * this.getExtraProperty().getValue(1) / Math.pow(length, 2));//pitchMultiplier default = 4

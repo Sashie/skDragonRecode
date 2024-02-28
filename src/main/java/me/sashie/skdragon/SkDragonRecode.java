@@ -22,6 +22,7 @@ package me.sashie.skdragon;
 import ch.njol.skript.Skript;
 import ch.njol.skript.SkriptAPIException;
 import ch.njol.skript.SkriptAddon;
+import me.sashie.skdragon.commands.EffectCommand;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.util.versions.SkriptAdapter;
 import me.sashie.skdragon.util.versions.V2_3;
@@ -31,7 +32,7 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SimplePie;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
@@ -40,14 +41,10 @@ import java.util.logging.Logger;
 public final class SkDragonRecode extends JavaPlugin {
 
 	public final static Logger LOGGER = Bukkit.getLogger();
-
 	private static SkDragonRecode instance;
-
 	private static SkriptAdapter adapter;
 
-
 	public SkDragonRecode() {
-
 		if (instance == null) {
 			instance = this;
 		} else {
@@ -57,8 +54,10 @@ public final class SkDragonRecode extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		Plugin skript = Bukkit.getServer().getPluginManager().getPlugin("Skript");
-		if (skript != null) {
+		TabExecutor tabExecutor = new EffectCommand();
+		this.getCommand("skdragon").setExecutor(tabExecutor);
+		this.getCommand("skdragon").setTabCompleter(tabExecutor);
+		if (Bukkit.getServer().getPluginManager().getPlugin("Skript") != null) {
 			if (Skript.isAcceptRegistrations()) {
 				try {
 					SkriptAddon addonInstance = Skript.registerAddon(this);
@@ -87,19 +86,14 @@ public final class SkDragonRecode extends JavaPlugin {
 				metrics.addCustomChart(new SimplePie("skript_version", () -> Skript.getVersion().toString()));
 
 			} else {
-				Bukkit.getPluginManager().disablePlugin(this);
 				error("Skript is not accepting registrations.");
 			}
-		} else {
-			Bukkit.getPluginManager().disablePlugin(this);
-			error("Skript not found, plugin disabled.");
 		}
-
 	}
 
 	@Override
 	public void onDisable() {
-
+		EffectAPI.unregisterAll();
 	}
 
 	public static SkDragonRecode getInstance() {
@@ -114,7 +108,7 @@ public final class SkDragonRecode extends JavaPlugin {
 	}
 
 	public static void warn(String error, SkriptNode skriptNode) {
-		LOGGER.warning("[skDragon] " + error + " " + skriptNode.toString());
+		LOGGER.warning("[skDragon] " + error + (skriptNode != null ? " " + skriptNode.toString() : ""));
 	}
 
 	public static void error(String error) {
@@ -122,7 +116,7 @@ public final class SkDragonRecode extends JavaPlugin {
 	}
 
 	public static void error(String error, SkriptNode skriptNode) {
-		LOGGER.severe("[skDragon] " + error + " " + skriptNode.toString());
+		LOGGER.severe("[skDragon] " + error + (skriptNode != null ? " " + skriptNode.toString() : ""));
 	}
 
 	public static void message(final CommandSender commandSender, String message) {

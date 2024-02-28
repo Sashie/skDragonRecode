@@ -69,9 +69,6 @@ public class EffectUtils {
 		return output;
 	}
 
-	/**
-	 * A helper method to get a value from registered Skript types after checking for null inputs
-	 */
 	public static <T> boolean arrayContains(T[] array, T element) {
 		return Arrays.asList(array).contains(element);
 	}

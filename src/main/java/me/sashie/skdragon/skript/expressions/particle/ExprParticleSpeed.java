@@ -8,7 +8,6 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Particle speed")
 @Description({"Some particle types have a speed option that changes how the particle moves along its preset path"})
 @Examples({"set particle speed of effect \"uniqueID\" to .05"})

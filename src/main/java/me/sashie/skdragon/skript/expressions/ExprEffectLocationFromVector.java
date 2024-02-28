@@ -17,8 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-
-
 @Name("Particles - Vector location")
 @Description({""})
 @Examples({"set vector location of effect \"uniqueID\" to {_v}",

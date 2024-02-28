@@ -9,7 +9,6 @@ import me.sashie.skdragon.effects.SpecialEffect;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.util.DynamicLocation;
 
-
 public class Band extends SpecialEffect {
 
 	DynamicLocation loc;
@@ -19,7 +18,7 @@ public class Band extends SpecialEffect {
 	}
 
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		loc.init(location);
 		for (int i = 0; i < 15; i++) {
 			loc.setY(loc.getY() + 0.1D);

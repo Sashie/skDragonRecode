@@ -1,6 +1,6 @@
 package me.sashie.skdragon.effects.properties;
 
-import me.sashie.skdragon.debug.ParticleEffectException;
+import me.sashie.skdragon.SkDragonRecode;
 
 public class ExtraProperty {
 
@@ -10,16 +10,18 @@ public class ExtraProperty {
 		return extra;
 	}
 
-	public Float getValue(int index) throws ParticleEffectException {
+	public Float getValue(int index) {
 		if (index > this.extra.length) {
-			throw new ParticleEffectException("This effect only uses " + this.extra.length + " extra values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.extra.length + " extra values not " + index);
+			return 1.0f;
 		}
 		return extra[index - 1];
 	}
 
-	public void setValue(int index, float extra) throws ParticleEffectException {
+	public void setValue(int index, float extra) {
 		if (index > this.extra.length) {
-			throw new ParticleEffectException("This effect only uses " + this.extra.length + " extra values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.extra.length + " extra values not " + index);
+			return;
 		}
 		this.extra[index - 1] = extra;
 	}

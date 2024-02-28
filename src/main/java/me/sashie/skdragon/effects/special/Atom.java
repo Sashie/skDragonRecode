@@ -15,12 +15,11 @@ import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-
-
 public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 
 	private ExtraProperty extraProperty;
 	Vector vector;
+	int step;
 
 	public Atom() {
 		extraProperty = new ExtraProperty();
@@ -32,7 +31,7 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 	}
 
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		double densityAngle = Math.PI / this.getDensityProperty().getDensity(2);
 		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
 
@@ -58,6 +57,7 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 			this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
 			location.subtract(vector);
 		}
+		step++;
 	}
 
 	@Override

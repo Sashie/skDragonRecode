@@ -17,7 +17,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-
 @Name("Particles - Property")
 @Description({"Lists any properties this particle has if any"})
 @Examples({"set {list::*} to particle properties of redstone"})

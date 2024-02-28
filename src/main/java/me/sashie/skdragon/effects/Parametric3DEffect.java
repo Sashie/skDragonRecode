@@ -1,9 +1,5 @@
 package me.sashie.skdragon.effects;
 
-import me.sashie.skdragon.util.MathUtils;
-import org.bukkit.entity.Player;
-
-import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.Utils;
 
 public abstract class Parametric3DEffect extends SimpleValueEffect {
@@ -18,8 +14,8 @@ public abstract class Parametric3DEffect extends SimpleValueEffect {
 
 	@Override
 	public void math(float step) {
-		double angle = step * MathUtils.PI2 / this.getDensityProperty().getDensity(1);
-		double angle2 = step * MathUtils.PI2 / this.getDensityProperty().getDensity(2);
+		double angle = step * Utils.PI2 / this.getDensityProperty().getDensity(1);
+		double angle2 = step * Utils.PI2 / this.getDensityProperty().getDensity(2);
 		v.setX(vectorX(angle, angle2));
 		v.setY(vectorY(angle, angle2));
  		v.setZ(vectorZ(angle, angle2));

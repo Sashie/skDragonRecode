@@ -15,7 +15,6 @@ import me.sashie.skdragon.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Stop particle effects")
 @Description({"Stops all particle effects or one of a given ID name"})
 @Examples({"stop particle effect \"%player%\"",

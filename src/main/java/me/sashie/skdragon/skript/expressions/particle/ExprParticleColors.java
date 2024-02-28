@@ -16,7 +16,6 @@ import ch.njol.util.Kleenean;
 import ch.njol.util.coll.CollectionUtils;
 import me.sashie.skdragon.EffectAPI;
 import me.sashie.skdragon.SkDragonRecode;
-import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.particles.ColoredParticle;
@@ -31,8 +30,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 @Name("Particles - Colors")
 @Description({"Gets and sets a single color or list of colors from one of the particles of a particle effect"})
@@ -104,8 +101,10 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 		EffectData effect = EffectAPI.get(id, skriptNode);
 		if (effect == null) return new Color[0];
 
-		if (particleNumber > effect.getParticleBuilders().length)
-			throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (particleNumber > effect.getParticleBuilders().length) {
+			SkDragonRecode.error("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+			return new Color[0];
+		}
 
 		synchronized (effect) {
 			ParticleBuilder<?> p = effect.getParticleBuilders()[particleNumber - 1];
@@ -168,11 +167,13 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 		EffectData effect = EffectAPI.get(id, skriptNode);
 		if (effect == null) return;
 
-		if (exprParticleNumber != null && particleNumber > effect.getParticleBuilders().length)
-			throw new ParticleException("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+		if (exprParticleNumber != null && particleNumber > effect.getParticleBuilders().length) {
+			SkDragonRecode.error("The effect with id " + id + " does not support more than " + effect.getParticleBuilders().length + " particle" + (effect.getParticleBuilders().length > 1 ? "s" : ""), skriptNode);
+			return;
+		}
 
 		synchronized (effect) {
-			ParticleBuilder<?> p = effect.getParticleBuilders()[particleNumber - 1];
+			ParticleBuilder<?> p = effect.getParticleBuilder(particleNumber);
 			if (p instanceof ColoredParticle) {
 				((ColoredParticle) p).getParticleData().colors.clear();
 				for (Object colorObj : delta) {

@@ -11,7 +11,6 @@ import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Effect rotation axis")
 @Description({"Rotates specific effects using a vector"})
 @Examples({"set rotation axis of effect \"uniqueID\" to {_v}"})

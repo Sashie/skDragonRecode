@@ -24,7 +24,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public abstract class CustomEffectPropertyExpression<T> extends CustomPropertyExpression<String, T> implements Converter<String, T> {
 
 	public static <T> void register(final Class<? extends Expression<T>> c, final Class<T> type, final String property) {

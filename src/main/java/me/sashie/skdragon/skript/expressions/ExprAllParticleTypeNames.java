@@ -15,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-	
-
 @Name("All particle names")
 @Description({"Gets a list of all particle names used in skDragon"})
 @Examples({"all particle names"})

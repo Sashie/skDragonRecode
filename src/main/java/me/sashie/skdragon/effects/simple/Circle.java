@@ -1,8 +1,7 @@
 package me.sashie.skdragon.effects.simple;
 
 import me.sashie.skdragon.effects.SimpleRadiusEffect;
-import me.sashie.skdragon.util.MathUtils;
-
+import me.sashie.skdragon.util.Utils;
 
 public class Circle extends SimpleRadiusEffect {
 
@@ -12,7 +11,7 @@ public class Circle extends SimpleRadiusEffect {
 
 	@Override
 	public void math(float step) {
-		double angle = step * MathUtils.PI2 / this.getDensityProperty().getDensity(1);
+		double angle = step * Utils.PI2 / this.getDensityProperty().getDensity(1);
 		v.setX(Math.cos(angle) * this.getRadiusProperty().getRadius(1));
 		v.setZ(Math.sin(angle) * this.getRadiusProperty().getRadius(2));
 	}

@@ -9,7 +9,6 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.bukkit.Color;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Color RGB values")
 @Description({"Gets the current color of a particle, setting a color with this expression will make it a solid color"})
 @Examples({"set the 1st particle red value of the particle effect \"uniqueID\" to 255"})

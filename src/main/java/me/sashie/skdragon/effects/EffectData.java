@@ -25,7 +25,7 @@ public abstract class EffectData {
 		this.builders = defaultParticles();
 	}
 
-	public abstract void update(float iteration);
+	public abstract void update();
 
 	/**
 	 * If there are any Pools to release do them here
@@ -63,7 +63,10 @@ public abstract class EffectData {
 	}
 
 	public void setParticles(ParticleData[] data, SkriptNode skriptNode) {
-		setParticles(ParticleUtils.isSupported(data, skriptNode), skriptNode);
+		ParticleBuilder<?>[] particle = ParticleUtils.isSupported(data, skriptNode);
+		if (particle == null) return;
+
+		setParticles(particle, skriptNode);
 	}
 
 	/**

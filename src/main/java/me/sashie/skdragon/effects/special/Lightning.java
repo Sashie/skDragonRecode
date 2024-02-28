@@ -31,7 +31,7 @@ public class Lightning extends SpecialRadiusDensityEffect implements IAxis {
 	}
 
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		this.bolt.init(location);
 
 		double x = 1 - this.getAxisProperty().getAxis().getX();

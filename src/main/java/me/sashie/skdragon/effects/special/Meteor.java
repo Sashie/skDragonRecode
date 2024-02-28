@@ -1,9 +1,5 @@
 package me.sashie.skdragon.effects.special;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialEffect;
 import me.sashie.skdragon.effects.properties.ExtraProperty;
@@ -14,17 +10,22 @@ import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
-import me.sashie.skdragon.util.MathUtils;
 import me.sashie.skdragon.util.RandomUtils;
+import me.sashie.skdragon.util.Utils;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class Meteor extends SpecialEffect implements IExtra, IRadius {
 
 	private ExtraProperty extraProperty;
 	private RadiusProperty radiusProperty;
 	private List<Animation> meteors;
+	int step;
 
 	public Meteor() {
 		meteors = new ArrayList<Animation>();
@@ -37,7 +38,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 	}
 
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		if (step % 30 == 0) {
 			new Animation(location);
 		}
@@ -55,6 +56,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 			}
 
 		}
+		step++;
 	}
 
 	private class Animation {
@@ -98,7 +100,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 		}
 
 		private void stop() {
-			for (double n = 0.0; n <= MathUtils.PI2; n += (MathUtils.PI / 10)) {
+			for (double n = 0.0; n <= Utils.PI2; n += (Math.PI / 10)) {
 				ParticleBuilder<?> p3 = getParticleBuilder(3);
 				if (p3 instanceof DirectionParticle) {
 					((DirectionParticle) p3).getParticleData().direction.setX(Math.cos(n)).setY(0.0).setZ(Math.sin(n));

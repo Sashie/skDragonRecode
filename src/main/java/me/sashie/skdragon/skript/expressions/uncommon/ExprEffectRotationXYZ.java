@@ -9,7 +9,6 @@ import me.sashie.skdragon.effects.properties.IAxis;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Rotation XYZ values")
 @Description({"Rotates specific effects using a specific x, y, z values",
 		"This allows you to set the x, y or z value individually without changing the other values"})

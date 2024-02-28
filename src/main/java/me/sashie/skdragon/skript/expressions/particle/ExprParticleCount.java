@@ -7,8 +7,6 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Particle amount/count")
 @Description({"The amount of a single particle type to be displayed"})
 @Examples({"set particle amount of effect \"uniqueID\" to 20"})

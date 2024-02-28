@@ -14,8 +14,6 @@ import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-
-
 public class Wings extends WingsEffect implements IStyle {
 
 	private static double DEFAULT_ANGLE = 110.0f;

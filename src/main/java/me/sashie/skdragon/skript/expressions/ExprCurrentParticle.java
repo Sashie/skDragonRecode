@@ -14,8 +14,6 @@ import me.sashie.skdragon.skript.sections.ParticleSection;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Current/last created particle")
 @Description({"Gets the last created particle for use in particle sections"})
 @Examples({""})

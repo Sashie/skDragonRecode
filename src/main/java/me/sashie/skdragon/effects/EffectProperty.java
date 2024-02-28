@@ -16,13 +16,11 @@ public enum EffectProperty {
 	/**
 	 * 
 	 */
-	
 
 	STYLE,
 
 	// --> IMAGE STUFF
 	FILE,
-
 	// <-- IMAGE STUFF
 	
 	// --> ITEM STUFF
@@ -36,25 +34,23 @@ public enum EffectProperty {
 	AUTO_FACE,
 	ROTATIONAL_PLANE,
 	AUTO_ROTATE,
-
 	
 	DENSITY,
 	EXTRA,
 	RADIUS,
 	BOOLEAN,
 	TIMESPAN,
-
 	
 	XYZ_ANGULAR_VELOCITY,
-
 	
 	AXIS,
 
 	/**
 	 * 
 	 */
-	DISPLACEMENT;
-
+	DISPLACEMENT,
+	FILL,
+	SWING_STEP;
 
 	public String getName() {
 		return toString().toLowerCase().replace("_", " ");

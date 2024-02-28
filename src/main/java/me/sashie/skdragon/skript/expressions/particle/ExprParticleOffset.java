@@ -8,7 +8,6 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Offset vector")
 @Description({"This property works best when the amount of particles is more than 1, it makes the particle offset randomly between the start location and the offset value"})
 //[the] %number%(st|nd|rd|th) particle rgb value of [the] [particle] effect[s] %strings%

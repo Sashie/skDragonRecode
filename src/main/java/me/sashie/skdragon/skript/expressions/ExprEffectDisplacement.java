@@ -8,8 +8,6 @@ import me.sashie.skdragon.effects.EffectProperty;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Vector displacement")
 @Description({"Sets or gets the displacement of a given particle effect from its location"})
 @Examples({"set displacement vector of effect \"uniqueID\" to vector 0, 1 and 0"})

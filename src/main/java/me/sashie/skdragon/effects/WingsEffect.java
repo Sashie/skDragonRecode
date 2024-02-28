@@ -20,7 +20,7 @@ public abstract class WingsEffect extends SpecialEffect implements IExtra {
 	public abstract void updateWings(DynamicLocation location, float flap);
 	
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		updateWings(location, flap);
 		if (isFlapping()){
 			if (flap > flapRange || flap < 0.0f) flapStep = -flapStep;

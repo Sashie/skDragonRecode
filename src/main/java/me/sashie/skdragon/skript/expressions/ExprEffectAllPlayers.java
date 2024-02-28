@@ -28,8 +28,6 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-	
-
 @Name("Particles - Clientside/visible players of effect")
 @Description({
 		"Gets, sets, adds to and removes from the list of players able to see an effect, if the list is deleted all players can see the effect"})

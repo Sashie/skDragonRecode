@@ -9,7 +9,6 @@ import me.sashie.skdragon.effects.properties.IDensity;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Effect density")
 @Description({"Get or set the density of an effect if it has this property"})
 @Examples({"set 1st density of effect \"uniqueID\" to 20"})

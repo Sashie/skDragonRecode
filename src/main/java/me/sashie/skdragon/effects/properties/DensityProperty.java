@@ -1,6 +1,6 @@
 package me.sashie.skdragon.effects.properties;
 
-import me.sashie.skdragon.debug.ParticleEffectException;
+import me.sashie.skdragon.SkDragonRecode;
 
 public class DensityProperty {
 
@@ -10,17 +10,18 @@ public class DensityProperty {
 		return density;
 	}
 
-	public Integer getDensity(int index) throws ParticleEffectException {
+	public Integer getDensity(int index) {
 		if (index > this.density.length) {
-			throw new ParticleEffectException("This effect only uses " + this.density.length + " density values not " + index);
-			//return null;
+			SkDragonRecode.error("This effect only uses " + this.density.length + " density values not " + index);
+			return 1;
 		}
 		return density[index - 1];
 	}
 
-	public void setDensity(int index, int density) throws ParticleEffectException {
+	public void setDensity(int index, int density) {
 		if (index > this.density.length) {
-			throw new ParticleEffectException("This effect only uses " + this.density.length + " density values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.density.length + " density values not " + index);
+			return;
 		}
 		this.density[index - 1] = density;
 	}

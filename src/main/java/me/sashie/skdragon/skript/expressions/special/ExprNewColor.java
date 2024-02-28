@@ -1,6 +1,5 @@
 package me.sashie.skdragon.skript.expressions.special;
 
-
 import ch.njol.skript.Skript;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;

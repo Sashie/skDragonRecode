@@ -40,8 +40,7 @@ public class CondEffectIsActive extends BaseConditions {
 	}
 
 	@Override
-	public String toStringCondition(Event e, boolean debug) {
+	public String toString(Event e, boolean debug) {
 		return "effect with id " + exprId.toString(e, debug) + " is " + (isNegated() ? "not active" : "active");
 	}
-
 }

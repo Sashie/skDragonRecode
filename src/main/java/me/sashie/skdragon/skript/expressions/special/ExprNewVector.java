@@ -16,8 +16,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
-
-
 @Name("New Vector")
 @Description({"Constructs a new vector either from a location/entity"})
 @Examples({"new vector from location of player",

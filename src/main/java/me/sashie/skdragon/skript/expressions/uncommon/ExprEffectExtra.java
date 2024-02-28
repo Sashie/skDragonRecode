@@ -9,7 +9,6 @@ import me.sashie.skdragon.effects.properties.IExtra;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Effect extra value")
 @Description({"Get or set the extra value of an effect if it has this property. To learn more please see the individual particle effects!"})
 @Examples({"set extra value of effect \"uniqueID\" to 20"})

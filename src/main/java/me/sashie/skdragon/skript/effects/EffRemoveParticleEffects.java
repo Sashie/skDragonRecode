@@ -15,7 +15,6 @@ import me.sashie.skdragon.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Remove particle effects")
 @Description({"Removes all particle effects or one of a given ID name"})
 @Examples({"unregister particle effect \"%player%\"",

@@ -3,6 +3,7 @@ package me.sashie.skdragon.effects;
 import me.sashie.skdragon.effects.simple.Circle;
 import me.sashie.skdragon.effects.simple.Heart;
 import me.sashie.skdragon.effects.simple.Sphere;
+import me.sashie.skdragon.effects.simple.SphericalWave;
 import me.sashie.skdragon.effects.simple.parametric.*;
 import me.sashie.skdragon.effects.special.*;
 import me.sashie.skdragon.effects.targets.Arc;
@@ -18,10 +19,34 @@ public enum ParticleEffect {
 			return new Astroid2D();
 		}
 	},
+	CIRCLE {
+		@Override
+		public EffectData getEffectData() {
+			return new Circle();
+		}
+	},
 	EPICYCLOID {
 		@Override
 		public EffectData getEffectData() {
 			return new Epicycloid2D();
+		}
+	},
+	HEART {
+		@Override
+		public EffectData getEffectData() {
+			return new Heart();
+		}
+	},
+	HYPOCYCLOID {
+		@Override
+		public EffectData getEffectData() {
+			return new Hypocycloid2D();
+		}
+	},
+	HYPOTROCHOID {
+		@Override
+		public EffectData getEffectData() {
+			return new Hypotrochoid2D();
 		}
 	},
 	LISSAJOUS {
@@ -42,22 +67,16 @@ public enum ParticleEffect {
 			return new Spirograph2D();
 		}
 	},
-	CIRCLE {
-		@Override
-		public EffectData getEffectData() {
-			return new Circle();
-		}
-	},
-	HEART {
-		@Override
-		public EffectData getEffectData() {
-			return new Heart();
-		}
-	},
 	SPHERE {
 		@Override
 		public EffectData getEffectData() {
 			return new Sphere();
+		}
+	},
+	SPHERICAL_WAVE {
+		@Override
+		public EffectData getEffectData() {
+			return new SphericalWave();
 		}
 	},
 
@@ -98,6 +117,12 @@ public enum ParticleEffect {
 			return new Meteor();
 		}
 	},
+	NYAN_CAT {
+		@Override
+		public EffectData getEffectData() {
+			return new NyanCat();
+		}
+	},
 	RINGS {
 		@Override
 		public EffectData getEffectData() {
@@ -111,7 +136,6 @@ public enum ParticleEffect {
 			return new MagicalPortalEffect();
 		}
 	},
-
 	TEXT {
 		@Override
 		public EffectData getEffectData() {

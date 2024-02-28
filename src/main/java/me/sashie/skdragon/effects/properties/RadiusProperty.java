@@ -1,6 +1,6 @@
 package me.sashie.skdragon.effects.properties;
 
-import me.sashie.skdragon.debug.ParticleEffectException;
+import me.sashie.skdragon.SkDragonRecode;
 
 public class RadiusProperty {
 
@@ -10,16 +10,18 @@ public class RadiusProperty {
 		return radius;
 	}
 
-	public Float getRadius(int index) throws ParticleEffectException {
+	public Float getRadius(int index) {
 		if (index > radius.length) {
-			throw new ParticleEffectException("This effect only uses " + this.radius.length + " radius values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.radius.length + " radius values not " + index);
+			return 1.0f;
 		}
 		return radius[index - 1];
 	}
 
-	public void setRadius(int index, float radius) throws ParticleEffectException {
+	public void setRadius(int index, float radius) {
 		if (index > this.radius.length) {
-			throw new ParticleEffectException("This effect only uses " + this.radius.length + " radius values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.radius.length + " radius values not " + index);
+			return;
 		}
 		this.radius[index - 1] = radius;
 	}

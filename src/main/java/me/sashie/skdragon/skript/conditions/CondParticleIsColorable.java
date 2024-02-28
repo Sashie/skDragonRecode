@@ -13,7 +13,6 @@ import org.bukkit.Particle;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Is Colorable")
 @Description("Checks whether a particle is colorable.")
 @Examples({"particle redstone is colorable",
@@ -43,7 +42,7 @@ public class CondParticleIsColorable extends BaseConditions {
 	}
 
 	@Override
-	public String toStringCondition(Event e, boolean debug) {
+	public String toString(Event e, boolean debug) {
 		return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
 	}
 }

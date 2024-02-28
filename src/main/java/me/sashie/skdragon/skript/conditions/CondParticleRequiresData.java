@@ -13,7 +13,6 @@ import org.bukkit.Particle;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Requires material")
 @Description("Checks whether a particle requires material.")
 @Examples({"particle redstone requires material #returns false"})
@@ -42,7 +41,7 @@ public class CondParticleRequiresData extends BaseConditions {
 	}
 
 	@Override
-	public String toStringCondition(Event e, boolean debug) {
+	public String toString(Event e, boolean debug) {
 		return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
 	}
 

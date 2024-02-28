@@ -65,6 +65,13 @@ public class DynamicList<E> extends AbstractList<E>
 		size += elements.length;
 	}
 
+	@Override
+	public E set(int index, E element) {
+		checkIndex(index);
+		elements[index] = element;
+		return element;
+	}
+
 	public E remove() {
 		return remove(currentIndex);
 	}

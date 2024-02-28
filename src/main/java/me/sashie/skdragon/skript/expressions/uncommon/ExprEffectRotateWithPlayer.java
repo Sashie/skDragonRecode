@@ -9,8 +9,6 @@ import me.sashie.skdragon.effects.properties.IRotation;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Auto yaw")
 @Description({"Make certain particle effects turn with the player or turn to face the player(depending on the effect type)"})
 @Examples({"set auto face of effect \"uniqueID\" to true"})

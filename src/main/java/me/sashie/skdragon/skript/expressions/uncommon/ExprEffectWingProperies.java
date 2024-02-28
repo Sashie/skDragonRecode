@@ -9,8 +9,6 @@ import me.sashie.skdragon.effects.WingsEffect;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Wing effect properties")
 @Description({"Get or set the angle, flap range and flap step of a wing effect",
 		" - Flap range is how far the wings will flap back and forth, default is 20",

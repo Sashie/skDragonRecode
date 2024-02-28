@@ -9,8 +9,6 @@ import me.sashie.skdragon.effects.properties.IRadius;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Effect radius")
 @Description({"Sets or gets the radius of most effects",
 		"Also used for parametric equation effect types as well(can use negative numbers)"})

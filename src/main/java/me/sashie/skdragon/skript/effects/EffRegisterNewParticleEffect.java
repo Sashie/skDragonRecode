@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-
 @Name("Register new particle effect")
 @Description({"Registers a new particle effect, once it is registered you can start or stop it using those expressions. Optionally you can also set the particles it uses however you can do this any time before or after starting the effect."})
 @Examples({"register new particle effect circle with id \"%player%\""})

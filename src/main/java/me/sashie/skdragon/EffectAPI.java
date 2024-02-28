@@ -1,6 +1,5 @@
 package me.sashie.skdragon;
 
-import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
@@ -136,8 +135,8 @@ public class EffectAPI {
 	 * @param ticks	  Amount of ticks per pulse
 	 * @param async	  Whether the effect should run async or not
 	 */
-	public static void start(String id, RunnableType runType, int iterations, long ticks, boolean async, DynamicLocation[] locations, SkriptNode skriptNode) {
-		start(id, runType, iterations, 0, ticks, async, locations, skriptNode);
+	public static void start(String id, RunnableType runType, long duration, int iterations, long ticks, boolean async, DynamicLocation[] locations, SkriptNode skriptNode) {
+		start(id, runType, duration, iterations, 0, ticks, async, locations, skriptNode);
 	}
 
 	/**
@@ -151,8 +150,8 @@ public class EffectAPI {
 	 * @param sync	   Whether the effect should run async or sync
 	 * @param locations  Locations that an effect will target
 	 */
-	public static void start(String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, DynamicLocation[] locations, SkriptNode skriptNode) throws ParticleException {
-		start(id, runType, iterations, delay, ticks, sync, locations, null, skriptNode);
+	public static void start(String id, RunnableType runType, long duration, int iterations, long delay, long ticks, boolean sync, DynamicLocation[] locations, SkriptNode skriptNode) {
+		start(id, runType, duration, iterations, delay, ticks, sync, locations, null, skriptNode);
 	}
 
 	/**
@@ -167,16 +166,20 @@ public class EffectAPI {
 	 * @param locations  Locations that an effect will target
 	 * @param targets	Targets locations that a {@link TargetEffect TargetEffect} effect will target
 	 */
-	public static void start(String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, DynamicLocation[] locations, DynamicLocation[] targets, SkriptNode skriptNode) throws ParticleException {
+	public static void start(String id, RunnableType runType, long duration, int iterations, long delay, long ticks, boolean sync, DynamicLocation[] locations, DynamicLocation[] targets, SkriptNode skriptNode) {
 		EffectData effect = get(id, skriptNode);
 		if (effect == null) return;
 
-		if (locations == null || locations.length == 0)
-			throw new ParticleException("No location provided for effect with id " + id, skriptNode);
+		if (locations == null || locations.length == 0) {
+			SkDragonRecode.error("No location provided for effect with id " + id, skriptNode);
+			return;
+		}
 
 		if (effect instanceof TargetEffect) {
-			if (targets == null)
-				throw new ParticleException("A 'TargetEffect' requires a target location, effect not started", skriptNode);
+			if (targets == null) {
+				SkDragonRecode.error("A 'TargetEffect' requires a target location, effect not started", skriptNode);
+				return;
+			}
 
 			((TargetEffect) effect).setTargets(targets);
 		}
@@ -184,14 +187,13 @@ public class EffectAPI {
 		effect.setLocations(locations);
 		effect.saveStartLocations();
 
-		start(id, effect, runType, iterations, delay, ticks, sync, skriptNode);
+		start(id, effect, runType, duration, iterations, delay, ticks, sync, skriptNode);
 	}
 
 	private static void start(
-			String id, EffectData effect, RunnableType runType, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode
-	) throws ParticleException {
+			String id, EffectData effect, RunnableType runType, long duration, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode) {
 		if (!isRunning(id)) {
-			EffectRunnable runnable = new EffectRunnable(effect, iterations);
+			EffectRunnable runnable = new EffectRunnable(effect, duration, iterations);
 
 			switch (runType) {
 				case INSTANT:
@@ -216,20 +218,19 @@ public class EffectAPI {
 
 			ACTIVE_RUNNABLES.put(id, runnable.getTaskId());
 		} else {
-			throw new ParticleException("Effect " + /*'" + effect.getName() + "'*/ "with id '" + id + "' is already running", skriptNode);
+			SkDragonRecode.error("Effect " + /*'" + effect.getName() + "'*/ "with id '" + id + "' is already running", skriptNode);
 		}
 	}
 
 	private static void restart(
-			String id, RunnableType runType, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode
-	) throws ParticleException {
+			String id, RunnableType runType, long duration, int iterations, long delay, long ticks, boolean sync, SkriptNode skriptNode) {
 		//Reset the effect if any start types are changed or if the effect isn't running
 		EffectData effect = get(id, skriptNode);
 		if (effect == null)
 			return;	//Error already handled
 
 		if (!isRunning(id)) {
-			EffectRunnable runnable = new EffectRunnable(effect, iterations);
+			EffectRunnable runnable = new EffectRunnable(effect, duration, iterations);
 
 			switch (runType) {
 				case INSTANT:
@@ -253,7 +254,7 @@ public class EffectAPI {
 			}
 			ACTIVE_RUNNABLES.put(id, runnable.getTaskId());
 		} else {
-			throw new ParticleException("Effect " + /*'" + effect.getName() + "'*/ "with id '" + id + "' is already running", skriptNode);
+			SkDragonRecode.error("Effect " + /*'" + effect.getName() + "'*/ "with id '" + id + "' is already running", skriptNode);
 		}
 	}
 

@@ -23,7 +23,8 @@ import me.sashie.skdragon.util.color.ColorUtils;
 public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 
 	private ExtraProperty extraProperty;
-	
+	int step;
+
 	private List<Animation> lines = new ArrayList<Animation>();
 
 	public Lasers() {
@@ -34,7 +35,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 	}
 
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		if (step % 20 == 0) {
 			new Animation(location);
 		}
@@ -51,6 +52,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 				return;
 			}
 		}
+		step++;
 	}
 
 	private class Animation {
@@ -102,7 +104,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 		}
 
 		public void stop() {
-			for (double angle = 0.0; angle <= MathUtils.PI2; angle += (MathUtils.PI / getDensityProperty().getDensity(2))) {
+			for (double angle = 0.0; angle <= Utils.PI2; angle += (Math.PI / getDensityProperty().getDensity(2))) {
 				if (getParticleBuilder(2) instanceof DirectionParticle) {
 					((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = new Vector(Math.cos(angle), 0.0, Math.sin(angle));
 				}

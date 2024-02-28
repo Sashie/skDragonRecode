@@ -9,7 +9,6 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Particle Direction")
 @Description({"Some particle types have a direction option that changes how the particle moves along its preset path"})
 @Examples({"set particle direction of \"uniqueID\" to vector from player"})

@@ -1,6 +1,5 @@
 package me.sashie.skdragon.effects;
 
-import me.sashie.skdragon.util.MathUtils;
 import me.sashie.skdragon.util.Utils;
 
 /**
@@ -19,7 +18,7 @@ public abstract class Parametric2DEffect extends SimpleValueEffect {
 
 	@Override
 	public void math(float step) {
-		double angle = step * MathUtils.PI2 / this.getDensityProperty().getDensity(1);
+		double angle = step * Utils.PI2 / this.getDensityProperty().getDensity(1);
 		v.setX(vectorX(angle));
  		v.setZ(vectorZ(angle));
 	}

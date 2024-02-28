@@ -5,3 +5,9 @@ version: '${project.version}'
 main: me.sashie.skdragon.SkDragonRecode
 api-version: 1.13
 depend: [Skript]
+
+commands:
+  skdragon:
+    description: Main command for managing particle effects
+    usage: /skdragon <register/unregister/start/stop/effect/particle>
+    permission: skdragon.commands

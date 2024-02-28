@@ -7,7 +7,6 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Offset XYZ values")
 @Description({"Similar to the other particle offset expression this one lets you change the individual x, y or z values separately"})
 @Examples({"set the 1st particle x offset value of the particle effect \"uniqueID\" to 1.7"})

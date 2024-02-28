@@ -28,10 +28,10 @@ public abstract class ScanEffect extends EffectData implements IRadius, IDensity
 
 	public void init(DynamicLocation location) {};
 
-	public abstract void update(DynamicLocation location, float step);
+	public abstract void update(DynamicLocation location);
 
 	@Override
-	public void update(float step) {
+	public void update() {
 
 		for (int i = 0; i < this.getLocations().length; i++) {
 			if (!init) {
@@ -45,7 +45,7 @@ public abstract class ScanEffect extends EffectData implements IRadius, IDensity
 				this.getLocations()[i].update();
 				if (this.getLocations()[i].isDynamic())
 					this.getLocations()[i].add(this.getDisplacement().getX(), this.getDisplacement().getY(), this.getDisplacement().getZ());
-				update(this.getLocations()[i], step);
+				update(this.getLocations()[i]);
 			}
 		}
 	}

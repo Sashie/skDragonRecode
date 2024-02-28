@@ -10,7 +10,6 @@ import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Particle;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Particle type")
 @Description({"Gets or sets the particle type used. Some data may be lost, for example if you change the particle type from Colorable to Normal it will lose its color data"})
 @Examples({"set particle type of effect \"uniqueID\" to dust",
@@ -30,9 +29,7 @@ public class ExprParticleType extends CustomParticlePropertyExpression<Particle>
 	public void setParticle(ParticleBuilder<?> particle, Object[] delta) {
 		Particle type = (Particle) (delta[0]);
 
-		ParticleBuilder<?> p = ParticleUtils.createParticle(type);
-		p.initParticle(particle.getParticleData());
-		p.getParticleData().setParticle(type);
+		ParticleBuilder<?> p = ParticleUtils.createParticle(type, particle.getParticleData());
 		if (this.isParticleSection) {
 			ParticleSection.particle = p;
 		} else {

@@ -24,7 +24,6 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExpression<String, T> implements Converter<String, T> {
 
 	public static <T> void register(final Class<? extends Expression<T>> c, final Class<T> type, final String property) {

@@ -17,7 +17,6 @@ import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 
-
 public class Line extends TargetEffect implements IDensity {
 
 	private DensityProperty densityProperty;
@@ -28,7 +27,7 @@ public class Line extends TargetEffect implements IDensity {
 	}
 
 	@Override
-	public void update(DynamicLocation location, DynamicLocation target, float step) {
+	public void update(DynamicLocation location, DynamicLocation target) {
 		drawLine(this.getParticleBuilder(1), this.getPlayers(), location, target, this.getDensityProperty().getDensity(1));
 	}
 

@@ -13,7 +13,6 @@ import org.bukkit.Particle;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Is Directional")
 @Description("Checks whether a particle is directional.")
 @Examples({"particle redstone is directional"})
@@ -42,7 +41,7 @@ public class CondParticleIsDirectional extends BaseConditions {
 	}
 
 	@Override
-	public String toStringCondition(Event e, boolean debug) {
+	public String toString(Event e, boolean debug) {
 		return exprParticle.toString(e, debug) + " particle " + (isNegated() ? "does not require" : "requires") + " material";
 	}
 

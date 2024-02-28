@@ -19,8 +19,6 @@ import me.sashie.skdragon.util.Utils;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Start particle effect")
 @Description({"Starts a particle effect of a given id name.",
 		"   - Using the sync optional makes the effect play in a synchronous runnable instead",
@@ -41,16 +39,17 @@ public class EffStartParticleEffect extends Effect {
 		Skript.registerEffect(
 				EffStartParticleEffect.class,
 				"(start|run) [sync] particle effect %string% at %objects% " +
-						"[targeting %-objects%] [delayed by %-timespan%] [repeat(ed|ing) [%-number% times] with [an] interval of %-timespan%]"
+						"[targeting %-objects%] [delayed by %-timespan%] [repeat(ed|ing) [(for %-timespan%|%-number% times)] with [an] interval of %-timespan%]"
 		);
 	}
 
 	private String parsedSyntax;
 	private Expression<String> exprId;
 	private Expression<Object> exprLocation;
-	private Expression<Object> exprTargets = null;
+	private Expression<Object> exprTargets;
 	private Expression<Timespan> exprDelay;
-	private Expression<Number> exprRepeat = null;
+	private Expression<Timespan> exprDuration;
+	private Expression<Number> exprRepeat;
 	private Expression<Timespan> exprInterval;
 
 	private SkriptNode skriptNode;
@@ -64,8 +63,9 @@ public class EffStartParticleEffect extends Effect {
 		exprTargets = (Expression<Object>) exprs[2];
 
 		exprDelay = (Expression<Timespan>) exprs[3];
-		exprRepeat = (Expression<Number>) exprs[4];
-		exprInterval = (Expression<Timespan>) exprs[5];
+		exprDuration = (Expression<Timespan>) exprs[4];
+		exprRepeat = (Expression<Number>) exprs[5];
+		exprInterval = (Expression<Timespan>) exprs[6];
 
 		parsedSyntax = parseResult.expr;
 		skriptNode = new SkriptNode(SkriptLogger.getNode());
@@ -81,6 +81,7 @@ public class EffStartParticleEffect extends Effect {
 		if (id == null || locations == null) return;
 
 		long delay = Utils.verifyVar(e, exprDelay, new Timespan(0)).getTicks_i();
+		long duration = Utils.verifyVar(e, exprDuration, new Timespan(0L)).getMilliSeconds();
 		int repeat = Utils.verifyVar(e, exprRepeat, -1).intValue();
 		long interval = Utils.verifyVar(e, exprInterval, new Timespan(0)).getTicks_i();
 		Object[] targets = Utils.verifyVars(e, exprTargets, null);
@@ -98,7 +99,7 @@ public class EffStartParticleEffect extends Effect {
 			targetLocations = EffectUtils.toDynamicLocations(targets);
 		}
 
-		EffectAPI.start(id, type, repeat, delay, interval, parsedSyntax.contains(" sync "), locs, targetLocations, skriptNode);
+		EffectAPI.start(id, type, duration, repeat, delay, interval, parsedSyntax.contains(" sync "), locs, targetLocations, skriptNode);
 	}
 
 	@Override

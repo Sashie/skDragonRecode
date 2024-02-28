@@ -12,14 +12,13 @@ import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-
-
 public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotation, IVelocity, IExtra {
 
 	AxisProperty axisProperty;
 	VelocityProperty velocityProperty;
 	ExtraProperty extraProperty;
 	RotationProperty rotationProperty;
+	int step;
 	
 	public Rings() {
 		axisProperty = new AxisProperty();
@@ -33,10 +32,10 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 	}
 
 	@Override
-	public void update(DynamicLocation location, float step) {
+	public void update(DynamicLocation location) {
 		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
 		for (int i = 0; i < this.getDensityProperty().getDensity(1); i++) {
-			final double angle = step * angularVelocity;//properties.getAngularVelocityX();
+			final double angle = step * angularVelocity;
 			for (int j = 0; j < this.getDensityProperty().getDensity(2); j++) {
 				final Vector v = new Vector(Math.cos(angle), Math.sin(angle), 0.0).multiply(this.getRadiusProperty().getRadius(1));
 				VectorUtils.rotateAroundAxisX(v, Math.PI / this.getDensityProperty().getDensity(2) * j);
@@ -55,6 +54,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 				}*/
 			}
 		}
+		step++;
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 	}
 
 	@Override
-	public void update(DynamicLocation location, DynamicLocation target, float step) {
+	public void update(DynamicLocation location, DynamicLocation target) {
 		electricity(location, target, this.getRadiusProperty().getRadius(1), this.getDensityProperty().getDensity(1));
 	}
 	

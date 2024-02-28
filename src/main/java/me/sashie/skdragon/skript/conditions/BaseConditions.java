@@ -13,8 +13,6 @@ public abstract class BaseConditions extends Condition {
 
 	public abstract boolean checkCondition(@NotNull Event event);
 
-	public abstract String toStringCondition(Event event, boolean debug);
-
 	@Override
 	public boolean init(Expression<?> @NotNull [] expressions, int matchedPattern, @NotNull Kleenean kleenean, SkriptParser.@NotNull ParseResult parseResult) {
 		setNegated(matchedPattern == 1);
@@ -24,11 +22,6 @@ public abstract class BaseConditions extends Condition {
 	@Override
 	public boolean check(@NotNull Event event) {
 		return isNegated() != checkCondition(event);
-	}
-
-	@Override
-	public @NotNull String toString(Event event, boolean debug) {
-		return toStringCondition(event, debug);
 	}
 
 }

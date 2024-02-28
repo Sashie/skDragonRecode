@@ -9,7 +9,6 @@ import me.sashie.skdragon.skript.expressions.CustomParticlePropertyExpression;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-
 @Name("Particles - Material type")
 @Description({"Certain particles allow you to change the material type they use ie. blockcrack etc.."})
 @Examples({"set particle material of effect \"uniqueID\" to dirt block"})

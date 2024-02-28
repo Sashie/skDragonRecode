@@ -9,8 +9,6 @@ import me.sashie.skdragon.effects.properties.IRotation;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Auto rotation")
 @Description({"If an effect uses this it makes the effect rotate using the rotation vector expression"})
 @Examples({"set auto rotation of effect \"uniqueID\" to true"})

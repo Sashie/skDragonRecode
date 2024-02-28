@@ -1,8 +1,11 @@
 package me.sashie.skdragon.util;
 
+import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.effects.ParticleEffect;
 import me.sashie.skdragon.particles.*;
 import me.sashie.skdragon.particles.data.*;
+import me.sashie.skdragon.runnable.ParticleRunnable;
+import me.sashie.skdragon.runnable.RunnableType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
@@ -14,10 +17,10 @@ import org.bukkit.entity.Player;
 import me.sashie.skdragon.debug.SkriptNode;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.debug.ParticleException;
 import me.sashie.skdragon.runnable.CounterRunnable;
 import me.sashie.skdragon.runnable.EffectRunnable;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 public class ParticleUtils {
 
@@ -29,12 +32,16 @@ public class ParticleUtils {
 	 */
 	public static void updateColoredParticles(EffectData data) {
 		for (ParticleBuilder<?> builder : data.getParticleBuilders()) {
-			ParticleData particleData = builder.getParticleData();
-			if (particleData instanceof ColoredParticleData) {
-				ColoredParticleData colorData = (ColoredParticleData) particleData;
-				if (colorData.colors != null && colorData.colors.size() > 1) {
-					colorData.colors.next();
-				}
+			updateColoredParticles(builder);
+		}
+	}
+
+	public static void updateColoredParticles(ParticleBuilder<?> builder) {
+		ParticleData particleData = builder.getParticleData();
+		if (particleData instanceof ColoredParticleData) {
+			ColoredParticleData colorData = (ColoredParticleData) particleData;
+			if (colorData.colors != null && colorData.colors.size() > 1) {
+				colorData.colors.next();
 			}
 		}
 	}
@@ -75,6 +82,13 @@ public class ParticleUtils {
 		return new NormalParticle();
 	}
 
+	public static ParticleBuilder createParticle(Particle particle, ParticleData data) {
+		ParticleBuilder<?> p = ParticleUtils.createParticle(particle);
+		p.initParticle(data);
+		p.getParticleData().setParticle(particle);
+		return p;
+	}
+
 	public static void updateParticleAmount(EffectData data, int newSize) {
 		if (newSize != data.getParticleBuilders().length) {
 			ParticleBuilder<?>[] finalParticles = new ParticleBuilder<?>[newSize];
@@ -107,11 +121,13 @@ public class ParticleUtils {
 		SQUARE
 	}
 
-	public static ParticleBuilder<?>[] isSupported(ParticleData[] data, SkriptNode skriptNode) throws ParticleException {
+	public static ParticleBuilder<?>[] isSupported(ParticleData[] data, SkriptNode skriptNode) {
 		ParticleBuilder<?>[] out = new ParticleBuilder[data.length];
 		for (int i = 0; i < data.length; i++) {
-			if (!Utils.isValidEnum(Particle.class, data[i].getParticle().toString()))
-				throw new ParticleException("The particle '" + data[i] + "' is not supported by your version of bukkit/spigot", skriptNode);
+			if (!Utils.isValidEnum(Particle.class, data[i].getParticle().toString())) {
+				SkDragonRecode.error("The particle '" + data[i] + "' is not supported by your version of bukkit/spigot", skriptNode);
+				return null;
+			}
 			out[i] = createParticle(data[i]);
 		}
 		return out;
@@ -121,28 +137,45 @@ public class ParticleUtils {
 		return block.getType() == Material.AIR;
 	}
 
-	public static void sendTimedParticles(ParticleBuilder<?> builder, DynamicLocation location, Player[] player, int iterations, long ticks) {
+	public static void sendTimedParticles(ParticleBuilder<?> builder, DynamicLocation location, Player[] player, long delay, int iterations, long ticks) {
 		new CounterRunnable() {
 			@Override
 			public int runCounter(int iteration) {
 				builder.sendParticles(location, player);
+				ParticleUtils.updateColoredParticles(builder);
 				return iterations;
 			}
-		}.runTaskTimerAsynchronously(0, ticks);
+		}.runTaskTimerAsynchronously(delay, ticks);
 	}
 
-	public static void sendTimedEffectParticles(ParticleBuilder<?> builder, ParticleEffect effect, Location location, Player[] player, int iterations, long ticks) {
-		new EffectRunnable(effect.getEffectData(), iterations).runTaskTimerAsynchronously(0, ticks);
+	public static void sendTimedEffectParticles(ParticleBuilder<?> builder, ParticleEffect effect, Location location, Player[] player, long duration, int iterations, long ticks) {
+		new EffectRunnable(effect.getEffectData(), duration, iterations).runTaskTimerAsynchronously(0, ticks);
 	}
 
-	public static void sendEffectParticles(ParticleBuilder<?> builder, ParticleEffect effect, Location location, Player[] player, int iterations) {
-		new EffectRunnable(effect.getEffectData(), iterations).runTaskAsynchronously();
+	public static void sendEffectParticles(ParticleBuilder<?> builder, ParticleEffect effect, Location location, Player[] player, long duration, int iterations) {
+		new EffectRunnable(effect.getEffectData(), duration, iterations).runTaskAsynchronously();
 	}
 
-	public static void sendParticle(DynamicLocation location, Player[] player, ParticleData data, ParticleEffect effect, int iterations, long ticks) {
+	public static void sendTimedParticles(ParticleBuilder<?> builder, DynamicLocation[] locations, Vector displacement, Player[] player, RunnableType runType, long delay, long duration, int iterations, long ticks) {
+		ParticleRunnable runnable = new ParticleRunnable(builder, locations, displacement, player, duration, iterations);
+
+		switch (runType) {
+			case INSTANT:
+				runnable.runTaskAsynchronously();
+				break;
+			case DELAYED:
+				runnable.runTaskLaterAsynchronously(delay);
+				break;
+			case REPEATING:
+				runnable.runTaskTimerAsynchronously(delay, ticks);
+				break;
+		}
+	}
+
+	public static void sendParticle(DynamicLocation location, Player[] player, ParticleData data, ParticleEffect effect, long duration, int iterations, long ticks) {
 		ParticleBuilder<?> builder = createParticle(data);
 		if (effect != null) {
-			sendTimedEffectParticles(builder, effect, location, player, iterations, ticks);
+			sendTimedEffectParticles(builder, effect, location, player, duration, iterations, ticks);
 		} else {
 			builder.sendParticles(location, player);
 		}

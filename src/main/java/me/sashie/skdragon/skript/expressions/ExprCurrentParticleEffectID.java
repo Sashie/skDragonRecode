@@ -13,8 +13,6 @@ import me.sashie.skdragon.skript.sections.ParticleEffectSection;
 import org.bukkit.event.Event;
 import org.jetbrains.annotations.NotNull;
 
-
-
 @Name("Particles - Current/last created particle effect ID")
 @Description({"Gets the last created particle effect ID for use in particle effect sections"})
 @Examples({""})
