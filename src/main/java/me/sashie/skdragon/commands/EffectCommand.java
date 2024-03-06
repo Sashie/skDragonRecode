@@ -29,7 +29,7 @@ import java.util.stream.Stream;
 public class EffectCommand implements TabExecutor {
 
 	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
 		if (!(sender instanceof Player)) {
 			sender.sendMessage("This command can only be executed by a player.");
 			return true;
