@@ -54,7 +54,7 @@ public final class SkDragonRecode extends JavaPlugin {
 				SkriptAddon addonInstance = Skript.registerAddon(this);
 				addonInstance.loadClasses("me.sashie.skdragon", "skript");
 			} catch (IOException e) {
-				error("Something unnormal happened...");
+				error("Something abnormal happened...");
 				e.printStackTrace();
 			}
 
