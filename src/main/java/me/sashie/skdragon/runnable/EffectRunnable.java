@@ -7,8 +7,9 @@ import me.sashie.skdragon.util.ParticleUtils;
 public class EffectRunnable extends BukkitRunnableTask {
 
 	private int size = 0, iterations = -1;
-	private long startTime, duration;
-
+	private final long startTime;
+	private final long duration;
+ 
 	private EffectData data;
 
 	public EffectRunnable(EffectData data, long duration, int iterations) {
@@ -20,7 +21,7 @@ public class EffectRunnable extends BukkitRunnableTask {
 
 	@Override
 	public void run() {
-		synchronized(this.data) {
+		synchronized (this.data) {
 			if (this.data == null) {
 				cancel();
 				return;
