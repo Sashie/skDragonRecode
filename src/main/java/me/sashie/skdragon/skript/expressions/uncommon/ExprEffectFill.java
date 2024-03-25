@@ -3,9 +3,10 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.properties.IFill;
+import me.sashie.skdragon.effects.properties.IStepTypes;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,18 +21,15 @@ public class ExprEffectFill extends CustomEffectPropertyExpression<Boolean> {
 
 	@Override
 	public Boolean getPropertyValue(EffectData effect) {
-		if (effect instanceof IFill) {
-			return ((IFill) effect).getFillProperty().isFill();
+		if (effect instanceof IStepTypes) {
+			return ((IStepTypes) effect).getStepTypesProperty().isFill();
 		}
 		return null;
 	}
 
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
-		if (effect instanceof IFill) {
-			Boolean b = (Boolean) delta[0];
-			((IFill) effect).getFillProperty().setFill(b);
-		}
+		PropertyAPI.setFill(effect, (Boolean) delta[0]);
 	}
 
 	@Override
@@ -46,6 +44,6 @@ public class ExprEffectFill extends CustomEffectPropertyExpression<Boolean> {
 
 	@Override
 	protected EffectProperty getEffectProperty() {
-		return EffectProperty.FILL;
+		return EffectProperty.STEP_TYPES;
 	}
 }

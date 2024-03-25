@@ -111,7 +111,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 	 *
 	 * @param value Skript input value for property expressions
 	 */
-	public abstract void setPropertyValue(EffectData effect, int propertyNumber, Number value);
+	public abstract void setPropertyValue(EffectData effect, int propertyNumber, Object delta);
 
 	@Override
 	@Nullable
@@ -181,8 +181,7 @@ public abstract class CustomArrayPropertyExpression<T> extends CustomPropertyExp
 					return;
 				}
 
-				Number value = (Number) delta[0];
-				setPropertyValue(effect, propertyNumber, value);
+				setPropertyValue(effect, propertyNumber, delta[0]);
 			}
 		}
 	}

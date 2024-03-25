@@ -10,18 +10,18 @@ import me.sashie.skdragon.effects.Parametric2DEffect;
 public class Epicycloid2D extends Parametric2DEffect {
 
 	public Epicycloid2D() {
-		this.getExtraProperty().initValue(1.5f, 1.5f);
-		this.getSolidProperty().setSolid(true);
+		this.getRadiusProperty().initRadius(1.5f, 1.5f);
+		this.getStepTypesProperty().setSolid(true);
 	}
 
 	@Override
 	public double vectorX(double angle) {
-		return (this.getExtraProperty().getValue(1) + this.getExtraProperty().getValue(2)) * Math.cos(angle) - this.getExtraProperty().getValue(2) * Math.cos((this.getExtraProperty().getValue(1) / this.getExtraProperty().getValue(2) + 1) * angle);
+		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * Math.cos(angle) - this.getRadiusProperty().getRadius(2) * Math.cos((this.getRadiusProperty().getRadius(1) / this.getRadiusProperty().getRadius(2) + 1) * angle);
 	}
 
 	@Override
 	public double vectorZ(double angle) {
-		return (this.getExtraProperty().getValue(1) + this.getExtraProperty().getValue(2)) * Math.sin(angle) - this.getExtraProperty().getValue(2) * Math.sin((this.getExtraProperty().getValue(1) / this.getExtraProperty().getValue(2) + 1) * angle);
+		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * Math.sin(angle) - this.getRadiusProperty().getRadius(2) * Math.sin((this.getRadiusProperty().getRadius(1) / this.getRadiusProperty().getRadius(2) + 1) * angle);
 	}
 
 }

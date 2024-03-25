@@ -1,5 +1,7 @@
 package me.sashie.skdragon.effects.special;
 
+import me.sashie.skdragon.effects.properties.IStep;
+import me.sashie.skdragon.effects.properties.StepProperty;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
@@ -15,14 +17,16 @@ import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-public class Atom extends SpecialRadiusDensityEffect implements IExtra {
+public class Atom extends SpecialRadiusDensityEffect implements IExtra, IStep {
 
 	private ExtraProperty extraProperty;
+	StepProperty stepProperty;
 	Vector vector;
-	int step;
+	float step;
 
 	public Atom() {
 		extraProperty = new ExtraProperty();
+		stepProperty = new StepProperty();
 		this.getExtraProperty().initValue(40f, 30f);
 		this.getRadiusProperty().initRadius(.5f, 1.5f);
 		this.getDensityProperty().initDensity(20, 20, 20);
@@ -32,6 +36,7 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 
 	@Override
 	public void update(DynamicLocation location) {
+		step = stepProperty.getStep();
 		double densityAngle = Math.PI / this.getDensityProperty().getDensity(2);
 		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
 
@@ -47,7 +52,7 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 				this.getParticleBuilder(2).sendParticles(location.add(vector), this.getPlayers());
 				location.subtract(vector);
 			}
-			step++;
+			this.stepProperty.update();
 		}
 
 		//Sphere
@@ -57,7 +62,7 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 			this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
 			location.subtract(vector);
 		}
-		step++;
+		this.stepProperty.update();
 	}
 
 	@Override
@@ -80,4 +85,8 @@ public class Atom extends SpecialRadiusDensityEffect implements IExtra {
 		return extraProperty;
 	}
 
+	@Override
+	public StepProperty getStepProperty() {
+		return stepProperty;
+	}
 }

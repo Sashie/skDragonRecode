@@ -1,5 +1,6 @@
 package me.sashie.skdragon.particles;
 
+import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 
 /**
@@ -12,18 +13,14 @@ public class Value3d implements Cloneable {
 	double x, y, z;
 
 	public Value3d(Vector vector) {
-		this.x = vector.getX();
-		this.y = vector.getY();
-		this.z = vector.getZ();
+		this(vector.getX(), vector.getY(), vector.getZ());
 	}
 
 	public Value3d() {
 	}
 
 	public Value3d(Value3d vector) {
-		this.x = vector.getX();
-		this.y = vector.getY();
-		this.z = vector.getZ();
+		this(vector.getX(), vector.getY(), vector.getZ());
 	}
 
 	public Value3d(double x, double y, double z) {
@@ -54,6 +51,16 @@ public class Value3d implements Cloneable {
 
 	public void setZ(double z) {
 		this.z = z;
+	}
+
+	public Value3d normalize() {
+		double length = Math.sqrt(NumberConversions.square(x) + NumberConversions.square(y) + NumberConversions.square(z));
+
+		x /= length;
+		y /= length;
+		z /= length;
+
+		return this;
 	}
 
 //	public Vector toBukkitVector() {

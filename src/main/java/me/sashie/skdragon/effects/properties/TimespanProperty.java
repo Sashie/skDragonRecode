@@ -12,7 +12,7 @@ public class TimespanProperty {
 
 	public Long getTimespan(int index) {
 		if (index > this.timespan.length) {
-			SkDragonRecode.error("This effect only uses " + this.timespan.length + " density values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.timespan.length + " timespan values not " + index);
 			return 0L;
 		}
 		return timespan[index - 1];
@@ -20,7 +20,7 @@ public class TimespanProperty {
 
 	public void setTimespan(int index, long timespan) {
 		if (index > this.timespan.length) {
-			SkDragonRecode.error("This effect only uses " + this.timespan.length + " density values not " + index);
+			SkDragonRecode.error("This effect only uses " + this.timespan.length + " timespan values not " + index);
 			return;
 		}
 		this.timespan[index - 1] = timespan;

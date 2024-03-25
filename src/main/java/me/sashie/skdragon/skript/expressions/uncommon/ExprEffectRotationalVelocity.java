@@ -3,6 +3,7 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IVelocity;
@@ -34,10 +35,8 @@ public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression
 
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
-		if (effect instanceof IVelocity) {
-			Vector v = (Vector) (delta[0]);
-			((IVelocity) effect).getVelocityProperty().setAngularVelocity(v.getX(), v.getY(), v.getZ());
-		}
+		Vector v = (Vector) (delta[0]);
+		PropertyAPI.setVelocity(effect, v.getX(), v.getY(), v.getZ());
 	}
 
 	@Override
@@ -52,6 +51,6 @@ public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression
 
 	@Override
 	protected EffectProperty getEffectProperty() {
-		return EffectProperty.XYZ_ANGULAR_VELOCITY;
+		return EffectProperty.ROTATE_VELOCITY;
 	}
 }

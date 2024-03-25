@@ -3,9 +3,10 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.properties.IRotation;
+import me.sashie.skdragon.effects.properties.IVelocity;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,18 +21,15 @@ public class ExprEffectRotate extends CustomEffectPropertyExpression<Boolean> {
 
 	@Override
 	public Boolean getPropertyValue(EffectData effect) {
-		if (effect instanceof IRotation) {
-			return ((IRotation) effect).getRotateProperty().isRotating();
+		if (effect instanceof IVelocity) {
+			return ((IVelocity) effect).getVelocityProperty().isRotating();
 		}
 		return null;
 	}
 
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
-		if (effect instanceof IRotation) {
-			Boolean b = (Boolean) delta[0];
-			((IRotation) effect).getRotateProperty().setRotating(b);
-		}
+		PropertyAPI.setRotate(effect, (Boolean) delta[0]);
 	}
 
 	@Override
@@ -46,6 +44,6 @@ public class ExprEffectRotate extends CustomEffectPropertyExpression<Boolean> {
 
 	@Override
 	protected EffectProperty getEffectProperty() {
-		return EffectProperty.AUTO_ROTATE;
+		return EffectProperty.ROTATE_VELOCITY;
 	}
 }

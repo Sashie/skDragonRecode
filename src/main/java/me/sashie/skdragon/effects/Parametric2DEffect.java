@@ -7,7 +7,7 @@ import me.sashie.skdragon.util.Utils;
  *
  */
 
-public abstract class Parametric2DEffect extends SimpleValueEffect {
+public abstract class Parametric2DEffect extends SimpleEffect {
 
 	public Parametric2DEffect() {
 		this.getDensityProperty().initDensity(60);
@@ -22,5 +22,10 @@ public abstract class Parametric2DEffect extends SimpleValueEffect {
 		v.setX(vectorX(angle));
  		v.setZ(vectorZ(angle));
 	}
-	
+
+	@Override
+	public EffectProperty[] acceptProperties() {
+		return new EffectProperty[0];
+	}
+
 }

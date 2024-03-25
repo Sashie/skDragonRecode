@@ -12,14 +12,16 @@ public class VectorPool {
 	}
 
 	public Vector acquire(Vector vector) {
-		Vector v = pool.acquire();
-		v.setX(vector.getX()).setY(vector.getY()).setZ(vector.getZ());
-		return v;
+		return acquire(vector.getX(), vector.getY(), vector.getZ());
 	}
 
 	public Vector acquire(Location location) {
+		return acquire(location.getX(), location.getY(), location.getZ());
+	}
+
+	public Vector acquire(double x, double y, double z) {
 		Vector v = pool.acquire();
-		v.setX(location.getX()).setY(location.getY()).setZ(location.getZ());
+		v.setX(x).setY(y).setZ(x);
 		return v;
 	}
 

@@ -29,19 +29,18 @@ public enum EffectProperty {
 
 	TEXT,
 	WINGS,
-	
-	SOLID_SHAPE, 
+
+	STEP_TYPES,
 	AUTO_FACE,
 	ROTATIONAL_PLANE,
-	AUTO_ROTATE,
 	
 	DENSITY,
 	EXTRA,
 	RADIUS,
 	BOOLEAN,
 	TIMESPAN,
-	
-	XYZ_ANGULAR_VELOCITY,
+
+	ROTATE_VELOCITY,
 	
 	AXIS,
 
@@ -49,8 +48,8 @@ public enum EffectProperty {
 	 * 
 	 */
 	DISPLACEMENT,
-	FILL,
-	SWING_STEP;
+	SWING_STEP,
+	ORBIT;
 
 	public String getName() {
 		return toString().toLowerCase().replace("_", " ");

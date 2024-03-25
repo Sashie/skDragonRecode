@@ -123,6 +123,12 @@ public enum ParticleEffect {
 			return new NyanCat();
 		}
 	},
+	PLANET {
+		@Override
+		public EffectData getEffectData() {
+			return new Planet();
+		}
+	},
 	RINGS {
 		@Override
 		public EffectData getEffectData() {
@@ -130,7 +136,13 @@ public enum ParticleEffect {
 		}
 	},
 
-	/*MAGIC_PORTAL {
+	/*Nebula {
+		@Override
+		public EffectData getEffectData() {
+			return new Nebula();
+		}
+	},
+	MAGIC_PORTAL {
 		@Override
 		public EffectData getEffectData() {
 			return new MagicalPortalEffect();
@@ -140,6 +152,12 @@ public enum ParticleEffect {
 		@Override
 		public EffectData getEffectData() {
 			return new Text();
+		}
+	},
+	PHYSICS {
+		@Override
+		public EffectData getEffectData() {
+			return new PhysicsParticleEffect();
 		}
 	},*/
 

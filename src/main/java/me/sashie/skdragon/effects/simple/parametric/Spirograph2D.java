@@ -18,19 +18,19 @@ import me.sashie.skdragon.effects.Parametric2DEffect;
 public class Spirograph2D extends Parametric2DEffect {
 
 	public Spirograph2D() {
-		this.getExtraProperty().initValue(30f, -10f, 26f);
+		this.getRadiusProperty().initRadius(30f, -10f, 26f);
 		this.getDensityProperty().initDensity(100);
-		this.getSolidProperty().setSolid(true);
+		this.getStepTypesProperty().setSolid(true);
 	}
 
 	@Override
 	public double vectorX(double angle) {
-		return (this.getExtraProperty().getValue(1) + this.getExtraProperty().getValue(2)) * Math.cos(angle) - (this.getExtraProperty().getValue(2) + this.getExtraProperty().getValue(3)) * Math.cos(((this.getExtraProperty().getValue(1) + this.getExtraProperty().getValue(2)) / this.getExtraProperty().getValue(2)) * angle);
+		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * Math.cos(angle) - (this.getRadiusProperty().getRadius(2) + this.getRadiusProperty().getRadius(3)) * Math.cos(((this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) / this.getRadiusProperty().getRadius(2)) * angle);
 	}
 
 	@Override
 	public double vectorZ(double angle) {
-		return (this.getExtraProperty().getValue(1) + this.getExtraProperty().getValue(2)) * Math.sin(angle) - (this.getExtraProperty().getValue(2) + this.getExtraProperty().getValue(3)) * Math.sin(((this.getExtraProperty().getValue(1) + this.getExtraProperty().getValue(2)) / this.getExtraProperty().getValue(2)) * angle);
+		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * Math.sin(angle) - (this.getRadiusProperty().getRadius(2) + this.getRadiusProperty().getRadius(3)) * Math.sin(((this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) / this.getRadiusProperty().getRadius(2)) * angle);
 	}
 
 }

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ch.njol.skript.util.Color;
 import ch.njol.skript.util.ColorRGB;
+import me.sashie.skdragon.effects.properties.IStep;
+import me.sashie.skdragon.effects.properties.StepProperty;
 import me.sashie.skdragon.effects.targets.Line;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.*;
@@ -20,15 +21,16 @@ import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.util.color.ColorUtils;
 
-public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
+public class Lasers extends SpecialRadiusDensityEffect implements IExtra, IStep {
 
 	private ExtraProperty extraProperty;
-	int step;
+	StepProperty stepProperty;
 
 	private List<Animation> lines = new ArrayList<Animation>();
 
 	public Lasers() {
 		extraProperty = new ExtraProperty();
+		stepProperty = new StepProperty();
 		this.getRadiusProperty().initRadius(3.0f, 0);
 		this.getExtraProperty().initValue(3.0f);
 		this.getDensityProperty().initDensity(20, 15);
@@ -36,7 +38,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 
 	@Override
 	public void update(DynamicLocation location) {
-		if (step % 20 == 0) {
+		if (stepProperty.getStep() % 20 == 0) {
 			new Animation(location);
 		}
 
@@ -52,7 +54,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 				return;
 			}
 		}
-		step++;
+		this.stepProperty.update();
 	}
 
 	private class Animation {
@@ -133,5 +135,10 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra {
 	@Override
 	public ExtraProperty getExtraProperty() {
 		return extraProperty;
+	}
+
+	@Override
+	public StepProperty getStepProperty() {
+		return stepProperty;
 	}
 }

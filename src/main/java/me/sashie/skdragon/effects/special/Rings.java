@@ -12,19 +12,19 @@ import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
 import me.sashie.skdragon.util.VectorUtils;
 
-public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotation, IVelocity, IExtra {
+public class Rings extends SpecialRadiusDensityEffect implements IAxis, IVelocity, IExtra, IStep {
 
 	AxisProperty axisProperty;
 	VelocityProperty velocityProperty;
 	ExtraProperty extraProperty;
-	RotationProperty rotationProperty;
-	int step;
+	StepProperty stepProperty;
+	float step;
 	
 	public Rings() {
 		axisProperty = new AxisProperty();
 		velocityProperty = new VelocityProperty();
 		extraProperty = new ExtraProperty();
-		rotationProperty = new RotationProperty();
+		stepProperty = new StepProperty();
 
 		this.getRadiusProperty().initRadius(1.5f);
 		this.getDensityProperty().initDensity(10, 10);
@@ -33,6 +33,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 
 	@Override
 	public void update(DynamicLocation location) {
+		step = stepProperty.getStep();
 		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
 		for (int i = 0; i < this.getDensityProperty().getDensity(1); i++) {
 			final double angle = step * angularVelocity;
@@ -40,9 +41,10 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 				final Vector v = new Vector(Math.cos(angle), Math.sin(angle), 0.0).multiply(this.getRadiusProperty().getRadius(1));
 				VectorUtils.rotateAroundAxisX(v, Math.PI / this.getDensityProperty().getDensity(2) * j);
 				VectorUtils.rotateAroundAxisY(v, 90);
-				VectorUtils.rotateVector(v, this.getAxisProperty().getAxis().getX(), this.getAxisProperty().getAxis().getY(), this.getAxisProperty().getAxis().getZ());
-				if (this.getRotateProperty().isRotating())
-					VectorUtils.rotateVector(v, this.getVelocityProperty().getAngularVelocityX() * step, this.getVelocityProperty().getAngularVelocityY() * step, this.getVelocityProperty().getAngularVelocityZ() * step);
+
+				this.axisProperty.rotateAxis(v);
+				this.velocityProperty.updateRotation(v, step);
+
 				location.add(v);
 				this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
 				location.subtract(v);
@@ -54,7 +56,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 				}*/
 			}
 		}
-		step++;
+		this.stepProperty.update();
 	}
 
 	@Override
@@ -64,7 +66,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 
 	@Override
 	public EffectProperty[] acceptProperties() {
-		return EffectUtils.array(EffectProperty.EXTRA, EffectProperty.AXIS, EffectProperty.AUTO_ROTATE, EffectProperty.XYZ_ANGULAR_VELOCITY);
+		return EffectUtils.array(EffectProperty.EXTRA, EffectProperty.AXIS, EffectProperty.ROTATE_VELOCITY);
 	}
 
 	@Override
@@ -78,11 +80,6 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 	}
 
 	@Override
-	public RotationProperty getRotateProperty() {
-		return rotationProperty;
-	}
-
-	@Override
 	public VelocityProperty getVelocityProperty() {
 		return velocityProperty;
 	}
@@ -90,5 +87,10 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IRotatio
 	@Override
 	public ExtraProperty getExtraProperty() {
 		return extraProperty;
+	}
+
+	@Override
+	public StepProperty getStepProperty() {
+		return stepProperty;
 	}
 }

@@ -3,9 +3,10 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
-import me.sashie.skdragon.effects.properties.ISolid;
+import me.sashie.skdragon.effects.properties.IStepTypes;
 import me.sashie.skdragon.skript.expressions.CustomEffectPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,18 +21,15 @@ public class ExprEffectSolidMode extends CustomEffectPropertyExpression<Boolean>
 
 	@Override
 	public Boolean getPropertyValue(EffectData effect) {
-		if (effect instanceof ISolid) {
-			return ((ISolid) effect).getSolidProperty().isSolid();
+		if (effect instanceof IStepTypes) {
+			return ((IStepTypes) effect).getStepTypesProperty().isSolid();
 		}
 		return null;
 	}
 
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
-		if (effect instanceof ISolid) {
-			Boolean b = (Boolean) delta[0];
-			((ISolid) effect).getSolidProperty().setSolid(b);
-		}
+		PropertyAPI.setSolid(effect, (Boolean) delta[0]);
 	}
 
 	@Override
@@ -46,6 +44,6 @@ public class ExprEffectSolidMode extends CustomEffectPropertyExpression<Boolean>
 
 	@Override
 	protected EffectProperty getEffectProperty() {
-		return EffectProperty.SOLID_SHAPE;
+		return EffectProperty.STEP_TYPES;
 	}
 }

@@ -3,6 +3,7 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IStyle;
@@ -29,14 +30,7 @@ public class ExprEffectStyle extends CustomEffectPropertyExpression<Number> {
 
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
-		if (effect instanceof IStyle) {
-			Number b = (Number) (delta[0]);
-			if (effect instanceof Wings) {
-				((Wings) effect).setStyle(b.intValue());
-			} else {
-				((IStyle) effect).getStyleProperty().setStyle(b.intValue());
-			}
-		}
+		PropertyAPI.setStyle(effect, ((Number) (delta[0])).intValue());
 	}
 
 	@Override

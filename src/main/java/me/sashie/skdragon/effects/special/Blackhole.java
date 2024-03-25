@@ -1,6 +1,6 @@
 package me.sashie.skdragon.effects.special;
 
-import me.sashie.skdragon.effects.properties.SwingStepProperty;
+import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.util.*;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
@@ -8,22 +8,20 @@ import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
-import me.sashie.skdragon.effects.properties.ExtraProperty;
-import me.sashie.skdragon.effects.properties.IExtra;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 
-public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
+public class Blackhole extends SpecialRadiusDensityEffect implements IExtra, IStep {
 
 	private ExtraProperty extraProperty;
 	Vector vector, direction;
 	DynamicLocation add, subtract;
-	SwingStepProperty stepProperty;
+	StepProperty stepProperty;
 
 	public Blackhole() {
 		extraProperty = new ExtraProperty();
-		stepProperty = new SwingStepProperty();
+		stepProperty = new StepProperty();
 
 		this.getExtraProperty().initValue(new float[] { 0.4f, 0.3f, 0.5f });
 		this.getDensityProperty().initDensity(new int[] { 10, 5 });
@@ -101,4 +99,8 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra {
 		return extraProperty;
 	}
 
+	@Override
+	public StepProperty getStepProperty() {
+		return stepProperty;
+	}
 }

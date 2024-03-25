@@ -3,6 +3,7 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IExtra;
@@ -39,10 +40,9 @@ public class ExprEffectExtra extends CustomArrayPropertyExpression<Number> {
 	}
 
 	@Override
-	public void setPropertyValue(EffectData effect, int propertyNumber, Number value) {
-		if (effect instanceof IExtra) {
-			((IExtra) effect).getExtraProperty().setValue(propertyNumber, value.floatValue());
-		}
+	public void setPropertyValue(EffectData effect, int propertyNumber, Object delta) {
+		Number value = (Number) delta;
+		PropertyAPI.setExtra(effect, propertyNumber, value.floatValue());
 	}
 
 	@Override

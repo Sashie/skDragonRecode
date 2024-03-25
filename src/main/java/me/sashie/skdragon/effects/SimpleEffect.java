@@ -11,15 +11,15 @@ import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.particles.ColoredParticle;
 
-public abstract class SimpleEffect extends EffectData implements IDensity, ISolid, IRotation, IVelocity, IAxis, ISwingStep, IFill {
+public abstract class SimpleEffect extends EffectData implements IDensity, IRadius, IStepTypes, IVelocity, IAxis, ISwingStep, IOrbitStep {
 
 	private DensityProperty densityProperty;
-	private SolidProperty solidProperty;
-	private RotationProperty rotationProperty;
+	private RadiusProperty radiusProperty;
+	private StepTypesProperty stepTypesProperty;
 	private VelocityProperty velocityProperty;
 	private AxisProperty axisProperty;
 	private SwingStepProperty stepProperty;
-	private FillProperty fillProperty;
+	private OrbitStepProperty orbitStepProperty;
 
 	private boolean init;
 	private DynamicList<Vector> particleVectors;
@@ -28,12 +28,12 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 	public SimpleEffect() {
 
 		densityProperty = new DensityProperty();
-		solidProperty = new SolidProperty();
-		rotationProperty = new RotationProperty();
+		radiusProperty = new RadiusProperty();
+		stepTypesProperty = new StepTypesProperty();
 		velocityProperty = new VelocityProperty();
 		axisProperty = new AxisProperty();
 		stepProperty = new SwingStepProperty();
-		fillProperty = new FillProperty();
+		orbitStepProperty = new OrbitStepProperty();
 
 		particleVectors = new DynamicList<>();
 		v = ObjectPoolManager.getVectorPool().acquire();
@@ -64,13 +64,15 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 				float step = stepProperty.getStep();
 				int density = this.densityProperty.getDensity(1);
 
-				if (this.solidProperty.isSolid()) {
+				this.orbitStepProperty.updateOrbit(this.getLocations()[i]);
+
+				if (this.stepTypesProperty.isSolid()) {
 					for (int j = 0; j < density; j++) {
 						v.setX(0).setY(0).setZ(0);
 						math(j);
 						spawnParticle(this.getLocations()[i], rotateShape(v, step));
 					}
-				} else if (this.fillProperty.isFill()) {
+				} else if (this.stepTypesProperty.isFill()) {
 					math(step);
 					Vector clone = ObjectPoolManager.getVectorPool().acquire(v);
 					particleVectors.add(clone);
@@ -88,7 +90,8 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 					spawnParticle(this.getLocations()[i], rotateShape(v, step));
 				}
 
-				stepProperty.update(density);
+				this.radiusProperty.updateRadius();
+				this.stepProperty.update(density);
 
 			}
 		}
@@ -106,7 +109,7 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 
 	@Override
 	public EffectProperty[] acceptDefaultProperties() {
-		return EffectUtils.array(EffectProperty.AUTO_ROTATE, EffectProperty.XYZ_ANGULAR_VELOCITY, EffectProperty.AXIS, EffectProperty.DENSITY, EffectProperty.SOLID_SHAPE, EffectProperty.DISPLACEMENT, EffectProperty.FILL, EffectProperty.SWING_STEP);
+		return EffectUtils.array(EffectProperty.ROTATE_VELOCITY, EffectProperty.AXIS, EffectProperty.DENSITY, EffectProperty.RADIUS, EffectProperty.STEP_TYPES, EffectProperty.DISPLACEMENT, EffectProperty.SWING_STEP, EffectProperty.ORBIT);
 	}
 
 	@Override
@@ -115,15 +118,15 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 	}
 
 	@Override
-	public SolidProperty getSolidProperty() {
-		return solidProperty;
+	public RadiusProperty getRadiusProperty() {
+		return radiusProperty;
 	}
 
 	@Override
-	public RotationProperty getRotateProperty() {
-		return rotationProperty;
+	public StepTypesProperty getStepTypesProperty() {
+		return stepTypesProperty;
 	}
-	
+
 	@Override
 	public VelocityProperty getVelocityProperty() {
 		return velocityProperty;
@@ -140,10 +143,9 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 	}
 
 	@Override
-	public FillProperty getFillProperty() {
-		return fillProperty;
+	public OrbitStepProperty getOrbitStepProperty() {
+		return orbitStepProperty;
 	}
-
 
 	public void spawnParticle(List<Vector> vectors) {
 		for (int i = 0; i < this.getLocations().length; i++) {
@@ -164,9 +166,8 @@ public abstract class SimpleEffect extends EffectData implements IDensity, ISoli
 	}
 
 	public Vector rotateShape(Vector v, float step) {
-		VectorUtils.rotateVector(v, this.axisProperty.getAxis().getX(), this.axisProperty.getAxis().getY(), this.axisProperty.getAxis().getZ());
-		if (this.rotationProperty.isRotating())
-			return VectorUtils.rotateVector(v, (this.velocityProperty.getAngularVelocityX()) * step, (this.velocityProperty.getAngularVelocityY()) * step, (this.velocityProperty.getAngularVelocityZ()) * step);
+		this.axisProperty.rotateAxis(v);
+		this.velocityProperty.updateRotation(v, step);
 		return v;
 	}
 }

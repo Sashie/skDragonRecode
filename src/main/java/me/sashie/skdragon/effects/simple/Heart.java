@@ -1,13 +1,13 @@
 package me.sashie.skdragon.effects.simple;
 
-import me.sashie.skdragon.effects.SimpleRadiusValueEffect;
+import me.sashie.skdragon.effects.SimpleValueEffect;
 
-public class Heart extends SimpleRadiusValueEffect {
+public class Heart extends SimpleValueEffect {
 
 	public Heart() {
 		this.getRadiusProperty().initRadius(1.5f, 1.5f);
 		this.getExtraProperty().initValue(2f, 0.8f, 1f);
-		this.getSolidProperty().setSolid(true);
+		this.getStepTypesProperty().setSolid(true);
 	}
 
 	@Override

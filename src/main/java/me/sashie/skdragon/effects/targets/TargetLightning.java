@@ -51,9 +51,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 		double lastX = startLoc.getX();
 		double lastY = startLoc.getY();
 		double lastZ = startLoc.getZ();
-		
-		//int segments = (int) (startLoc.distance(endLoc) / distanceBetweenPoints) + 1;
-		//int segments = (int) (startLoc.distanceSquared(endLoc) / distanceBetweenPoints) + 1;
+
 		double distance = startLoc.distanceSquared(endLoc);
 		int segments = 1;
 		if (this.getStyleProperty().getStyle() == 1)
@@ -63,7 +61,6 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 		else
 			segments = this.getExtraProperty().getValue(1).intValue();
 
-		//System.out.println(segments / density);
 		//TODO make a better equation for total length to segment length ratio
 		int dps = density / segments;
 		if (dps <= 1)
@@ -98,7 +95,6 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 		link.normalize();
 		float ratio = length / density;
 		Vector v = link.multiply(ratio);
-		//DynamicLocation loc = new DynamicLocation(start.subtract(v).toLocation(this.getLocations()[0].getWorld()));
 		loc = ObjectPoolManager.getDynamicLocationPool().acquire(start.subtract(v).toLocation(this.getLocations()[0].getWorld()));
 
 		for (int i = 0; i < density; i++) {

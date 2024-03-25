@@ -45,7 +45,7 @@ public class Arc extends TargetEffect implements IDensity, IExtra {
 			this.getParticleBuilder(1).sendParticles(location, this.getPlayers());
 			location.subtract(v2).subtract(v);
 		}
-		//TODO make it rotate more
+		//TODO make it rotate more. debug it for when the locations are above each other
 	}
 
 	@Override

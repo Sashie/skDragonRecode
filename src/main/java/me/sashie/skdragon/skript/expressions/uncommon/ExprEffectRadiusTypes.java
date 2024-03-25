@@ -10,14 +10,14 @@ import me.sashie.skdragon.effects.properties.IRadius;
 import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
-@Name("Particles - Effect radius")
+@Name("Particles - Effect radius types")
 @Description({"Sets or gets the radius of most effects",
 		"Also used for parametric equation effect types as well(can use negative numbers)"})
 @Examples({"set radius of effect \"uniqueID\" to 2"})
-public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
+public class ExprEffectRadiusTypes extends CustomArrayPropertyExpression<Boolean> {
 
 	static {
-		register(ExprEffectRadius.class, Number.class, "radius [(1¦start|2¦end|3¦step amount)]");
+		register(ExprEffectRadiusTypes.class, Boolean.class, "radius (1¦(oscillation|swing)|2¦repeat)");
 	}
 
 	@Override
@@ -29,17 +29,15 @@ public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
 	}
 
 	@Override
-	public Number getPropertyValue(int propertyNumber, EffectData effect) {
+	public Boolean getPropertyValue(int propertyNumber, EffectData effect) {
 		if (effect instanceof IRadius) {
 			switch (mark) {
 				case 1:
-					return ((IRadius) effect).getRadiusProperty().getStartRadius(propertyNumber);
+					return ((IRadius) effect).getRadiusProperty().isOscillating(propertyNumber);
 				case 2:
-					return ((IRadius) effect).getRadiusProperty().getEndRadius(propertyNumber);
-				case 3:
-					return ((IRadius) effect).getRadiusProperty().getStepAmount(propertyNumber);
+					return ((IRadius) effect).getRadiusProperty().isRepeating(propertyNumber);
 				default:
-					return ((IRadius) effect).getRadiusProperty().getRadius(propertyNumber);
+					return null;
 			}
 		}
 		return null;
@@ -47,30 +45,27 @@ public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
 
 	@Override
 	public void setPropertyValue(EffectData effect, int propertyNumber, Object delta) {
-		Number value = (Number) delta;
-		switch (mark) {
-			case 1:
-				PropertyAPI.setRadiusStart(effect, propertyNumber, value.floatValue());
-				break;
-			case 2:
-				PropertyAPI.setRadiusEnd(effect, propertyNumber, value.floatValue());
-				break;
-			case 3:
-				PropertyAPI.setRadiusStepAmount(effect, propertyNumber, value.floatValue());
-				break;
-			default:
-				PropertyAPI.setRadius(effect, propertyNumber, value.floatValue());
+		Boolean value = (Boolean) delta;
+		if (effect instanceof IRadius) {
+			switch (mark) {
+				case 1:
+					((IRadius) effect).getRadiusProperty().setOscillation(propertyNumber, value.booleanValue());
+					break;
+				case 2:
+					((IRadius) effect).getRadiusProperty().setRepeating(propertyNumber, value.booleanValue());
+					break;
+			}
 		}
 	}
 
 	@Override
-	public @NotNull Class<? extends Number> getReturnType() {
-		return Number.class;
+	public @NotNull Class<? extends Boolean> getReturnType() {
+		return Boolean.class;
 	}
 
 	@Override
 	public String getPropertyName() {
-		return "radius";
+		return "radius types";
 	}
 
 	@Override

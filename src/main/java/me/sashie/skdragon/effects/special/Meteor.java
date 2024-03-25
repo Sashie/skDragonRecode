@@ -2,10 +2,7 @@ package me.sashie.skdragon.effects.special;
 
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialEffect;
-import me.sashie.skdragon.effects.properties.ExtraProperty;
-import me.sashie.skdragon.effects.properties.IExtra;
-import me.sashie.skdragon.effects.properties.IRadius;
-import me.sashie.skdragon.effects.properties.RadiusProperty;
+import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.DynamicLocation;
@@ -20,18 +17,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Meteor extends SpecialEffect implements IExtra, IRadius {
+public class Meteor extends SpecialEffect implements IExtra, IRadius, IStep {
 
 	private ExtraProperty extraProperty;
 	private RadiusProperty radiusProperty;
+	StepProperty stepProperty;
 	private List<Animation> meteors;
 	int step;
 
 	public Meteor() {
 		meteors = new ArrayList<Animation>();
-
 		extraProperty = new ExtraProperty();
 		radiusProperty = new RadiusProperty();
+		stepProperty = new StepProperty();
 
 		this.getExtraProperty().initValue(3.0f);
 		this.getRadiusProperty().initRadius(3.0f);
@@ -39,7 +37,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 
 	@Override
 	public void update(DynamicLocation location) {
-		if (step % 30 == 0) {
+		if (stepProperty.getStep() % 30 == 0) {
 			new Animation(location);
 		}
 
@@ -56,7 +54,7 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 			}
 
 		}
-		step++;
+		this.stepProperty.update();
 	}
 
 	private class Animation {
@@ -135,5 +133,10 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius {
 	@Override
 	public RadiusProperty getRadiusProperty() {
 		return radiusProperty;
+	}
+
+	@Override
+	public StepProperty getStepProperty() {
+		return stepProperty;
 	}
 }

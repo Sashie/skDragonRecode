@@ -3,6 +3,7 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
+import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IDensity;
@@ -39,10 +40,9 @@ public class ExprEffectDensity extends CustomArrayPropertyExpression<Number> {
 	}
 
 	@Override
-	public void setPropertyValue(EffectData effect, int propertyNumber, Number value) {
-		if (effect instanceof IDensity) {
-			((IDensity) effect).getDensityProperty().setDensity(propertyNumber, value.intValue());
-		}
+	public void setPropertyValue(EffectData effect, int propertyNumber, Object delta) {
+		Number value = (Number) delta;
+		PropertyAPI.setDensity(effect, propertyNumber, value.intValue());
 	}
 
 	@Override

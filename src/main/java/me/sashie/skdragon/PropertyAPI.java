@@ -6,7 +6,6 @@ import me.sashie.skdragon.effects.special.Wings;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.skript.sections.ParticleSection;
 import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
@@ -24,20 +23,20 @@ public class PropertyAPI {
 	}
 
 	public static void setSolid(EffectData data, boolean solid) {
-		if (data instanceof ISolid) {
-			((ISolid) data).getSolidProperty().setSolid(solid);
+		if (data instanceof IStepTypes) {
+			((IStepTypes) data).getStepTypesProperty().setSolid(solid);
 		}
 	}
 
 	public static void setFill(EffectData data, boolean fill) {
-		if (data instanceof IFill) {
-			((IFill) data).getFillProperty().setFill(fill);
+		if (data instanceof IStepTypes) {
+			((IStepTypes) data).getStepTypesProperty().setFill(fill);
 		}
 	}
 
 	public static void setRotate(EffectData data, boolean rotate) {
-		if (data instanceof IRotation) {
-			((IRotation) data).getRotateProperty().setRotating(rotate);
+		if (data instanceof IVelocity) {
+			((IVelocity) data).getVelocityProperty().setRotating(rotate);
 		}
 	}
 
@@ -53,13 +52,17 @@ public class PropertyAPI {
 		}
 	}
 
-	public static void setAxis(EffectData data, float x, float y, float z) {
+	public static void setAxis(EffectData data, double x, double y, double z) {
 		if (data instanceof IAxis) {
 			((IAxis) data).getAxisProperty().setAxis(x, y, z);
 		}
 	}
 
-	public static void setVelocity(EffectData data, float x, float y, float z) {
+	public static void setAxis(EffectData data, Vector vector) {
+		setAxis(data, vector.getX(), vector.getY(), vector.getZ());
+	}
+
+	public static void setVelocity(EffectData data, double x, double y, double z) {
 		if (data instanceof IVelocity) {
 			((IVelocity) data).getVelocityProperty().setAngularVelocity(x, y, z);
 		}
@@ -74,6 +77,36 @@ public class PropertyAPI {
 	public static void setRadius(EffectData data, int index, float radius) {
 		if (data instanceof IRadius) {
 			((IRadius) data).getRadiusProperty().setRadius(index, radius);
+		}
+	}
+
+	public static void setRadiusStart(EffectData data, int index, float start) {
+		if (data instanceof IRadius) {
+			((IRadius) data).getRadiusProperty().setStartRadius(index, start);
+		}
+	}
+
+	public static void setRadiusEnd(EffectData data, int index, float end) {
+		if (data instanceof IRadius) {
+			((IRadius) data).getRadiusProperty().setEndRadius(index, end);
+		}
+	}
+
+	public static void setRadiusStepAmount(EffectData data, int index, float end) {
+		if (data instanceof IRadius) {
+			((IRadius) data).getRadiusProperty().setStepAmount(index, end);
+		}
+	}
+
+	public static void setRadiusOscillation(EffectData data, int index, boolean oscillation) {
+		if (data instanceof IRadius) {
+			((IRadius) data).getRadiusProperty().setOscillation(index, oscillation);
+		}
+	}
+
+	public static void setRadiusRepeat(EffectData data, int index, boolean repeat) {
+		if (data instanceof IRadius) {
+			((IRadius) data).getRadiusProperty().setRepeating(index, repeat);
 		}
 	}
 
