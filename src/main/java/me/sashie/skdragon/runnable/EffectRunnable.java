@@ -24,7 +24,6 @@ public class EffectRunnable extends JavaRunnableTask {
 		synchronized (this.data) {
 			try {
 				if (this.data == null) {
-					System.out.println("data null :c");
 					cancel();
 					return;
 				}
