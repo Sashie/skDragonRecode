@@ -9,6 +9,7 @@ import me.sashie.skdragon.particles.ParticleBuilder;
 import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 public class PropertyAPI {
 
@@ -52,17 +53,17 @@ public class PropertyAPI {
 		}
 	}
 
-	public static void setAxis(EffectData data, double x, double y, double z) {
+	public static void setAxis(EffectData data, float x, float y, float z) {
 		if (data instanceof IAxis) {
 			((IAxis) data).getAxisProperty().setAxis(x, y, z);
 		}
 	}
 
-	public static void setAxis(EffectData data, Vector vector) {
-		setAxis(data, vector.getX(), vector.getY(), vector.getZ());
+	public static void setAxis(EffectData data, @NotNull Vector vector) {
+		setAxis(data, (float) vector.getX(), (float) vector.getY(), (float) vector.getZ());
 	}
 
-	public static void setVelocity(EffectData data, double x, double y, double z) {
+	public static void setVelocity(EffectData data, float x, float y, float z) {
 		if (data instanceof IVelocity) {
 			((IVelocity) data).getVelocityProperty().setAngularVelocity(x, y, z);
 		}
@@ -129,13 +130,13 @@ public class PropertyAPI {
 
 	public static void setParticleSpeed(ParticleBuilder<?> particle, float speed) {
 		if (particle instanceof DirectionParticle) {
-			((DirectionParticle) particle).getParticleData().speed = speed;
+			((DirectionParticle) particle).getParticleData().setSpeed(speed);
 		}
 	}
 
 	public static void setParticleDirection(ParticleBuilder<?> particle, double x, double y, double z) {
 		if (particle instanceof DirectionParticle) {
-			((DirectionParticle) particle).getParticleData().direction = new Vector(x, y, z);
+			((DirectionParticle) particle).getParticleData().setDirection(new Vector(x, y, z));
 		}
 	}
 

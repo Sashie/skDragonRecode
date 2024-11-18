@@ -3,7 +3,6 @@ package me.sashie.skdragon.skript.expressions.uncommon;
 import ch.njol.skript.doc.Description;
 import ch.njol.skript.doc.Examples;
 import ch.njol.skript.doc.Name;
-import me.sashie.skdragon.PropertyAPI;
 import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.properties.IRadius;
@@ -11,9 +10,13 @@ import me.sashie.skdragon.skript.expressions.CustomArrayPropertyExpression;
 import org.jetbrains.annotations.NotNull;
 
 @Name("Particles - Effect radius types")
-@Description({"Sets or gets the radius of most effects",
-		"Also used for parametric equation effect types as well(can use negative numbers)"})
-@Examples({"set radius of effect \"uniqueID\" to 2"})
+@Description({"Sets or gets the radius types that are active for the effects use them",
+		"Oscillation/swing makes the effects radius \"swing\" back and forth between the start and end radius values",
+		"Repeat makes the radius reset to the start radius when it reaches the end or vise versa in reverse",
+		"Both of these options require that start and end radius properties be set",
+		"Setting either oscillation or repeat will disable the other if it is enabled"})
+@Examples({"set radius oscillation of effect \"uniqueID\" to true",
+		"set radius repeat of effect \"uniqueID\" to true"})
 public class ExprEffectRadiusTypes extends CustomArrayPropertyExpression<Boolean> {
 
 	static {
@@ -65,7 +68,11 @@ public class ExprEffectRadiusTypes extends CustomArrayPropertyExpression<Boolean
 
 	@Override
 	public String getPropertyName() {
-		return "radius types";
+		return "radius " + switch (mark) {
+			case 1 -> "oscillation/swing";
+			case 2 -> "repeat";
+			default -> "";
+		};
 	}
 
 	@Override

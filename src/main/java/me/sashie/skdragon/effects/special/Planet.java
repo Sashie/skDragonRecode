@@ -42,16 +42,16 @@
 		 cacheGreen.clear();
 		 cacheBlue.clear();
 		 int sqrtParticles = (int) Math.sqrt(this.getDensityProperty().getDensity(1));
-		 double theta = 0, phi, thetaStep = Math.PI / sqrtParticles, phiStep = Utils.PI2 / sqrtParticles;
+		 float theta = 0, phi, thetaStep = MathUtils.PI / sqrtParticles, phiStep = MathUtils.PI2 / sqrtParticles;
 
 		 for (int i = 0; i < sqrtParticles; i++) {
 			 theta += thetaStep;
 			 phi = 0;
 			 for (int j = 0; j < sqrtParticles; j++) {
 				 phi += phiStep;
-				 double x = this.getRadiusProperty().getRadius(1) * Math.sin(theta) * Math.cos(phi);
-				 double y = this.getRadiusProperty().getRadius(1) * Math.sin(theta) * Math.sin(phi);
-				 double z = this.getRadiusProperty().getRadius(1) * Math.cos(theta);
+				 double x = this.getRadiusProperty().getRadius(1) * MathUtils.sin(theta) * MathUtils.cos(phi);
+				 double y = this.getRadiusProperty().getRadius(1) * MathUtils.sin(theta) * MathUtils.sin(phi);
+				 double z = this.getRadiusProperty().getRadius(1) * MathUtils.cos(theta);
 				 cache.add(ObjectPoolManager.getVectorPool().acquire(x, y, z));
 			 }
 		 }
@@ -59,7 +59,7 @@
 		 float increase = this.extraProperty.getValue(1) / this.extraProperty.getValue(2);
 
 		 for (int i = 0; i < this.extraProperty.getValue(2); i++) {
-			 double r1 = RandomUtils.getRandomAngle(), r2 = RandomUtils.getRandomAngle(), r3 = RandomUtils.getRandomAngle();
+			 float r1 = (float) RandomUtils.getRandomAngle(), r2 = (float) RandomUtils.getRandomAngle(), r3 = (float) RandomUtils.getRandomAngle();
 			 for (Vector v : cache) {
 				 if (v.getY() > 0) {
 					 v.setY(v.getY() + increase);
@@ -101,9 +101,9 @@
 		 this.orbitStepProperty.updateOrbit(location);
 
 		 if (this.velocityProperty.isRotating()) {
-			 double rotX = this.velocityProperty.getAngularVelocityX() * step;
-			 double rotY = this.velocityProperty.getAngularVelocityY() * step;
-			 double rotZ = this.velocityProperty.getAngularVelocityZ() * step;
+			 float rotX = this.velocityProperty.getAngularVelocityX() * step;
+			 float rotY = this.velocityProperty.getAngularVelocityY() * step;
+			 float rotZ = this.velocityProperty.getAngularVelocityZ() * step;
 
 			 for (Vector v : cache) {
 				 VectorUtils.rotateVector(v, rotX, rotY, rotZ);
@@ -119,6 +119,7 @@
 			 getParticleBuilder(2).sendParticles(location.add(v), getPlayers());
 			 location.subtract(v);
 		 }
+		 this.getRadiusProperty().updateRadius();
 		 this.stepProperty.update();
 	 }
 
@@ -136,7 +137,7 @@
 
 	 @Override
 	 public ParticleBuilder<?>[] defaultParticles() {
-		 return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE), new ColoredParticle(Particle.FLAME) };
+		 return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE), new ColoredParticle(Particle.FLAME) };
 	 }
 
 	 @Override

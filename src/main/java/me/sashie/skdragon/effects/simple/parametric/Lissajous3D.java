@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.simple.parametric;
 
 import me.sashie.skdragon.effects.Parametric3DEffect;
+import me.sashie.skdragon.util.MathUtils;
 
 /**
  * x = a * cos(t)
@@ -15,18 +16,18 @@ public class Lissajous3D extends Parametric3DEffect {
 	}
 
 	@Override
-	public double vectorX(double angle, double angle2) {
-		return this.getRadiusProperty().getRadius(1) * Math.cos(angle);
+	public float vectorX(float angle, float angle2) {
+		return this.getRadiusProperty().getRadius(1) * MathUtils.cos(angle);
 	}
 
 	@Override
-	public double vectorY(double angle, double angle2) {
-		return this.getRadiusProperty().getRadius(2) * Math.cos(angle2);
+	public float vectorY(float angle, float angle2) {
+		return this.getRadiusProperty().getRadius(2) * MathUtils.cos(angle2);
 	}
 
 	@Override
-	public double vectorZ(double angle, double angle2) {
-		return this.getRadiusProperty().getRadius(1) * Math.sin(angle);
+	public float vectorZ(float angle, float angle2) {
+		return this.getRadiusProperty().getRadius(1) * MathUtils.sin(angle);
 	}
 
 }

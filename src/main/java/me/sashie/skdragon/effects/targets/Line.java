@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.targets;
 
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -27,7 +28,7 @@ public class Line extends TargetEffect implements IDensity {
 		drawLine(this.getParticleBuilder(1), this.getPlayers(), location, target, this.getDensityProperty().getDensity(1));
 	}
 
-	public static void drawLine(ParticleBuilder particle, Player[] players, DynamicLocation from, DynamicLocation to, int density) {
+	public static void drawLine(ParticleBuilder<?> particle, Player[] players, DynamicLocation from, DynamicLocation to, int density) {
 		Vector link = from.toVector().subtract(to.toVector());
 		float length = (float) link.length();
 		link.normalize();
@@ -51,7 +52,7 @@ public class Line extends TargetEffect implements IDensity {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE) };
 	}
 
 	@Override

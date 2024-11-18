@@ -144,7 +144,8 @@ public class RadiusProperty {
 		this.repeat = new boolean[radius.length];
 		this.stepAmount = new float[radius.length];
 		for (int i = 0; i < radius.length; i++) {
-			stepAmount[i] = 0.1f;
+			this.stepAmount[i] = 0.1f;
+			this.repeat[i] = true;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.simple;
 
 import me.sashie.skdragon.effects.SimpleValueEffect;
+import me.sashie.skdragon.util.MathUtils;
 
 public class Heart extends SimpleValueEffect {
 
@@ -12,10 +13,10 @@ public class Heart extends SimpleValueEffect {
 
 	@Override
 	public void math(float step) {
-		double alpha = (( Math.PI / this.getExtraProperty().getValue(1)) / this.getDensityProperty().getDensity(1)) * step;
-		double phi = Math.pow(Math.abs(Math.sin(2 * this.getExtraProperty().getValue(1) * alpha)) + this.getExtraProperty().getValue(2) * Math.abs(Math.sin(this.getExtraProperty().getValue(1) * alpha)), this.getExtraProperty().getValue(3));
+		float alpha = (( MathUtils.PI / this.getExtraProperty().getValue(1)) / this.getDensityProperty().getDensity(1)) * step;
+		double phi = Math.pow(Math.abs(MathUtils.sin(2 * this.getExtraProperty().getValue(1) * alpha)) + this.getExtraProperty().getValue(2) * Math.abs(MathUtils.sin(this.getExtraProperty().getValue(1) * alpha)), this.getExtraProperty().getValue(3));
 
-		v.setX(phi * (Math.sin(alpha) + Math.cos(alpha)) * this.getRadiusProperty().getRadius(2));
-		v.setZ(phi * (Math.cos(alpha) - Math.sin(alpha)) * this.getRadiusProperty().getRadius(1));
+		v.setX(phi * (MathUtils.sin(alpha) + MathUtils.cos(alpha)) * this.getRadiusProperty().getRadius(2));
+		v.setZ(phi * (MathUtils.cos(alpha) - MathUtils.sin(alpha)) * this.getRadiusProperty().getRadius(1));
 	}
 }

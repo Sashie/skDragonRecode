@@ -6,7 +6,7 @@ import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.SkDragonRecode;
 import me.sashie.skdragon.debug.SkriptNode;
-import me.sashie.skdragon.particles.Value3d;
+import me.sashie.skdragon.math.Value3d;
 import me.sashie.skdragon.particles.data.ParticleData;
 import me.sashie.skdragon.util.DynamicLocation;
 import me.sashie.skdragon.util.EffectUtils;
@@ -43,7 +43,7 @@ public abstract class EffectData {
 	 * Defines properties specific to this effect only
 	 * Used to warn a user if an effect can use a certain property expression
 	 * 
-	 * @return List of effect specific properties
+	 * @return Array of effect specific properties
 	 */
 	public abstract EffectProperty[] acceptProperties();
 
@@ -64,8 +64,6 @@ public abstract class EffectData {
 
 	public void setParticles(ParticleData[] data, SkriptNode skriptNode) {
 		ParticleBuilder<?>[] particle = ParticleUtils.isSupported(data, skriptNode);
-		if (particle == null) return;
-
 		setParticles(particle, skriptNode);
 	}
 
@@ -83,11 +81,9 @@ public abstract class EffectData {
 			}
 			if (builders.length > this.builders.length) {
 				SkDragonRecode.warn("This effect only uses " + this.builders.length + " particles not " + builders.length, skriptNode);
-				return;
 			} else {
 				System.arraycopy(builders, 0, this.builders, 0, builders.length);
 			}
-
 		}
 	}
 
@@ -158,16 +154,16 @@ public abstract class EffectData {
 		}
 	}
 
-	public void setDisplacement(double x, double y, double z) {
+	public void setDisplacement(float x, float y, float z) {
 		this.displacement.setX(x);
 		this.displacement.setY(y);
 		this.displacement.setZ(z);
 	}
 
 	public void setDisplacement(Vector displacement) {
-		this.displacement.setX(displacement.getX());
-		this.displacement.setY(displacement.getY());
-		this.displacement.setZ(displacement.getZ());
+		this.displacement.setX((float) displacement.getX());
+		this.displacement.setY((float) displacement.getY());
+		this.displacement.setZ((float) displacement.getZ());
 	}
 
 	public Value3d getDisplacement() {
@@ -183,6 +179,10 @@ public abstract class EffectData {
 	 */
 	public void triggerStop(boolean triggerStop) {
 		this.stopTriggered = triggerStop;
+	}
+
+	public void triggerStop() {
+		this.stopTriggered = true;
 	}
 
 }

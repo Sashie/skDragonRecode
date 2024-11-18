@@ -62,6 +62,7 @@ public class ExprNewColor extends SimpleExpression<Color> {
 	public boolean init(Expression<?> @NotNull [] exprs, int matchedPattern, @NotNull Kleenean isDelayed, @NotNull ParseResult parseResult) {
 		this.matchedPattern = matchedPattern;
 		if (matchedPattern == 2) {
+			this.mark = parseResult.mark;
 			exprColor = (Expression<Color>) exprs[0];
 			n = (Expression<Number>) exprs[1];
 		} else if (matchedPattern == 3) {
@@ -69,6 +70,7 @@ public class ExprNewColor extends SimpleExpression<Color> {
 			exprColor = (Expression<Color>) exprs[0];
 			n = (Expression<Number>) exprs[1];
 		} else if (matchedPattern == 4) {
+			this.mark = parseResult.mark;
 			isSingle = false;
 			n = (Expression<Number>) exprs[0];
 		} else if (matchedPattern == 5) {
@@ -98,7 +100,6 @@ public class ExprNewColor extends SimpleExpression<Color> {
 
 	public @NotNull String toString(@Nullable Event e, boolean debug) {
 		StringBuilder sb = new StringBuilder();
-
 		if (matchedPattern == 2) {
 			switch (mark) {
 				case 1:
@@ -201,7 +202,7 @@ public class ExprNewColor extends SimpleExpression<Color> {
 
 			int value = Utils.verifyVar(e, this.n, 255).intValue();
 			if (mark == 1)
-				colors = ColorUtils.rainbow(value);
+				colors = rainbow(value);
 			else if (mark == 2)
 				colors = ColorUtils.heat(value);
 			else if (mark == 3)
@@ -260,5 +261,21 @@ public class ExprNewColor extends SimpleExpression<Color> {
 
 			return new Color[]{color};
 		}
+	}
+
+	public static Color[] rainbow(int n) {
+		Color[] colors = new Color[n];
+		float hueIncrement = 360.0f / n;
+
+		for (int i = 0; i < n; i++) {
+			float hue = (i * hueIncrement) % 360;
+			colors[i] = colorFromAWT(java.awt.Color.getHSBColor(hue / 360.0f, 1.0f, 1.0f));
+		}
+
+		return colors;
+	}
+
+	private static Color colorFromAWT(java.awt.Color awtColor) {
+		return new ColorRGB(awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue());
 	}
 }

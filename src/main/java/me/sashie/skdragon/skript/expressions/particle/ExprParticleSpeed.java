@@ -20,7 +20,7 @@ public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> 
 	@Override
 	public Number getParticle(ParticleBuilder<?> p) {
 		if (p instanceof NormalParticle) {
-			return ((NormalParticle) p).getParticleData().speed;
+			return ((NormalParticle) p).getParticleData().getSpeed();
 		}
 
 		return null;
@@ -30,7 +30,7 @@ public class ExprParticleSpeed extends CustomParticlePropertyExpression<Number> 
 	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
 		if (p instanceof NormalParticle) {
 			Number n = (Number) (delta[0]);
-			((NormalParticle) p).getParticleData().speed = n.floatValue();
+			((NormalParticle) p).getParticleData().setSpeed(n.floatValue());
 		}
 	}
 

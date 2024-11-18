@@ -1,7 +1,7 @@
 package me.sashie.skdragon.effects.simple.parametric;
 
-import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.Parametric2DEffect;
+import me.sashie.skdragon.util.MathUtils;
 
 /**
  * x = a cos3(t)
@@ -15,13 +15,13 @@ public class Astroid2D extends Parametric2DEffect {
 	}
 
 	@Override
-	public double vectorX(double angle) {
-		return this.getRadiusProperty().getRadius(1) * Math.pow(Math.cos(angle), 3);
+	public float vectorX(float angle) {
+		return (float) (this.getRadiusProperty().getRadius(1) * Math.pow(MathUtils.cos(angle), 3));
 	}
 
 	@Override
-	public double vectorZ(double angle) {
-		return this.getRadiusProperty().getRadius(1) * Math.pow(Math.sin(angle), 3);
+	public float vectorZ(float angle) {
+		return (float) (this.getRadiusProperty().getRadius(1) * Math.pow(MathUtils.sin(angle), 3));
 	}
 
 }

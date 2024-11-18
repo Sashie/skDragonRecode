@@ -17,20 +17,16 @@ public class DirectionParticle extends ParticleBuilder<DirectionParticleData> {
 	private DynamicList<DirectionAnimation> directionals = new DynamicList<DirectionAnimation>();
 
 	public DirectionParticle() {
-		super(new DirectionParticleData());
+		super.initData(new DirectionParticleData(this));
 	}
 
 	public DirectionParticle(Particle particle) {
-		super(new DirectionParticleData());
-		this.data.particle = particle;
+		this();
+		this.data.setParticle(particle);
 	}
 
 	public DirectionParticle(DirectionParticleData inputData) {
-		super(inputData);
-	}
-
-	public DirectionParticle(Consumer<DirectionParticleData> data) {
-		this(new DirectionParticleData(), data);
+		super.initData(inputData);
 	}
 
 	public DirectionParticle(DirectionParticleData inputData, Consumer<DirectionParticleData> data) {
@@ -42,18 +38,18 @@ public class DirectionParticle extends ParticleBuilder<DirectionParticleData> {
 	public void sendParticles(DynamicLocation location, Player... player) {
 		if (ParticleProperty.DIRECTIONAL.hasProperty(this.data.getParticle())) {
 			if (player == null || player.length == 0) {
-				for (int i = 0; i < data.amount; i++) {
-					location.getWorld().spawnParticle(this.data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, this.data.direction.getX(), this.data.direction.getY(), this.data.direction.getZ(), this.data.speed, null);
+				for (int i = 0; i < data.getAmount(); i++) {
+					location.getWorld().spawnParticle(this.data.getParticle(), ParticleUtils.getOffsetLocation(this.data, location), 0, this.data.getDirection().getX(), this.data.getDirection().getY(), this.data.getDirection().getZ(), this.data.getSpeed(), null);
 				}
 			} else {
 				for (int j = 0; j < player.length; j++) {
-					for (int i = 0; i < this.data.amount; i++) {
-						player[j].spawnParticle(this.data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, this.data.direction.getX(), this.data.direction.getY(), this.data.direction.getZ(), this.data.speed);
+					for (int i = 0; i < this.data.getAmount(); i++) {
+						player[j].spawnParticle(this.data.getParticle(), ParticleUtils.getOffsetLocation(this.data, location), 0, this.data.getDirection().getX(), this.data.getDirection().getY(), this.data.getDirection().getZ(), this.data.getSpeed());
 					}
 				}
 			}
 		} else {
-			directionals.add(new DirectionAnimation(location, this.data.direction, this.data.speed));
+			directionals.add(new DirectionAnimation(location, this.data.getDirection(), this.data.getSpeed()));
 
 			Iterator<DirectionAnimation> iterator = null;
 			for (iterator = directionals.iterator(); iterator.hasNext();) {
@@ -96,10 +92,10 @@ public class DirectionParticle extends ParticleBuilder<DirectionParticleData> {
 			location.add(0, yOffset, 0);
 
 			if (player == null || player.length == 0) {
-				location.getWorld().spawnParticle(data.particle, location, data.amount, data.offset.getX(), data.offset.getY(), data.offset.getZ(), 0.02f);
+				location.getWorld().spawnParticle(data.getParticle(), location, data.getAmount(), data.getOffset().getX(), data.getOffset().getY(), data.getOffset().getZ(), 0.02f);
 			} else {
 				for (int i = 0; i < player.length; i++) {
-					player[i].spawnParticle(data.particle, location, data.amount, data.offset.getX(), data.offset.getY(), data.offset.getZ(), 0.02f);
+					player[i].spawnParticle(data.getParticle(), location, data.getAmount(), data.getOffset().getX(), data.getOffset().getY(), data.getOffset().getZ(), 0.02f);
 				}
 			}
 		}
@@ -116,8 +112,8 @@ public class DirectionParticle extends ParticleBuilder<DirectionParticleData> {
 		this.data.setAmount(data.getAmount());
 		this.data.setOffset(data.getOffset());
 		if (data instanceof DirectionParticleData) {
-			this.data.direction = ((DirectionParticleData) data).direction;
-			this.data.speed = ((DirectionParticleData) data).speed;
+			this.data.setDirection(((DirectionParticleData) data).getDirection());
+			this.data.setSpeed(((DirectionParticleData) data).getSpeed());
 		}
 	}
 }

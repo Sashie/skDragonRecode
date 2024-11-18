@@ -13,23 +13,17 @@ import java.util.function.Consumer;
 
 public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 
-	private Color c;
-
 	public ColoredParticle() {
-		super(new ColoredParticleData());
+		super.initData(new ColoredParticleData(this));
 	}
 
 	public ColoredParticle(Particle particle) {
-		super(new ColoredParticleData());
-		this.data.particle = particle;
+		this();
+		this.data.setParticle(particle);
 	}
 
 	public ColoredParticle(ColoredParticleData inputData) {
-		super(inputData);
-	}
-
-	public ColoredParticle(Consumer<ColoredParticleData> data) {
-		this(new ColoredParticleData(), data);
+		super.initData(inputData);
 	}
 
 	public ColoredParticle(ColoredParticleData inputData, Consumer<ColoredParticleData> data) {
@@ -39,28 +33,29 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 
 	@Override
 	public void sendParticles(DynamicLocation location, Player... player) {
-		if (data.particle == Particle.REDSTONE) {
-			c = data.colors.get();
+		if (data.getParticle() == ParticleUtils.REDSTONE) {
+			Color c = data.getColors().get();
 			Particle.DustOptions dustOptions = new Particle.DustOptions(c, 1);
 
 			if (player == null || player.length == 0) {
-				for (int i = 0; i < data.amount; i++) {
-					location.getWorld().spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+				for (int i = 0; i < data.getAmount(); i++) {
+					location.getWorld().spawnParticle(ParticleUtils.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
 				}
 			} else {
 				for (int i = 0; i < player.length; i++) {
-					for (int j = 0; j < data.amount; j++) {
-						player[i].spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+					for (int j = 0; j < data.getAmount(); j++) {
+						// player[i].spawnParticle(ParticleUtils.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+						player[i].spawnParticle(ParticleUtils.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, 0, 0, 0, 0, dustOptions, true);
 					}
 				}
 			}
-		} else if (data.particle == Particle.SPELL_MOB_AMBIENT || data.particle == Particle.SPELL_MOB) {
+		} else if (data.getParticle() == ParticleUtils.SPELL_MOB_AMBIENT || data.getParticle() == ParticleUtils.SPELL_MOB) {
 			sendLegacyParticles(location, player);
 		}
 	}
 
 	private void sendLegacyParticles(Location location, Player... player) {
-		c = data.colors.get();
+		Color c = data.getColors().get();
 		double red = c.getRed() / 255D;
 		double green = c.getGreen() / 255D;
 		double blue = c.getBlue() / 255D;
@@ -69,11 +64,11 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 		}
 
 		if (player == null || player.length == 0) {
-			location.getWorld().spawnParticle(data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, red, green, blue, 1);
+			location.getWorld().spawnParticle(data.getParticle(), ParticleUtils.getOffsetLocation(this.data, location), 0, red, green, blue, 1);
 		} else {
 			for (int j = 0; j < player.length; j++) {
-				for (int i = 0; i < this.data.amount; i++) {
-					player[j].spawnParticle(data.particle, ParticleUtils.getOffsetLocation(this.data, location), 0, red, green, blue, 1);
+				for (int i = 0; i < this.data.getAmount(); i++) {
+					player[j].spawnParticle(data.getParticle(), ParticleUtils.getOffsetLocation(this.data, location), 0, red, green, blue, 1);
 				}
 			}
 		}
@@ -85,7 +80,7 @@ public class ColoredParticle extends ParticleBuilder<ColoredParticleData> {
 		this.data.setAmount(data.getAmount());
 		this.data.setOffset(data.getOffset());
 		if (data instanceof ColoredParticleData) {
-			this.data.colors = ((ColoredParticleData) data).colors;
+			this.data.setColors(((ColoredParticleData) data).getColors());
 		}
 	}
 }

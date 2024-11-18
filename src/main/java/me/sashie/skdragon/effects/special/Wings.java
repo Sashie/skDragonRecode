@@ -3,8 +3,8 @@ package me.sashie.skdragon.effects.special;
 import me.sashie.skdragon.effects.properties.IStyle;
 import me.sashie.skdragon.effects.properties.StyleProperty;
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.effects.EffectProperty;
@@ -18,12 +18,12 @@ public class Wings extends WingsEffect implements IStyle {
 
 	private static double DEFAULT_ANGLE = 110.0f;
 	private StyleProperty styleProperty;
-	boolean[][] shape1,shape2, shape3, shape4;
+	boolean[][] shape1, shape2, shape3, shape4;
 
 	public Wings() {
 		// height, space, back spacing
 		this.styleProperty = new StyleProperty();
-		this.getExtraProperty().initValue(0.2f, 0.2f, 0.0f);
+		this.getExtraProperty().initValue(0.2f, 0.2f, 0.0f); //  height, spacing, distance from players back
 		setStyle(1);
 	}
 
@@ -64,8 +64,8 @@ public class Wings extends WingsEffect implements IStyle {
 					final Vector v2 = VectorUtils.getBackVector(location);
 					double rightWing = Math.toRadians(location.getYaw() + 90.0f - ((DEFAULT_ANGLE + this.getWingAngle()) - flap));
 					double leftWing = Math.toRadians(location.getYaw() + 90.0f + ((DEFAULT_ANGLE + this.getWingAngle()) - flap));
-					vR = VectorUtils.rotateAroundAxisY(vR, -rightWing);
-					vL = VectorUtils.rotateAroundAxisY(vL, -leftWing);
+					vR = VectorUtils.rotateAroundAxisY(vR, (float) -rightWing);
+					vL = VectorUtils.rotateAroundAxisY(vL, (float) -leftWing);
 					v2.setY(0).multiply(-0.2 + back);
 					particle.sendParticles(location.clone().add(vL).add(v2), this.getPlayers());
 					particle.sendParticles(location.clone().add(vR).add(v2), this.getPlayers());
@@ -85,7 +85,7 @@ public class Wings extends WingsEffect implements IStyle {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE), new ColoredParticle(Particle.REDSTONE), new ColoredParticle(Particle.REDSTONE), new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE), new ColoredParticle(ParticleUtils.REDSTONE), new ColoredParticle(ParticleUtils.REDSTONE), new ColoredParticle(ParticleUtils.REDSTONE) };
 	}
 
 	public void setStyle(int wingStyle) {

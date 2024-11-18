@@ -39,11 +39,11 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra, ISt
 		subtract.init(location).subtract(0.0, 0.3, 0.0);
 
 		for (float i = this.getRadiusProperty().getRadius(1); i < this.getDensityProperty().getDensity(2); ++i) {
-			for (double d = 0.0; d <= Utils.PI2; d += (Math.PI / this.getDensityProperty().getDensity(1))) {
-				final double angle = step * this.getExtraProperty().getValue(3) + Math.toRadians(i * 30);
+			for (float d = 0.0f; d <= MathUtils.PI2; d += (MathUtils.PI / this.getDensityProperty().getDensity(1))) {
+				final float angle = (float) (step * this.getExtraProperty().getValue(3) + Math.toRadians(i * 30));
 				final double space = i * this.getExtraProperty().getValue(1);
 				
-				vector.setX(Math.cos(d) * space).setY(i * this.getExtraProperty().getValue(2)).setZ(Math.sin(d) * space);
+				vector.setX(MathUtils.cos(d) * space).setY(i * this.getExtraProperty().getValue(2)).setZ(MathUtils.sin(d) * space);
 
 				VectorUtils.rotateAroundAxisY(vector, angle);
 				this.getParticleBuilder(1).sendParticles(subtract.add(vector), this.getPlayers());
@@ -60,10 +60,11 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra, ISt
 			if (this.getParticleBuilder(4) instanceof DirectionParticle) {
 				direction.setX(location.getX()).setY(location.getY()).setZ(location.getZ());
 				vector.setX(add.getX()).setY(add.getY()).setZ(add.getZ());
-				((DirectionParticle) this.getParticleBuilder(4)).getParticleData().direction = direction.subtract(vector).normalize();
+				((DirectionParticle) this.getParticleBuilder(4)).getParticleData().setDirection(direction.subtract(vector).normalize());
 			}
 			this.getParticleBuilder(4).sendParticles(add, this.getPlayers());
 		}
+		this.getRadiusProperty().updateRadius();
 		stepProperty.update();
 	}
 
@@ -82,14 +83,14 @@ public class Blackhole extends SpecialRadiusDensityEffect implements IExtra, ISt
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		ColoredParticle particle1 = new ColoredParticle(Particle.REDSTONE);
+		ColoredParticle particle1 = new ColoredParticle(ParticleUtils.REDSTONE);
 		particle1.getParticleData().setColor(0, 0, 0);
-		ColoredParticle particle2 = new ColoredParticle(Particle.REDSTONE);
+		ColoredParticle particle2 = new ColoredParticle(ParticleUtils.REDSTONE);
 		particle2.getParticleData().setColor(204, 0, 204);
-		ColoredParticle particle3 = new ColoredParticle(Particle.SPELL_MOB);
+		ColoredParticle particle3 = new ColoredParticle(ParticleUtils.REDSTONE);
 		particle3.getParticleData().setColor(5, 5, 5);
 		DirectionParticle particle4 = new DirectionParticle(Particle.FLAME);
-		particle4.getParticleData().speed = 0.1f;
+		particle4.getParticleData().setSpeed(0.1f);
 
 		return new ParticleBuilder<?>[] { particle1, particle2, particle3, particle4 };
 	}

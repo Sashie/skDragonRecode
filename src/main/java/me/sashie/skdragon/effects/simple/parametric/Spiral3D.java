@@ -5,6 +5,7 @@ import me.sashie.skdragon.effects.Parametric3DEffect;
 import me.sashie.skdragon.effects.properties.IStyle;
 import me.sashie.skdragon.effects.properties.StyleProperty;
 import me.sashie.skdragon.util.EffectUtils;
+import me.sashie.skdragon.util.MathUtils;
 
 /**
  * x = r * cos(t)
@@ -17,29 +18,29 @@ public class Spiral3D extends Parametric3DEffect implements IStyle {
 
 	public Spiral3D() {
 		styleProperty = new StyleProperty();
-		this.getRadiusProperty().initRadius(1.5f, 1.5f, 1.5f);
+		this.getRadiusProperty().initRadius(1.5f, 1.5f, 1.5f); // radius, radius, height
 		this.getStepTypesProperty().setSolid(true);
 	}
 
 	@Override
-	public double vectorX(double angle, double angle2) {
+	public float vectorX(float angle, float angle2) {
 		if (this.getStyleProperty().getStyle() == 1)
-			return this.getRadiusProperty().getRadius(1) * Math.cos(angle);
+			return this.getRadiusProperty().getRadius(1) * MathUtils.cos(angle);
 		else
-			return this.getRadiusProperty().getRadius(1) * Math.sin(angle);
+			return this.getRadiusProperty().getRadius(1) * MathUtils.sin(angle);
 	}
 
 	@Override
-	public double vectorY(double angle, double angle2) {
+	public float vectorY(float angle, float angle2) {
 		return this.getRadiusProperty().getRadius(3) * angle2;
 	}
 
 	@Override
-	public double vectorZ(double angle, double angle2) {
+	public float vectorZ(float angle, float angle2) {
 		if (this.getStyleProperty().getStyle() == 1)
-			return this.getRadiusProperty().getRadius(2) * Math.sin(angle);
+			return this.getRadiusProperty().getRadius(2) * MathUtils.sin(angle);
 		else
-			return this.getRadiusProperty().getRadius(2) * Math.cos(angle);
+			return this.getRadiusProperty().getRadius(2) * MathUtils.cos(angle);
 	}
 
 	@Override

@@ -1,18 +1,15 @@
  package me.sashie.skdragon.effects.special;
 
 import me.sashie.skdragon.effects.properties.*;
-import org.bukkit.Particle;
+import me.sashie.skdragon.util.*;
 import org.bukkit.util.Vector;
 
 import me.sashie.skdragon.effects.EffectProperty;
 import me.sashie.skdragon.effects.SpecialRadiusDensityEffect;
 import me.sashie.skdragon.particles.ColoredParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.EffectUtils;
-import me.sashie.skdragon.util.VectorUtils;
 
-public class Rings extends SpecialRadiusDensityEffect implements IAxis, IVelocity, IExtra, IStep {
+ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IVelocity, IExtra, IStep {
 
 	AxisProperty axisProperty;
 	VelocityProperty velocityProperty;
@@ -34,12 +31,12 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IVelocit
 	@Override
 	public void update(DynamicLocation location) {
 		step = stepProperty.getStep();
-		double angularVelocity = Math.PI / this.getExtraProperty().getValue(1);
+		float angularVelocity = MathUtils.PI / this.getExtraProperty().getValue(1);
 		for (int i = 0; i < this.getDensityProperty().getDensity(1); i++) {
-			final double angle = step * angularVelocity;
+			final float angle = step * angularVelocity;
 			for (int j = 0; j < this.getDensityProperty().getDensity(2); j++) {
-				final Vector v = new Vector(Math.cos(angle), Math.sin(angle), 0.0).multiply(this.getRadiusProperty().getRadius(1));
-				VectorUtils.rotateAroundAxisX(v, Math.PI / this.getDensityProperty().getDensity(2) * j);
+				final Vector v = new Vector(MathUtils.cos(angle), MathUtils.sin(angle), 0.0).multiply(this.getRadiusProperty().getRadius(1));
+				VectorUtils.rotateAroundAxisX(v, MathUtils.PI / this.getDensityProperty().getDensity(2) * j);
 				VectorUtils.rotateAroundAxisY(v, 90);
 
 				this.axisProperty.rotateAxis(v);
@@ -56,6 +53,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IVelocit
 				}*/
 			}
 		}
+		this.getRadiusProperty().updateRadius();
 		this.stepProperty.update();
 	}
 
@@ -71,7 +69,7 @@ public class Rings extends SpecialRadiusDensityEffect implements IAxis, IVelocit
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE) };
 	}
 
 	@Override

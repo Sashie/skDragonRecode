@@ -111,7 +111,7 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 
 			if (p instanceof ColoredParticle) {
 				ArrayList<Color> cl = new ArrayList<>();
-				for (org.bukkit.Color c : ((ColoredParticle) p).getParticleData().colors) {
+				for (org.bukkit.Color c : ((ColoredParticle) p).getParticleData().getColors()) {
 					cl.add(new ColorRGB(c.getRed(), c.getGreen(), c.getBlue()));
 				}
 				return cl.toArray(new Color[0]);
@@ -132,10 +132,10 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 				if (matchedPattern == 3 || matchedPattern == 4) {
 					ParticleBuilder<?> p = ParticleSection.getParticle();
 					if (p instanceof ColoredParticle) {
-						((ColoredParticle) p).getParticleData().colors.clear();
+						((ColoredParticle) p).getParticleData().getColors().clear();
 						for (Object colorObj : delta) {
 							Color color = (Color) colorObj;
-							((ColoredParticle) p).getParticleData().colors.add(color.asBukkitColor());
+							((ColoredParticle) p).getParticleData().getColors().add(color.asBukkitColor());
 						}
 					}
 				} else {
@@ -175,10 +175,10 @@ public class ExprParticleColors extends SimpleExpression<Color> {
 		synchronized (effect) {
 			ParticleBuilder<?> p = effect.getParticleBuilder(particleNumber);
 			if (p instanceof ColoredParticle) {
-				((ColoredParticle) p).getParticleData().colors.clear();
+				((ColoredParticle) p).getParticleData().getColors().clear();
 				for (Object colorObj : delta) {
 					Color color = (Color) colorObj;
-					((ColoredParticle) p).getParticleData().colors.add(color.asBukkitColor());
+					((ColoredParticle) p).getParticleData().getColors().add(color.asBukkitColor());
 				}
 			}
 		}

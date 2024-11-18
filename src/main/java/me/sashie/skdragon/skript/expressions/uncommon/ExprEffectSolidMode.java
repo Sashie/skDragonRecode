@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class ExprEffectSolidMode extends CustomEffectPropertyExpression<Boolean> {
 
 	static {
-		register(ExprEffectSolidMode.class, Boolean.class, "solid mode");
+		register(ExprEffectSolidMode.class, Boolean.class, "solid [mode]");
 	}
 
 	@Override

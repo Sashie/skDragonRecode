@@ -295,7 +295,7 @@ public class EffectCommand implements TabExecutor {
 						if (particle instanceof DirectionParticle) {
 							float speed = Float.parseFloat(args[4]);
 
-							((DirectionParticle) particle).getParticleData().speed = speed;
+							((DirectionParticle) particle).getParticleData().setSpeed(speed);
 							player.sendMessage("Set speed for particle " + id + " at index " + particleIndex + " to " + speed);
 						} else {
 							player.sendMessage("Only directional particles have a speed property");
@@ -313,7 +313,7 @@ public class EffectCommand implements TabExecutor {
 							float y = Float.parseFloat(args[5]);
 							float z = Float.parseFloat(args[6]);
 
-							((DirectionParticle) particle).getParticleData().direction = new Vector(x, y, z);
+							((DirectionParticle) particle).getParticleData().setDirection(new Vector(x, y, z));
 							player.sendMessage("Set direction for particle " + id + " at index " + particleIndex + " to (" + x + ", " + y + ", " + z + ")");
 						} else {
 							player.sendMessage("Only directional particles have a direction property");
@@ -339,6 +339,19 @@ public class EffectCommand implements TabExecutor {
 						break;
 				}
 
+			case "ui":
+				if (args.length < 3) {
+					player.sendMessage("Usage: /skdragon register <id> <effect>");
+					break;
+				}
+				String type = args[2];
+				if (!Utils.isValidEnum(ParticleEffect.class, type)) {
+					player.sendMessage("The effect " + type + " doesn't exist");
+					break;
+				}
+
+				EffectAPI.register(id, ParticleEffect.valueOf(type.toUpperCase()), null);
+				player.sendMessage("Effect " + id + " registered.");
 				break;
 
 			default:

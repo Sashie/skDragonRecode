@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.targets;
 
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.ParticleUtils;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
@@ -115,7 +116,7 @@ public class TargetLightning extends TargetEffect implements IRadius, IDensity, 
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE).getParticleData().setColor(252, 192, 30) };
 	}
 
 	@Override

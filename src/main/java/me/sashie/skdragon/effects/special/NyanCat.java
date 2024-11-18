@@ -33,8 +33,8 @@ public class NyanCat extends SpecialEffect {
 
 				loc.setY(loc.getY() + 0.1D);
 			}
-		} else {
-			ParticleBuilder<?> p = ParticleUtils.createParticle(Particle.REDSTONE, particle.getParticleData());
+		} else { // force colored particle
+			ParticleBuilder<?> p = ParticleUtils.createParticle(ParticleUtils.REDSTONE, particle.getParticleData());
 			this.builders[0] = p;
 		}
 	}
@@ -51,6 +51,6 @@ public class NyanCat extends SpecialEffect {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder[] {new ColoredParticle(Particle.REDSTONE)};
+		return new ParticleBuilder[] {new ColoredParticle(ParticleUtils.REDSTONE)};
 	}
 }

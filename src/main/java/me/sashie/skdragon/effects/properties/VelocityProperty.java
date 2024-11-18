@@ -1,30 +1,31 @@
 package me.sashie.skdragon.effects.properties;
 
-import me.sashie.skdragon.particles.Value3d;
+import me.sashie.skdragon.math.Value3d;
+import me.sashie.skdragon.util.MathUtils;
 import me.sashie.skdragon.util.VectorUtils;
 import org.bukkit.util.Vector;
 
 public class VelocityProperty {
 
-	private Value3d angularVelocity = new Value3d(Math.PI / 200, Math.PI / 170, Math.PI / 155);
+	private Value3d angularVelocity = new Value3d(MathUtils.PI / 200, MathUtils.PI / 170, MathUtils.PI / 155);
 	boolean rotating;
 
-	public double getAngularVelocityX() {
+	public float getAngularVelocityX() {
 		return angularVelocity.getX();
 	}
 
-	public double getAngularVelocityY() {
+	public float getAngularVelocityY() {
 		return angularVelocity.getY();
 	}
 
-	public double getAngularVelocityZ() {
+	public float getAngularVelocityZ() {
 		return angularVelocity.getZ();
 	}
 
-	public void setAngularVelocity(double x, double y, double z) {
-		this.angularVelocity.setX(Math.PI / (x == 0 ? 1 : x));
-		this.angularVelocity.setY(Math.PI / (y == 0 ? 1 : y));
-		this.angularVelocity.setZ(Math.PI / (z == 0 ? 1 : z));
+	public void setAngularVelocity(float x, float y, float z) {
+		this.angularVelocity.setX(MathUtils.PI / (x == 0 ? 1 : x));
+		this.angularVelocity.setY(MathUtils.PI / (y == 0 ? 1 : y));
+		this.angularVelocity.setZ(MathUtils.PI / (z == 0 ? 1 : z));
 	}
 
 	public boolean isRotating() {

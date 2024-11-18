@@ -94,12 +94,12 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra, IStep 
 			Line.drawLine(getParticleBuilder(1), getPlayers(), start, location, getDensityProperty().getDensity(1));
 
 			if (getParticleBuilder(2) instanceof DirectionParticle) {
-				((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = v.clone().multiply(1);
+				((DirectionParticle) getParticleBuilder(2)).getParticleData().setDirection(v.clone().multiply(1));
 			}
 			getParticleBuilder(2).sendParticles(start, getPlayers());
 			
 			if (getParticleBuilder(3) instanceof DirectionParticle) {
-				((DirectionParticle) getParticleBuilder(3)).getParticleData().direction = v.clone().multiply(-0.5).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f)));
+				((DirectionParticle) getParticleBuilder(3)).getParticleData().setDirection(v.clone().multiply(-0.5).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f))));
 			}
 			getParticleBuilder(3).sendParticles(start, getPlayers());
 
@@ -108,7 +108,7 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra, IStep 
 		public void stop() {
 			for (double angle = 0.0; angle <= Utils.PI2; angle += (Math.PI / getDensityProperty().getDensity(2))) {
 				if (getParticleBuilder(2) instanceof DirectionParticle) {
-					((DirectionParticle) getParticleBuilder(2)).getParticleData().direction = new Vector(Math.cos(angle), 0.0, Math.sin(angle));
+					((DirectionParticle) getParticleBuilder(2)).getParticleData().setDirection(new Vector(Math.cos(angle), 0.0, Math.sin(angle)));
 				}
 				getParticleBuilder(2).sendParticles(start, getPlayers());
 			}
@@ -125,10 +125,8 @@ public class Lasers extends SpecialRadiusDensityEffect implements IExtra, IStep 
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		ColoredParticle p1 = new ColoredParticle(Particle.REDSTONE);
-		p1.getParticleData().colors = ColorUtils.generateMultiGradient2(new ColorRGB[]{ new ColorRGB(232, 54, 23),  new ColorRGB(234, 120, 14), new ColorRGB(232, 54, 23) }, 50);
-		DirectionParticle p2 = new DirectionParticle(Particle.SMOKE_LARGE);
-		p2.getParticleData().speed = 0.08f;
+		ColoredParticle p1 = new ColoredParticle(ParticleUtils.REDSTONE).getParticleData().setColors(ColorUtils.generateMultiGradient2(new ColorRGB[]{new ColorRGB(232, 54, 23), new ColorRGB(234, 120, 14), new ColorRGB(232, 54, 23)}, 50));
+		DirectionParticle p2 = new DirectionParticle(ParticleUtils.SMOKE_LARGE).getParticleData().setSpeed(0.08f);
 		return new ParticleBuilder<?>[] { p1, p2, new DirectionParticle(Particle.FLAME) };
 	}
 

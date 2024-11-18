@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.simple.parametric;
 
 import me.sashie.skdragon.effects.Parametric2DEffect;
+import me.sashie.skdragon.util.MathUtils;
 
 /**
  * x = (a + b) * cos(t) - b * cos((a / b + 1) * t)
@@ -15,13 +16,13 @@ public class Epicycloid2D extends Parametric2DEffect {
 	}
 
 	@Override
-	public double vectorX(double angle) {
-		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * Math.cos(angle) - this.getRadiusProperty().getRadius(2) * Math.cos((this.getRadiusProperty().getRadius(1) / this.getRadiusProperty().getRadius(2) + 1) * angle);
+	public float vectorX(float angle) {
+		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * MathUtils.cos(angle) - this.getRadiusProperty().getRadius(2) * MathUtils.cos((this.getRadiusProperty().getRadius(1) / this.getRadiusProperty().getRadius(2) + 1) * angle);
 	}
 
 	@Override
-	public double vectorZ(double angle) {
-		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * Math.sin(angle) - this.getRadiusProperty().getRadius(2) * Math.sin((this.getRadiusProperty().getRadius(1) / this.getRadiusProperty().getRadius(2) + 1) * angle);
+	public float vectorZ(float angle) {
+		return (this.getRadiusProperty().getRadius(1) + this.getRadiusProperty().getRadius(2)) * MathUtils.sin(angle) - this.getRadiusProperty().getRadius(2) * MathUtils.sin((this.getRadiusProperty().getRadius(1) / this.getRadiusProperty().getRadius(2) + 1) * angle);
 	}
 
 }

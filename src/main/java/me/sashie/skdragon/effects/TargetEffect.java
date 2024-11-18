@@ -34,7 +34,7 @@ public abstract class TargetEffect extends EffectData {
 	@Override
 	public void update() {
 		if (targets == null) {
-			this.triggerStop(true);
+			this.triggerStop();
 			return;
 		}
 

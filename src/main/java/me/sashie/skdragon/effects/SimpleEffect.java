@@ -25,6 +25,8 @@ public abstract class SimpleEffect extends EffectData implements IDensity, IRadi
 	private DynamicList<Vector> particleVectors;
 	protected Vector v;
 
+	protected int rotations = 0;
+
 	public SimpleEffect() {
 
 		densityProperty = new DensityProperty();
@@ -79,7 +81,7 @@ public abstract class SimpleEffect extends EffectData implements IDensity, IRadi
 					for (Vector particleVector : particleVectors) {
 						spawnParticle(this.getLocations()[i], rotateShape(particleVector, step));
 					}
-					if (step >= density || step <= 0) {
+					if (step >= (density * rotations) || step <= 0) {
 						for (Vector v : particleVectors) {
 							ObjectPoolManager.getVectorPool().release(v);
 						}
@@ -104,7 +106,7 @@ public abstract class SimpleEffect extends EffectData implements IDensity, IRadi
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE) };
 	}
 
 	@Override

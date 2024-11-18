@@ -26,7 +26,7 @@ public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression
 		if (effect instanceof IVelocity) {
 			VelocityProperty property = ((IVelocity) effect).getVelocityProperty();
 			double x = property.getAngularVelocityX();
-			double y = property.getAngularVelocityX();
+			double y = property.getAngularVelocityY();
 			double z = property.getAngularVelocityX();
 			return new Vector(x, y, z);
 		}
@@ -36,7 +36,7 @@ public class ExprEffectRotationalVelocity extends CustomEffectPropertyExpression
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
 		Vector v = (Vector) (delta[0]);
-		PropertyAPI.setVelocity(effect, v.getX(), v.getY(), v.getZ());
+		PropertyAPI.setVelocity(effect, (float) v.getX(), (float) v.getY(), (float) v.getZ());
 	}
 
 	@Override

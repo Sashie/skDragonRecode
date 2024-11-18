@@ -31,16 +31,12 @@ public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
 	@Override
 	public Number getPropertyValue(int propertyNumber, EffectData effect) {
 		if (effect instanceof IRadius) {
-			switch (mark) {
-				case 1:
-					return ((IRadius) effect).getRadiusProperty().getStartRadius(propertyNumber);
-				case 2:
-					return ((IRadius) effect).getRadiusProperty().getEndRadius(propertyNumber);
-				case 3:
-					return ((IRadius) effect).getRadiusProperty().getStepAmount(propertyNumber);
-				default:
-					return ((IRadius) effect).getRadiusProperty().getRadius(propertyNumber);
-			}
+			return switch (mark) {
+				case 1 -> ((IRadius) effect).getRadiusProperty().getStartRadius(propertyNumber);
+				case 2 -> ((IRadius) effect).getRadiusProperty().getEndRadius(propertyNumber);
+				case 3 -> ((IRadius) effect).getRadiusProperty().getStepAmount(propertyNumber);
+				default -> ((IRadius) effect).getRadiusProperty().getRadius(propertyNumber);
+			};
 		}
 		return null;
 	}
@@ -70,7 +66,12 @@ public class ExprEffectRadius extends CustomArrayPropertyExpression<Number> {
 
 	@Override
 	public String getPropertyName() {
-		return "radius";
+		return "radius" + switch (mark) {
+			case 1 -> " start";
+			case 2 -> " end";
+			case 3 -> " step amount";
+			default -> "";
+		};
 	}
 
 	@Override

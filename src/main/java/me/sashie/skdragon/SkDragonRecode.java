@@ -33,8 +33,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.configuration.MemoryConfiguration;
-import org.bukkit.configuration.MemoryConfigurationOptions;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -42,7 +40,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Map;
 import java.util.logging.Logger;
 
 public final class SkDragonRecode extends JavaPlugin {

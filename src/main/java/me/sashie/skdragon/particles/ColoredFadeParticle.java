@@ -14,20 +14,16 @@ import me.sashie.skdragon.util.ParticleUtils;
 public class ColoredFadeParticle extends ParticleBuilder<FadeParticleData> {
 
 	public ColoredFadeParticle() {
-		super(new FadeParticleData());
+		super.initData(new FadeParticleData(this));
 	}
 
 	public ColoredFadeParticle(Particle particle) {
-		super(new FadeParticleData());
-		this.data.particle = particle;
+		this();
+		this.data.setParticle(particle);
 	}
 
 	public ColoredFadeParticle(FadeParticleData inputData) {
-		super(inputData);
-	}
-
-	public ColoredFadeParticle(Consumer<FadeParticleData> data) {
-		this(new FadeParticleData(), data);
+		super.initData(inputData);
 	}
 
 	public ColoredFadeParticle(FadeParticleData inputData, Consumer<FadeParticleData> data) {
@@ -37,15 +33,15 @@ public class ColoredFadeParticle extends ParticleBuilder<FadeParticleData> {
 
 	@Override
 	public void sendParticles(DynamicLocation location, Player... player) {
-		Color c = data.colors.get();
+		Color c = data.getColors().get();
 		Particle.DustOptions dustOptions = new Particle.DustOptions(c, 1);
 
 		if (player == null || player.length == 0) {
-			location.getWorld().spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+			location.getWorld().spawnParticle(ParticleUtils.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
 		} else {
 			for (int j = 0; j < player.length; j++) {
-				for (int i = 0; i < this.data.amount; i++) {
-					player[j].spawnParticle(Particle.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
+				for (int i = 0; i < this.data.getAmount(); i++) {
+					player[j].spawnParticle(ParticleUtils.REDSTONE, ParticleUtils.getOffsetLocation(this.data, location), 0, dustOptions);
 				}
 			}
 		}
@@ -57,8 +53,8 @@ public class ColoredFadeParticle extends ParticleBuilder<FadeParticleData> {
 		this.data.setAmount(data.getAmount());
 		this.data.setOffset(data.getOffset());
 		if (data instanceof FadeParticleData) {
-			this.data.colors = ((FadeParticleData) data).colors;
-			this.data.fadeColors = ((FadeParticleData) data).fadeColors;
+			this.data.setColors(((FadeParticleData) data).getColors());
+			this.data.setFadeColors(((FadeParticleData) data).getFadeColors());
 		}
 	}
 }

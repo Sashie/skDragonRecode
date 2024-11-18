@@ -21,7 +21,7 @@ public class ExprParticleMaterial extends CustomParticlePropertyExpression<ItemS
 	@Override
 	public ItemStack getParticle(ParticleBuilder<?> p) {
 		if (p instanceof MaterialParticle) {
-			return new ItemStack(((MaterialParticle) p).getParticleData().material);
+			return new ItemStack(((MaterialParticle) p).getParticleData().getMaterial());
 		}
 		return null;
 	}
@@ -30,7 +30,7 @@ public class ExprParticleMaterial extends CustomParticlePropertyExpression<ItemS
 	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
 		if (p instanceof MaterialParticle) {
 			ItemStack i = (ItemStack) (delta[0]);
-			((MaterialParticle) p).getParticleData().material = i.getType();
+			((MaterialParticle) p).getParticleData().setMaterial(i.getType());
 		}
 	}
 

@@ -21,7 +21,7 @@ public class ExprParticleDirection extends CustomParticlePropertyExpression<Vect
 	@Override
 	public Vector getParticle(ParticleBuilder<?> p) {
 		if (p instanceof DirectionParticle) {
-			return ((DirectionParticle) p).getParticleData().direction;
+			return ((DirectionParticle) p).getParticleData().getDirection();
 		}
 
 		return null;
@@ -31,7 +31,7 @@ public class ExprParticleDirection extends CustomParticlePropertyExpression<Vect
 	public void setParticle(ParticleBuilder<?> p, Object[] delta) {
 		if (p instanceof DirectionParticle) {
 			Vector v = (Vector) (delta[0]);
-			((DirectionParticle) p).getParticleData().direction = v;
+			((DirectionParticle) p).getParticleData().setDirection(v);
 		}
 	}
 

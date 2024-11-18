@@ -67,11 +67,11 @@ public class EffectAPI {
 	 *
 	 * @param id ID of the effect
 	 */
-	public static boolean unregister(String id, SkriptNode skriptNode) {
+	public static void unregister(String id, SkriptNode skriptNode) {
 		EffectData effect = ALL_EFFECTS.getOrDefault(id, null);
 		if (effect == null) {
 			SkDragonRecode.warn("Effect with id '" + id + "' does not exist!", skriptNode);
-			return false;
+			return;
 		}
 		synchronized (effect) {
 			if (isRunning(id)) {
@@ -80,7 +80,6 @@ public class EffectAPI {
 			releasePools(effect);
 			ALL_EFFECTS.remove(id);
 		}
-		return true;
 	}
 
 	/**
@@ -258,6 +257,7 @@ public class EffectAPI {
 	public static void stop(String id, SkriptNode skriptNode) {
 		Integer taskId = ACTIVE_RUNNABLES.get(id);
 		if (taskId != null) {
+			ALL_EFFECTS.get(id).triggerStop();
 			Bukkit.getScheduler().cancelTask(taskId);
 			ACTIVE_RUNNABLES.remove(id);
 		} else {
@@ -269,9 +269,11 @@ public class EffectAPI {
 	 * Stops all effects
 	 */
 	public static void stopAll() {
-		if (ACTIVE_RUNNABLES == null || ACTIVE_RUNNABLES.isEmpty())
-			return;
+		if (ACTIVE_RUNNABLES.isEmpty()) return;
 
+		for (String id : ALL_EFFECTS.keySet()) {
+			ALL_EFFECTS.get(id).triggerStop();
+		}
 		for (Integer taskId : ACTIVE_RUNNABLES.values()) {
 			Bukkit.getScheduler().cancelTask(taskId);
 		}
@@ -284,7 +286,6 @@ public class EffectAPI {
 	 * @param id ID of the effect
 	 */
 	public static boolean isRunning(String id) {
-		// Bukkit.getScheduler().isCurrentlyRunning(taskId); // for some reason this returns false on running effect?
 		return ACTIVE_RUNNABLES.containsKey(id);
 	}
 }

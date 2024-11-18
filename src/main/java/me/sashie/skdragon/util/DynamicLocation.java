@@ -1,11 +1,9 @@
 package me.sashie.skdragon.util;
 
-import java.util.HashMap;
-import java.util.UUID;
-
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
 public class DynamicLocation extends Location {
 
@@ -18,16 +16,15 @@ public class DynamicLocation extends Location {
 		super(null, 0, 0, 0, 0, 0);
 	}
 
-
-	public DynamicLocation(Location location) {
+	public DynamicLocation(@NotNull Location location) {
 		super(location.getWorld(), location.getX(), location.getY(), location.getZ(), location.getYaw(), location.getPitch());
 	}
-	
-	public DynamicLocation(Entity entity) {
+
+	public DynamicLocation(@NotNull Entity entity) {
 		super(entity.getWorld(), entity.getLocation().getX(), entity.getLocation().getY(), entity.getLocation().getZ(), entity.getLocation().getYaw(), entity.getLocation().getPitch());
 		this.entity = entity;
 	}
-	
+
 	public DynamicLocation update() {
 		if (entity != null) {
 			this.setX(entity.getLocation().getX());
@@ -91,6 +88,7 @@ public class DynamicLocation extends Location {
 		this.setZ(this.getZ() - vec.getZ());
 		return this;
 	}
+
 	@Override
 	public DynamicLocation subtract(final double x, final double y, final double z) {
 		this.setX(this.getX() - x);
@@ -98,6 +96,7 @@ public class DynamicLocation extends Location {
 		this.setZ(this.getZ() - z);
 		return this;
 	}
+
 	@Override
 	public DynamicLocation multiply(final double m) {
 		this.setX(this.getX() * m);

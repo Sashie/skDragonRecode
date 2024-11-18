@@ -9,7 +9,6 @@ import me.sashie.skdragon.runnable.RunnableType;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Vibration;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
@@ -24,8 +23,43 @@ import org.bukkit.util.Vector;
 
 public class ParticleUtils {
 
+	private static Class<?> dustOptions;
+	private static Class<?> dustTransition;
+	private static Class<?> vibration;
+
+	static {
+        try {
+			dustOptions = Class.forName("org.bukkit.Particle$DustOptions");
+			dustTransition = Class.forName("org.bukkit.Particle$DustTransition");
+			vibration = Class.forName("org.bukkit.Vibration");
+        } catch (ClassNotFoundException e) {
+            // ignore
+        }
+    }
+
+	public static Particle REDSTONE = compatibleParticle("REDSTONE", "DUST");
+	public static Particle SMOKE_LARGE = compatibleParticle("SMOKE_LARGE", "LARGE_SMOKE");
+	public static Particle SMOKE_NORMAL = compatibleParticle("SMOKE_NORMAL", "SMOKE");
+	public static Particle SPELL_MOB = compatibleParticle("SPELL_MOB", "ENTITY_EFFECT");
+	public static Particle SPELL_MOB_AMBIENT = Utils.getEnumValue(Particle.class, "SPELL_MOB_AMBIENT");
+	public static Particle ITEM_CRACK = compatibleParticle("ITEM_CRACK", "ITEM");
+	public static Particle BLOCK_CRACK = compatibleParticle("BLOCK_CRACK", "BLOCK");
+	public static Particle BLOCK_DUST = Utils.getEnumValue(Particle.class, "BLOCK_DUST");
+
+	public static boolean isSameParticle(Particle particle1, Particle particle2) {
+		return particle1 == particle2;
+	}
+
+	private static Particle compatibleParticle(String oldName, String newName) {
+		Particle particle = Utils.getEnumValue(Particle.class, oldName);
+		if (particle == null) {
+			particle = Utils.getEnumValue(Particle.class, newName);
+		}
+		return particle;
+	}
+
 	/**
-	 * Updates the colors of ColoredParticleData in the provided EffectData.
+	 * Updates the colors of ColoredParticleData or FadeParticleData in the provided EffectData.
 	 * This method advances the color index for particles with multiple colors.
 	 *
 	 * @param data The EffectData to update.
@@ -37,16 +71,23 @@ public class ParticleUtils {
 	}
 
 	public static void updateColoredParticles(ParticleBuilder<?> builder) {
-		ParticleData particleData = builder.getParticleData();
+		if (builder == null) return;
+		ParticleData<?> particleData = builder.getParticleData();
 		if (particleData instanceof ColoredParticleData) {
 			ColoredParticleData colorData = (ColoredParticleData) particleData;
-			if (colorData.colors != null && colorData.colors.size() > 1) {
-				colorData.colors.next();
+			if (colorData.getColors() != null && colorData.getColors().size() > 1) {
+				colorData.getColors().next();
+			}
+		} else if (particleData instanceof FadeParticleData) {
+			FadeParticleData colorData = (FadeParticleData) particleData;
+			if (colorData.getColors() != null && colorData.getColors().size() > 1) {
+				colorData.getColors().next();
+				colorData.getFadeColors().next();
 			}
 		}
 	}
 
-	public static <T extends ParticleData, R extends ParticleBuilder<T>> R createParticle(T data) {
+	public static <T extends ParticleData<?>, R extends ParticleBuilder<T>> R createParticle(T data) {
 		if (data instanceof MaterialParticleData) {
 			return (R) new MaterialParticle((MaterialParticleData) data);
 		} else if (data instanceof VibrationParticleData) {
@@ -64,25 +105,25 @@ public class ParticleUtils {
 		throw new IllegalArgumentException("No particle type exists for that data object");
 	}
 
-	public static ParticleBuilder createParticle(Particle particle) {
+	public static ParticleBuilder<?> createParticle(Particle particle) {
 		Class<?> dataType = particle.getDataType();
 		if (dataType == ItemStack.class) {
-			return new MaterialParticle();
-		} else if (dataType == Particle.DustOptions.class) {
-			return new ColoredParticle();
+			return new MaterialParticle(particle);
+		} else if (dustOptions != null && dataType == dustOptions) {
+			return new ColoredParticle(particle);
 		} else if (dataType == BlockData.class) {
-			return new MaterialParticle();
-		} else if (dataType == Particle.DustTransition.class) {
-			return new ColoredFadeParticle();
-		} else if (dataType == Vibration.class) {
-			return new VibrationParticle();
+			return new MaterialParticle(particle);
+		} else if (dustTransition != null && dataType == dustTransition) {
+			return new ColoredFadeParticle(particle);
+		} else if (vibration != null && dataType == vibration) {
+			return new VibrationParticle(particle);
 		} else if (ParticleProperty.DIRECTIONAL.hasProperty(particle)) {
-			return new DirectionParticle();
+			return new DirectionParticle(particle);
 		}
-		return new NormalParticle();
+		return new NormalParticle(particle);
 	}
 
-	public static ParticleBuilder createParticle(Particle particle, ParticleData data) {
+	public static ParticleBuilder<?> createParticle(Particle particle, ParticleData<?> data) {
 		ParticleBuilder<?> p = ParticleUtils.createParticle(particle);
 		p.initParticle(data);
 		p.getParticleData().setParticle(particle);
@@ -97,7 +138,7 @@ public class ParticleUtils {
 				if (i < data.getParticleBuilders().length) {
 					finalParticles[i] = data.getParticleBuilders()[i];
 				} else {
-					finalParticles[i] = new ColoredParticle(Particle.REDSTONE);
+					finalParticles[i] = new ColoredParticle(REDSTONE);
 				}
 			}
 
@@ -105,23 +146,17 @@ public class ParticleUtils {
 		}
 	}
 
-	public static Location getOffsetLocation(ParticleData data, Location location) {
-		if (data.offset.getX() != 0 || data.offset.getY() != 0 || data.offset.getZ() != 0) {
+	public static Location getOffsetLocation(ParticleData<?> data, Location location) {
+		if (data.getOffset().getX() != 0 || data.getOffset().getY() != 0 || data.getOffset().getZ() != 0) {
 			return location.clone().add(
-					RandomUtils.randomRangeDouble(-data.offset.getX(), data.offset.getX()),
-					RandomUtils.randomRangeDouble(-data.offset.getY(), data.offset.getY()),
-					RandomUtils.randomRangeDouble(-data.offset.getZ(), data.offset.getZ()));
+					RandomUtils.randomRangeDouble(-data.getOffset().getX(), data.getOffset().getX()),
+					RandomUtils.randomRangeDouble(-data.getOffset().getY(), data.getOffset().getY()),
+					RandomUtils.randomRangeDouble(-data.getOffset().getZ(), data.getOffset().getZ()));
 		}
 		return location;
 	}
 
-	// Enum to specify the shape of the particles
-	public enum SizeShape {
-		ROUND,
-		SQUARE
-	}
-
-	public static ParticleBuilder<?>[] isSupported(ParticleData[] data, SkriptNode skriptNode) {
+	public static ParticleBuilder<?>[] isSupported(ParticleData<?>[] data, SkriptNode skriptNode) {
 		ParticleBuilder<?>[] out = new ParticleBuilder[data.length];
 		for (int i = 0; i < data.length; i++) {
 			if (!Utils.isValidEnum(Particle.class, data[i].getParticle().toString())) {
@@ -172,7 +207,7 @@ public class ParticleUtils {
 		}
 	}
 
-	public static void sendParticle(DynamicLocation location, Player[] player, ParticleData data, ParticleEffect effect, long duration, int iterations, long ticks) {
+	public static void sendParticle(DynamicLocation location, Player[] player, ParticleData<?> data, ParticleEffect effect, long duration, int iterations, long ticks) {
 		ParticleBuilder<?> builder = createParticle(data);
 		if (effect != null) {
 			sendTimedEffectParticles(builder, effect, location, player, duration, iterations, ticks);

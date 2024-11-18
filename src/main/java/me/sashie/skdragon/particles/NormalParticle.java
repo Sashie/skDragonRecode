@@ -12,20 +12,16 @@ import me.sashie.skdragon.particles.data.NormalParticleData;
 public class NormalParticle extends ParticleBuilder<NormalParticleData> {
 
 	public NormalParticle() {
-		super(new NormalParticleData());
+		super.initData(new NormalParticleData(this));
 	}
 
 	public NormalParticle(Particle particle) {
-		super(new NormalParticleData());
-		this.data.particle = particle;
+		this();
+		this.data.setParticle(particle);
 	}
 
 	public NormalParticle(NormalParticleData inputData) {
-		super(inputData);
-	}
-
-	public NormalParticle(Consumer<NormalParticleData> data) {
-		this(new NormalParticleData(), data);
+		super.initData(inputData);
 	}
 
 	public NormalParticle(NormalParticleData inputData, Consumer<NormalParticleData> data) {
@@ -36,10 +32,10 @@ public class NormalParticle extends ParticleBuilder<NormalParticleData> {
 	@Override
 	public void sendParticles(DynamicLocation location, Player... player) {
 		if (player == null || player.length == 0) {
-			location.getWorld().spawnParticle(data.particle, location, data.amount, data.offset.getX(), data.offset.getY(), data.offset.getZ(), data.speed);
+			location.getWorld().spawnParticle(data.getParticle(), location, data.getAmount(), data.getOffset().getX(), data.getOffset().getY(), data.getOffset().getZ(), data.getSpeed());
 		} else {
 			for (int i = 0; i < player.length; i++) {
-				player[i].spawnParticle(data.particle, location, data.amount, data.offset.getX(), data.offset.getY(), data.offset.getZ(), data.speed);
+				player[i].spawnParticle(data.getParticle(), location, data.getAmount(), data.getOffset().getX(), data.getOffset().getY(), data.getOffset().getZ(), data.getSpeed());
 			}
 		}
 	}
@@ -50,7 +46,7 @@ public class NormalParticle extends ParticleBuilder<NormalParticleData> {
 		this.data.setAmount(data.getAmount());
 		this.data.setOffset(data.getOffset());
 		if (data instanceof NormalParticleData) {
-			this.data.speed = ((NormalParticleData) data).speed;
+			this.data.setSpeed(((NormalParticleData) data).getSpeed());
 		}
 	}
 }

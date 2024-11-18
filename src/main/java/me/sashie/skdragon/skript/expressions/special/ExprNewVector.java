@@ -58,7 +58,7 @@ public class ExprNewVector extends SimpleExpression<Vector> {
 	protected Vector @NotNull [] get(@NotNull Event e) {
 		Object input = this.entLoc.getSingle(e);
 		if (input == null)
-			return null;
+			return new Vector[]{new Vector()};
 		DynamicLocation location = DynamicLocation.init(input);
 		return new Vector[]{new Vector(location.getX(), location.getY(), location.getZ())};
 	}

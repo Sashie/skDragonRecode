@@ -1,7 +1,21 @@
 package me.sashie.skdragon.particles.data;
 
-public class NormalParticleData extends ParticleData {
+import me.sashie.skdragon.particles.NormalParticle;
 
-	public double speed = 0;
+public class NormalParticleData extends ParticleData<NormalParticle> {
 
+	private double speed = 0;
+
+	public NormalParticleData(NormalParticle particle) {
+		super(particle);
+	}
+
+	public double getSpeed() {
+		return speed;
+	}
+
+	public NormalParticle setSpeed(double speed) {
+		this.speed = speed;
+		return returnType;
+	}
 }

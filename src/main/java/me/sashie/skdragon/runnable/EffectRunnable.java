@@ -4,7 +4,7 @@ import me.sashie.skdragon.effects.EffectData;
 import me.sashie.skdragon.effects.properties.IDensity;
 import me.sashie.skdragon.util.ParticleUtils;
 
-public class EffectRunnable extends BukkitRunnableTask {
+public class EffectRunnable extends JavaRunnableTask {
 
 	private int size = 0, iterations = -1;
 	private final long startTime;
@@ -22,41 +22,47 @@ public class EffectRunnable extends BukkitRunnableTask {
 	@Override
 	public void run() {
 		synchronized (this.data) {
-			if (this.data == null) {
-				cancel();
-				return;
-			}
-
-			if (duration != 0L && System.currentTimeMillis() - startTime >= duration) {
-				cancel();
-				return;
-			}
-
-			this.data.update();
-
-			if (this.data.stopTriggered()) {
-				cancel();
-				return;
-			}
-
-			ParticleUtils.updateColoredParticles(this.data);
-
-			if (duration == 0) {
-				if (iterations == -1) {
-					//ignore iterations and run endlessly
+			try {
+				if (this.data == null) {
+					System.out.println("data null :c");
+					cancel();
 					return;
 				}
 
-				size++;
-				if (size >= (this.data instanceof IDensity ? ((IDensity) this.data).getDensityProperty().getDensity(1) : 1)) { // Effects such as circle need a chance to travel around its path, using their density keeps those effects running long enough to finish
-					size = 0;
-					iterations--;
+				if (duration != 0L && System.currentTimeMillis() - startTime >= duration) {
+					cancel();
+					return;
 				}
 
-				if (iterations < 1) {
+				this.data.update();
+
+				if (this.data.stopTriggered()) {
 					cancel();
+					return;
 				}
+
+				ParticleUtils.updateColoredParticles(this.data);
+
+				if (duration == 0) {
+					if (iterations == -1) {
+						//ignore iterations and run endlessly
+						return;
+					}
+
+					size++;
+					if (size >= (this.data instanceof IDensity ? ((IDensity) this.data).getDensityProperty().getDensity(1) : 1)) { // Effects such as circle need a chance to travel around its path, using their density keeps those effects running long enough to finish
+						size = 0;
+						iterations--;
+					}
+
+					if (iterations < 1) {
+						cancel();
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 		}
 	}
 

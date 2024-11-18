@@ -6,7 +6,7 @@
 
     <groupId>me.sashie</groupId>
     <artifactId>skDragonRecode</artifactId>
-    <version>1.0.3</version>
+    <version>1.1</version>
     <packaging>jar</packaging>
 
     <name>SkDragonRecode</name>
@@ -81,7 +81,7 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.20.2-R0.1-SNAPSHOT</version>
+            <version>1.21-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

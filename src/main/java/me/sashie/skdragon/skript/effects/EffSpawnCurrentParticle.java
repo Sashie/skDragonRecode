@@ -77,7 +77,7 @@ public class EffSpawnCurrentParticle extends Effect {
 		long interval = Utils.verifyVar(e, exprInterval, new Timespan(0)).getTicks_i();
 
 		RunnableType type = RunnableType.INSTANT;
-		if (delay > 0)
+		if (delay > 0L)
 			type = RunnableType.DELAYED;
 		if (parsedSyntax.contains("repeat") || exprIterations != null)
 			type = RunnableType.REPEATING;

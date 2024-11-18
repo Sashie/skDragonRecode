@@ -8,10 +8,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class Utils {
 
+	public static double PI2 = Math.PI * 2;
 	private static final double GOLDEN_RATIO = (1 + Math.sqrt(5)) / 2;
 	public static final double GOLDEN_ANGLE_INCREMENT = Utils.PI2 * GOLDEN_RATIO;
-
-	public static double PI2 = Math.PI * 2;
 
 	public static String color(String string) {
 		return ChatColor.translateAlternateColorCodes('&', string);

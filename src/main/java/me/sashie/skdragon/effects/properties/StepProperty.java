@@ -3,10 +3,14 @@ package me.sashie.skdragon.effects.properties;
 public class StepProperty {
 
 	private float step;
-	private int stepAmount = 1;
+	private float stepAmount = 0.1f;
 
 	public float getStep() {
 		return step;
+	}
+
+	public void setStep(int step) {
+		this.step = step;
 	}
 
 	public void update() {

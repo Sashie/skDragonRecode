@@ -37,7 +37,7 @@ public class ExprEffectRotationXYZ extends CustomEffectPropertyExpression<Number
 	@Override
 	public void setPropertyValue(EffectData effect, Object[] delta) {
 		if (effect instanceof IAxis) {
-			double d = ((Number) (delta[0])).doubleValue();
+			float d = ((Number) (delta[0])).floatValue();
 			switch (mark) {
 				case 1:
 					((IAxis) effect).getAxisProperty().getAxis().setX(d);

@@ -1,9 +1,6 @@
 package me.sashie.skdragon.effects;
 
-import me.sashie.skdragon.effects.simple.Circle;
-import me.sashie.skdragon.effects.simple.Heart;
-import me.sashie.skdragon.effects.simple.Sphere;
-import me.sashie.skdragon.effects.simple.SphericalWave;
+import me.sashie.skdragon.effects.simple.*;
 import me.sashie.skdragon.effects.simple.parametric.*;
 import me.sashie.skdragon.effects.special.*;
 import me.sashie.skdragon.effects.targets.Arc;
@@ -23,6 +20,12 @@ public enum ParticleEffect {
 		@Override
 		public EffectData getEffectData() {
 			return new Circle();
+		}
+	},
+	ELLIPSE {
+		@Override
+		public EffectData getEffectData() {
+			return new Ellipse();
 		}
 	},
 	EPICYCLOID {
@@ -58,7 +61,13 @@ public enum ParticleEffect {
 	SPIRAL {
 		@Override
 		public EffectData getEffectData() {
-			return new Spiral3D();
+			return new Spiral();
+		}
+	},
+	SPIRAL_CIRCLE {
+		@Override
+		public EffectData getEffectData() {
+			return new SpiralCircle();
 		}
 	},
 	SPIROGRAPH {
@@ -99,6 +108,18 @@ public enum ParticleEffect {
 			return new Blackhole();
 		}
 	},
+	DRAGON_BREATH {
+		@Override
+		public EffectData getEffectData() {
+			return new Breath();
+		}
+	},
+	/*ITEM_FOUNTAIN {
+		@Override
+		public EffectData getEffectData() {
+			return new ItemFountain();
+		}
+	},*/
 	LASERS {
 		@Override
 		public EffectData getEffectData() {
@@ -132,20 +153,14 @@ public enum ParticleEffect {
 	RINGS {
 		@Override
 		public EffectData getEffectData() {
-			return new Rings();
+			return new SpecialTemplate();
 		}
 	},
 
-	/*Nebula {
+	/*NEBULA {
 		@Override
 		public EffectData getEffectData() {
 			return new Nebula();
-		}
-	},
-	MAGIC_PORTAL {
-		@Override
-		public EffectData getEffectData() {
-			return new MagicalPortalEffect();
 		}
 	},
 	TEXT {
@@ -154,12 +169,25 @@ public enum ParticleEffect {
 			return new Text();
 		}
 	},
+	*/
+	/*MAGIC_PORTAL {
+		@Override
+		public EffectData getEffectData() {
+			return new MagicalPortalEffect();
+		}
+	},
 	PHYSICS {
 		@Override
 		public EffectData getEffectData() {
 			return new PhysicsParticleEffect();
 		}
 	},*/
+	TORNADO {
+		@Override
+		public EffectData getEffectData() {
+			return new TornadoEffect();
+		}
+	},
 
 	WINGS {
 		@Override

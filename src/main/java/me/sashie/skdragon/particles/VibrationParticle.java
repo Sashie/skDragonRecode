@@ -13,20 +13,16 @@ import me.sashie.skdragon.util.DynamicLocation;
 public class VibrationParticle extends ParticleBuilder<VibrationParticleData> {
 
 	public VibrationParticle() {
-		super(new VibrationParticleData());
+		super.initData(new VibrationParticleData(this));
 	}
 
 	public VibrationParticle(Particle particle) {
-		super(new VibrationParticleData());
-		this.data.particle = particle;
+		this();
+		this.data.setParticle(particle);
 	}
 
 	public VibrationParticle(VibrationParticleData inputData) {
-		super(inputData);
-	}
-
-	public VibrationParticle(Consumer<VibrationParticleData> data) {
-		this(new VibrationParticleData(), data);
+		super.initData(inputData);
 	}
 
 	public VibrationParticle(VibrationParticleData inputData, Consumer<VibrationParticleData> data) {
@@ -39,19 +35,19 @@ public class VibrationParticle extends ParticleBuilder<VibrationParticleData> {
 		Vibration vibration = null;
 
 		if (location.isDynamic()) {
-			vibration = new Vibration(location, new Vibration.Destination.EntityDestination(location.getEntity()), this.data.arrivalTime);
+			vibration = new Vibration(location, new Vibration.Destination.EntityDestination(location.getEntity()), this.data.getArrivalTime());
 		} else {
-			vibration = new Vibration(location, new Vibration.Destination.BlockDestination(this.data.block), this.data.arrivalTime);
+			vibration = new Vibration(location, new Vibration.Destination.BlockDestination(this.data.getBlock()), this.data.getArrivalTime());
 		}
 
 		// https://www.spigotmc.org/threads/comprehensive-particle-spawning-guide-1-13-1-17.343001/
 		if (player == null || player.length == 0) {
-			for (int i = 0; i < data.amount; i++) {
+			for (int i = 0; i < data.getAmount(); i++) {
 				location.getWorld().spawnParticle(Particle.VIBRATION, location, 1, vibration);
 			}
 		} else {
 			for (int i = 0; i < player.length; i++) {
-				for (int j = 0; j < data.amount; j++) {
+				for (int j = 0; j < data.getAmount(); j++) {
 					player[i].spawnParticle(Particle.VIBRATION, location, 1, vibration);
 				}
 			}
@@ -64,12 +60,12 @@ public class VibrationParticle extends ParticleBuilder<VibrationParticleData> {
 		this.data.setAmount(data.getAmount());
 		this.data.setOffset(data.getOffset());
 		if (data instanceof VibrationParticleData) {
-			this.data.arrivalTime = ((VibrationParticleData) data).arrivalTime;
-			this.data.direction = ((VibrationParticleData) data).direction;
-			this.data.block = ((VibrationParticleData) data).block;
-			this.data.entity = ((VibrationParticleData) data).entity;
-			this.data.target = ((VibrationParticleData) data).target;
-			this.data.speed = ((VibrationParticleData) data).speed;
+			this.data.setArrivalTime(((VibrationParticleData) data).getArrivalTime());
+			this.data.setDirection(((VibrationParticleData) data).getDirection());
+			this.data.setBlock(((VibrationParticleData) data).getBlock());
+			this.data.setEntity(((VibrationParticleData) data).getEntity());
+			this.data.setTarget(((VibrationParticleData) data).getTarget());
+			this.data.setSpeed(((VibrationParticleData) data).getSpeed());
 		}
 	}
 }

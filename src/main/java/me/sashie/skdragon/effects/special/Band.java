@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.special;
 
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.ParticleUtils;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 
@@ -38,7 +39,7 @@ public class Band extends SpecialEffect {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE) };
 	}
 
 }

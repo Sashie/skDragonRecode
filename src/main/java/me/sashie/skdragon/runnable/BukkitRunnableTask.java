@@ -19,7 +19,6 @@ public abstract class BukkitRunnableTask implements Runnable, RunnableTask<Bukki
 				r.run();
 			}
 		};
-
 	}
 
 	@Override

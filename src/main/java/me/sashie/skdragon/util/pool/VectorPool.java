@@ -21,7 +21,7 @@ public class VectorPool {
 
 	public Vector acquire(double x, double y, double z) {
 		Vector v = pool.acquire();
-		v.setX(x).setY(y).setZ(x);
+		v.setX(x).setY(y).setZ(z);
 		return v;
 	}
 

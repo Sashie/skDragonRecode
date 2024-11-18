@@ -3,7 +3,7 @@ package me.sashie.skdragon.effects.properties;
 public class SwingStepProperty {
 
 	private float step;
-	private int stepAmount = 1;
+	private float stepAmount = 0.1f;
 	private boolean oscillate, reverse;
 
 	public boolean isOscillating() {

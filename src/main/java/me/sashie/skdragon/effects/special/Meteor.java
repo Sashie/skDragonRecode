@@ -5,10 +5,7 @@ import me.sashie.skdragon.effects.SpecialEffect;
 import me.sashie.skdragon.effects.properties.*;
 import me.sashie.skdragon.particles.DirectionParticle;
 import me.sashie.skdragon.particles.ParticleBuilder;
-import me.sashie.skdragon.util.DynamicLocation;
-import me.sashie.skdragon.util.EffectUtils;
-import me.sashie.skdragon.util.RandomUtils;
-import me.sashie.skdragon.util.Utils;
+import me.sashie.skdragon.util.*;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
@@ -86,22 +83,22 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius, IStep {
 
 			ParticleBuilder<?> p1 = getParticleBuilder(1);
 			if (p1 instanceof DirectionParticle) {
-				((DirectionParticle) p1).getParticleData().direction = v.clone().multiply(-1).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f)));
+				((DirectionParticle) p1).getParticleData().setDirection(v.clone().multiply(-1).add(new Vector(RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f), RandomUtils.randomRangeFloat(-0.01f, 0.01f))));
 			}
 			p1.sendParticles(location, getPlayers());
 
 			ParticleBuilder<?> p2 = getParticleBuilder(2);
 			if (p2 instanceof DirectionParticle) {
-				((DirectionParticle) p2).getParticleData().direction = v.clone().multiply(1);
+				((DirectionParticle) p2).getParticleData().setDirection(v.clone().multiply(1));
 			}
 			p2.sendParticles(location, getPlayers());
 		}
 
 		private void stop() {
-			for (double n = 0.0; n <= Utils.PI2; n += (Math.PI / 10)) {
+			for (float n = 0.0f; n <= MathUtils.PI2; n += (MathUtils.PI / 10)) {
 				ParticleBuilder<?> p3 = getParticleBuilder(3);
 				if (p3 instanceof DirectionParticle) {
-					((DirectionParticle) p3).getParticleData().direction.setX(Math.cos(n)).setY(0.0).setZ(Math.sin(n));
+					((DirectionParticle) p3).getParticleData().getDirection().setX(MathUtils.cos(n)).setY(0.0).setZ(MathUtils.sin(n));
 				}
 				p3.sendParticles(location, getPlayers());
 			}
@@ -121,8 +118,8 @@ public class Meteor extends SpecialEffect implements IExtra, IRadius, IStep {
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
 		DirectionParticle particle = new DirectionParticle(Particle.FLAME);
-		particle.getParticleData().speed = 0.1f;
-		return new ParticleBuilder[] { new DirectionParticle(Particle.FLAME), new DirectionParticle(Particle.SMOKE_LARGE), particle };
+		particle.getParticleData().setSpeed(0.1f);
+		return new ParticleBuilder[] { new DirectionParticle(Particle.FLAME), new DirectionParticle(ParticleUtils.SMOKE_LARGE), particle };
 	}
 
 	@Override

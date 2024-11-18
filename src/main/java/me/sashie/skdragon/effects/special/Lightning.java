@@ -1,6 +1,7 @@
 package me.sashie.skdragon.effects.special;
 
 import me.sashie.skdragon.particles.ParticleBuilder;
+import me.sashie.skdragon.util.ParticleUtils;
 import me.sashie.skdragon.util.RandomUtils;
 import me.sashie.skdragon.util.pool.ObjectPoolManager;
 import org.bukkit.Particle;
@@ -49,6 +50,7 @@ public class Lightning extends SpecialRadiusDensityEffect implements IAxis {
 				vector.normalize().multiply(0.1);
 			}
 		}
+		this.getRadiusProperty().updateRadius();
 	}
 
 	public void updateVector(double x, double y, double z) {
@@ -70,7 +72,7 @@ public class Lightning extends SpecialRadiusDensityEffect implements IAxis {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE).getParticleData().setColor(252, 192, 30) };
 	}
 
 	@Override

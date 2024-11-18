@@ -23,11 +23,11 @@ public class ExprParticleColorRGB extends CustomParticlePropertyExpression<Numbe
 		if (p instanceof ColoredParticle) {
 			switch (mark) {
 				case 1:
-					return ((ColoredParticle) p).getParticleData().colors.get().getRed();
+					return ((ColoredParticle) p).getParticleData().getColors().get().getRed();
 				case 2:
-					return ((ColoredParticle) p).getParticleData().colors.get().getGreen();
+					return ((ColoredParticle) p).getParticleData().getColors().get().getGreen();
 				case 3:
-					return ((ColoredParticle) p).getParticleData().colors.get().getBlue();
+					return ((ColoredParticle) p).getParticleData().getColors().get().getBlue();
 			}
 		}
 
@@ -43,7 +43,7 @@ public class ExprParticleColorRGB extends CustomParticlePropertyExpression<Numbe
 			else if (value > 255)
 				value = 255;
 
-			Color c = ((ColoredParticle) p).getParticleData().colors.get();
+			Color c = ((ColoredParticle) p).getParticleData().getColors().get();
 			switch (mark) {
 				case 1:
 					((ColoredParticle) p).getParticleData().setColor(org.bukkit.Color.fromRGB(value, c.getGreen(), c.getBlue()));

@@ -1,5 +1,6 @@
 package me.sashie.skdragon.effects.targets;
 
+import me.sashie.skdragon.util.ParticleUtils;
 import org.bukkit.Particle;
 import org.bukkit.util.Vector;
 
@@ -60,7 +61,7 @@ public class Arc extends TargetEffect implements IDensity, IExtra {
 
 	@Override
 	public ParticleBuilder<?>[] defaultParticles() {
-		return new ParticleBuilder<?>[] { new ColoredParticle(Particle.REDSTONE) };
+		return new ParticleBuilder<?>[] { new ColoredParticle(ParticleUtils.REDSTONE) };
 	}
 
 	@Override
