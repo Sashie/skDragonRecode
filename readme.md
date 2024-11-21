@@ -29,6 +29,17 @@ command /circle:
         start particle effect "mycircle" at player repeating with an interval of 1 tick
 ```
 
+#### Editing the circle effect out of the section
+```skript
+command /editmycircle:
+    trigger:
+        set solid mode of effect "mycircle" to false
+        set density of effect "mycircle" to 5
+        set displacement vector of effect "mycircle" to vector(0,1.5,0) # Moves the circle 2 blocks above the player's position
+        set radius of effect "mycircle" to 1.5 
+        set rotation vector of effect "mycircle" to vector(0,90,0) 
+```
+
 ---
 
 ## Syntax Documentation
@@ -53,4 +64,3 @@ For questions, support, or to showcase your creations:
 
 ---
 
-Let me know if you’d like to include additional examples or changes!
