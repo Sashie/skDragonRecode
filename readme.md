@@ -46,6 +46,20 @@ command /editmycircle:
         set radius of effect "mycircle" to 1.5 
         set rotation vector of effect "mycircle" to vector(0,90,0) 
 ```
+#### Coloring our circle/using a different particle
+> **Note:**  
+> - Only the "dust" particle (referred to as "redstone" in Minecraft 1.16.5) supports customizable colors.
+> - Depending on the particle effect you are using, there may be multiple particles that you can customize, such as "1st particle," "2nd particle," etc.
+
+```skript
+set the 1st particle red value of the particle effect "uniqueID" to 255
+set the 1st particle blue value of the particle effect "uniqueID" to 255
+set the 1st particle green value of the particle effect "uniqueID" to 255
+```
+
+```skript
+set the 1st particle color of the particle effect "uniqueID" to custom color using rgb 255, 255, 0
+```
 
 #### Hiding or showing our circle to specific players
 ```
