@@ -40,6 +40,17 @@ command /editmycircle:
         set rotation vector of effect "mycircle" to vector(0,90,0) 
 ```
 
+#### Hiding or showing our circle to specific players
+```
+set {_players::*} to players of effect "uniqueid"
+set clientside players of effect "uniqueid" to {_players::*}
+add player to clientside players of effect "uniqueid"
+remove player from clientside players of effect "uniqueid"
+delete clientside players of effect "uniqueid"
+```
+Note: 
+    - If the list is deleted all players can see the effect !
+    - Using this expression makes that effect the no longer plays to the whole world, only the player list.
 ---
 
 ## Syntax Documentation
