@@ -48,9 +48,9 @@ add player to clientside players of effect "uniqueid"
 remove player from clientside players of effect "uniqueid"
 delete clientside players of effect "uniqueid"
 ```
-Note: 
-    - If the list is deleted all players can see the effect !
-    - Using this expression makes that effect the no longer plays to the whole world, only the player list.
+> **Note:**  
+> - If the list is deleted, all players can see the effect again.  
+> - Using this expression ensures the effect no longer plays globally—it is only visible to the specified player list.
 ---
 
 ## Syntax Documentation
