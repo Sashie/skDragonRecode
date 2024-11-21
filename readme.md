@@ -1,6 +1,3 @@
-Here’s the updated **`README.md`** with the corrected circle example included and the license section removed:
-
----
 
 # SkDragon Recode
 
