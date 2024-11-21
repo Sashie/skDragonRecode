@@ -14,7 +14,14 @@ SkDragon Recode is a powerful and flexible **[Skript](https://github.com/SkriptL
 
 ## Basic Usage
 
-### Example Commands
+### **Important Note**  
+For every particle effect, you must set a **unique ID (`uniqueid`)**.  
+This ID is mandatory to register, modify, or manipulate the effect later.  
+Without a `uniqueid`, the effect cannot be properly managed.  
+
+**Example:** `register new particle effect circle with id "mycircle"`
+
+--- 
 
 #### Drawing a Circle Effect
 ```skript
