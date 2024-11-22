@@ -118,8 +118,7 @@ command /wings:
         start particle effect "mywings.%player%" at player repeating with an interval of 1 tick
 ```
 
-
-
+> Many complex effects have their own unique properties, which will be documented in the wiki once it becomes available.
 
 
 --- 
@@ -129,6 +128,8 @@ command /wings:
 > Detailed syntax descriptions will be added here as the wiki is completed.
 
 For now, check out the [SkUnity docs](https://docs.skunity.com/syntax/search/addon:skdragon+) for syntax and limited examples.
+
+[![Get on skUnity](https://docs.skunity.com/skunity/library/Docs/Assets/assets/images/buttons/v1/get_on_docs_3.png)](https://docs.skunity.com/syntax/search/addon:skDragon)
 
 ---
 
