@@ -48,7 +48,7 @@ command /editmycircle:
 ```
 #### Coloring our circle/using a different particle
 > **Note:**  
-> - Only the "dust" particle (referred to as "redstone" in Minecraft 1.16.5) supports customizable colors.
+> - Only the "dust","mob spell" and "mob spell ambient" particle types ("dust" is referred to as "redstone" in Minecraft 1.16.5) supports customizable colors.
 > - Depending on the particle effect you are using, there may be multiple particles that you can customize, such as "1st particle," "2nd particle," etc.
 
 ```skript
