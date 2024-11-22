@@ -59,6 +59,11 @@ set the 1st particle green value of the particle effect "uniqueID" to 255
 
 ```skript
 set the 1st particle color of the particle effect "uniqueID" to custom color using rgb 255, 255, 0
+set the 1st particle color of the particle effect "uniqueID" to gradient between custom color using rgb 255, 0, 0 and custom color using rgb 0, 255, 0 with 10 steps
+```
+
+```skript
+set 1st particle of effect "uniqueID" to flame
 ```
 
 #### Hiding or showing our circle to specific players
