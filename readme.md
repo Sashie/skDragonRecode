@@ -90,7 +90,7 @@ delete clientside players of effect "uniqueid"
 
 There are many complex effects, with more planned for future updates. For this example, we will use the most iconic one: the wings effect.
 
-> Complex effects also use the same properties as simple effects, with some additional properties for enhanced customization.
+> Complex effects also uses the same properties as simple effects, with some additional properties for enhanced customization.
 
 
 
