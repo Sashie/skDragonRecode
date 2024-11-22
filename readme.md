@@ -103,9 +103,9 @@ command /wings:
         register new particle effect wings.%player% with id "mywings.%player%":
             set style of effect to 1 
 
-            set the 1st particle color of the particle effect "mycircle.%player%" to custom color using rgb 0, 0, 0
-            set the 2nd particle color of the particle effect "mycircle.%player%" to custom color using rgb 255, 0, 0
-            set the 3rd particle color of the particle effect "mycircle.%player%" to custom color using rgb 0, 0, 0
+            set the 1st particle color of the particle effect to custom color using rgb 0, 0, 0
+            set the 2nd particle color of the particle effect to custom color using rgb 255, 0, 0
+            set the 3rd particle color of the particle effect to custom color using rgb 0, 0, 0
 
             set 1st extra value of effect to 0.2 # Height of the particles (default is 0.2)
             set 2nd extra value of effect to 0.2 # Distance between each particle (default is 0.2)
