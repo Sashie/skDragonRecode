@@ -111,7 +111,7 @@ command /wings:
             set 2nd extra value of effect to 0.2 # Distance between each particle (default is 0.2)
             set 3rd extra value of effect to 0.2 # Distance from the player's back (default is 0.2)
 
-            set wing angle of effect to 10 # Adjusts the tilt or spread of the wings, (default is 110)
+            set wing angle of effect to 10 # Adjusts the tilt or spread of the wings, (default is 0)
             set wing flap range of effect to 10 # How far the wings will flap back and forth, (default is 20)
             set wing flap step of effect to 1 # How fast the wings flap, (default is 0.3)
 
