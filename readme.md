@@ -111,11 +111,28 @@ command /wings:
             set 2nd extra value of effect to 0.2 # Distance between each particle (default is 0.2)
             set 3rd extra value of effect to 0.2 # Distance from the player's back (default is 0.2)
 
-            set wing angle of effect to 10 # Adjusts the tilt or spread of the wings, (default is 0)
-            set wing flap range of effect to 10 # How far the wings will flap back and forth, (default is 20)
-            set wing flap step of effect to 1 # How fast the wings flap, (default is 0.3)
+            set wing angle of effect to 0 # Adjusts the tilt or spread of the wings, (default is 0)
+            set wing flap range of effect to 20 # How far the wings will flap back and forth, (default is 20)
+            set wing flap step of effect to 0.3 # How fast the wings flap, (default is 0.3)
 
         start particle effect "mywings.%player%" at player repeating with an interval of 1 tick
+```
+
+#### 1.1 Dynamically editing the wings effect after it has started
+```skript
+command /editmywings:
+    trigger:
+        set the 1st particle color of the particle effect "mywings.%player%" to custom color using rgb 0, 0, 0
+        set the 2nd particle color of the particle effect "mywings.%player%" to custom color using rgb 255, 0, 0
+        set the 3rd particle color of the particle effect  "mywings.%player%"to custom color using rgb 0, 0, 0
+
+        set 1st extra value of effect "mywings.%player%" to 0.5 
+        set 2nd extra value of effect "mywings.%player%" to 0.3 
+        set 3rd extra value of effect "mywings.%player%" to 0.4 
+
+        set wing angle of effect "mywings.%player%" to 10
+        set wing flap range of effect "mywings.%player%" to 22 
+        set wing flap step of effect "mywings.%player%" to 0.5
 ```
 
 > Many complex effects have their own unique properties, which will be documented in the wiki once it becomes available.
