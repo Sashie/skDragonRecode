@@ -21,7 +21,11 @@ Without a `uniqueid`, the effect cannot be properly managed.
 
 **Example:** `register new particle effect circle with id "mycircle"`
 
+> If an effect doesn't use a particular property, there should be a console message indicating this, including the effect's ID name.
+
 --- 
+
+## Simple effects
 
 #### 1. Drawing a Circle Effect
 ```skript
