@@ -23,7 +23,7 @@ Without a `uniqueid`, the effect cannot be properly managed.
 
 --- 
 
-#### Drawing a Circle Effect
+#### 1. Drawing a Circle Effect
 ```skript
 command /circle:
     trigger:
@@ -36,7 +36,7 @@ command /circle:
         start particle effect "mycircle" at player repeating with an interval of 1 tick
 ```
 
-#### Dynamically editing the circle effect after it has started
+#### 1.1 Dynamically editing the circle effect after it has started
 ```skript
 command /editmycircle:
     trigger:
@@ -46,7 +46,7 @@ command /editmycircle:
         set radius of effect "mycircle" to 1.5 
         set rotation vector of effect "mycircle" to vector(0,90,0) 
 ```
-#### Coloring our circle/using a different particle
+#### 2 Coloring our circle/using a different particle
 > **Note:**  
 > - Only the "dust","mob spell" and "mob spell ambient" particle types ("dust" is referred to as "redstone" in earlier minecraft versions) supports customizable colors.
 > - In rare cases where Mojang changes or removes particle names, it's up to the Skript developer to update the names accordingly.
@@ -85,7 +85,7 @@ delete clientside players of effect "uniqueid"
 
 > Detailed syntax descriptions will be added here as the wiki is completed.
 
-For now, check out the [SkUnity docs](https://docs.skunity.com/syntax/search/addon:skdragon+) for syntax examples and explanations.
+For now, check out the [SkUnity docs](https://docs.skunity.com/syntax/search/addon:skdragon+) for syntax and limited examples.
 
 ---
 
