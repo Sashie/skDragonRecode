@@ -76,7 +76,7 @@ delete clientside players of effect "uniqueid"
 ```
 > **Note:**  
 > - If the list is deleted, all players can see the effect again.  
-> - Using this expression ensures the effect no longer plays globally—it is only visible to the specified player list.
+> - Using this expression ensures the effect no longer plays globally, it is only visible to the specified player list.
 ---
 
 ## Syntax Documentation
