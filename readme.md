@@ -22,6 +22,7 @@ Without a `uniqueid`, the effect cannot be properly managed.
 **Example:** `register new particle effect circle with id "mycircle"`
 
 > If an effect doesn't use a particular property such as radius/rotation vector etc.. , there should be a console message indicating this, including the effect's ID name.
+> Every property has a default value, meaning you don't always need to specify every property. If a property is not specified, it will automatically use its default value.
 
 --- 
 
@@ -31,24 +32,27 @@ Without a `uniqueid`, the effect cannot be properly managed.
 ```skript
 command /circle:
     trigger:
-        register new particle effect circle with id "mycircle":
+        register new particle effect circle with id "mycircle.%player%":
             set solid mode of effect to true
             set density of effect to 20
             set displacement vector of effect to vector(0,2,0) # Moves the circle 2 blocks above the player's position
             set radius of effect to 1 # Defines the radius of the circle
             set rotation vector of effect to vector(90,0,0) # Rotates the circle 90° along the X-axis
-        start particle effect "mycircle" at player repeating with an interval of 1 tick
+
+            #every other change here doesn't require you to specify the effect's id.
+
+        start particle effect "mycircle.%player%" at player repeating with an interval of 1 tick
 ```
 
 #### 1.1 Dynamically editing the circle effect after it has started
 ```skript
 command /editmycircle:
     trigger:
-        set solid mode of effect "mycircle" to false
-        set density of effect "mycircle" to 5
-        set displacement vector of effect "mycircle" to vector(0,1.5,0) 
-        set radius of effect "mycircle" to 1.5 
-        set rotation vector of effect "mycircle" to vector(0,90,0) 
+        set solid mode of effect "mycircle.%player%" to false
+        set density of effect "mycircle.%player%" to 5
+        set displacement vector of effect "mycircle.%player%" to vector(0,1.5,0) 
+        set radius of effect "mycircle.%player%" to 1.5 
+        set rotation vector of effect "mycircle.%player%" to vector(0,90,0) 
 ```
 #### 2 Coloring our circle/using a different particle
 > **Note:**  
@@ -58,27 +62,27 @@ command /editmycircle:
 > - Depending on the particle effect you are using, there may be multiple particles that you can customize, such as "1st particle," "2nd particle," etc.
 
 ```skript
-set the 1st particle red value of the particle effect "uniqueID" to 255
-set the 1st particle blue value of the particle effect "uniqueID" to 255
-set the 1st particle green value of the particle effect "uniqueID" to 255
+set the 1st particle red value of the particle effect "mycircle.%player%" to 255
+set the 1st particle blue value of the particle effect "mycircle.%player%" to 255
+set the 1st particle green value of the particle effect "mycircle.%player%" to 255
 ```
 
 ```skript
-set the 1st particle color of the particle effect "uniqueID" to custom color using rgb 255, 255, 0
-set the 1st particle color of the particle effect "uniqueID" to gradient between custom color using rgb 255, 0, 0 and custom color using rgb 0, 255, 0 with 10 steps
+set the 1st particle color of the particle effect "mycircle.%player%" to custom color using rgb 255, 255, 0
+set the 1st particle color of the particle effect "mycircle.%player%" to gradient between custom color using rgb 255, 0, 0 and custom color using rgb 0, 255, 0 with 10 steps
 ```
 
 ```skript
-set 1st particle of effect "uniqueID" to flame
+set 1st particle of effect "mycircle.%player%" to flame
 ```
 
 #### Hiding or showing our circle to specific players
 ```
-set {_players::*} to players of effect "uniqueid"
-set clientside players of effect "uniqueid" to {_players::*}
-add player to clientside players of effect "uniqueid"
-remove player from clientside players of effect "uniqueid"
-delete clientside players of effect "uniqueid"
+set {_players::*} to players of effect "mycircle.%player%"
+set clientside players of effect "mycircle.%player%" to {_players::*}
+add player to clientside players of effect "mycircle.%player%"
+remove player from clientside players of effect "mycircle.%player%"
+delete clientside players of effect "mycircle.%player%"
 ```
 > **Note:**  
 > - If the list is deleted, all players can see the effect again.  
@@ -90,7 +94,30 @@ delete clientside players of effect "uniqueid"
 
 There are many complex effects, with more planned for future updates. For this example, we will use the most iconic one: the wings effect.
 
-> Complex effects also uses the same properties as simple effects, with some additional properties for enhanced customization.
+> Some of the complex effects also uses the same properties as simple effects, with some additional properties for enhanced customization.
+
+#### 1. Drawing a wings Effect
+```skript
+command /wings:
+    trigger:
+        register new particle effect wings.%player% with id "mywings.%player%":
+            set style of effect to 1 
+
+            set the 1st particle color of the particle effect "mycircle.%player%" to custom color using rgb 0, 0, 0
+            set the 2nd particle color of the particle effect "mycircle.%player%" to custom color using rgb 255, 0, 0
+            set the 3rd particle color of the particle effect "mycircle.%player%" to custom color using rgb 0, 0, 0
+
+            set 1st extra value of effect to 0.2 # Height of the particles (default is 0.2)
+            set 2nd extra value of effect to 0.2 # Distance between each particle (default is 0.2)
+            set 3rd extra value of effect to 0.2 # Distance from the player's back (default is 0.2)
+
+            set wing angle of effect to 10 # Adjusts the tilt or spread of the wings, (default is 110)
+            set wing flap range of effect to 10 # How far the wings will flap back and forth, (default is 20)
+            set wing flap step of effect to 1 # How fast the wings flap, (default is 0.3)
+
+        start particle effect "mywings.%player%" at player repeating with an interval of 1 tick
+```
+
 
 
 
