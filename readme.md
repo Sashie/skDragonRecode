@@ -50,7 +50,7 @@ command /editmycircle:
 > **Note:**  
 > - Only the "dust","mob spell" and "mob spell ambient" particle types ("dust" is referred to as "redstone" in earlier minecraft versions) supports customizable colors.
 > - In rare cases where Mojang changes or removes particle names, it's up to the Skript developer to update the names accordingly.
-> - 
+
 > - Depending on the particle effect you are using, there may be multiple particles that you can customize, such as "1st particle," "2nd particle," etc.
 
 ```skript
