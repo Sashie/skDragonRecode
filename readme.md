@@ -83,7 +83,19 @@ delete clientside players of effect "uniqueid"
 > **Note:**  
 > - If the list is deleted, all players can see the effect again.  
 > - Using this expression ensures the effect no longer plays globally, it is only visible to the specified player list.
+
 ---
+
+## Complex effects
+
+There are many complex effects, with more planned for future updates. For this example, we will use the most iconic one: the wings effect.
+
+> Complex effects also use the same properties as simple effects, with some additional properties for enhanced customization.
+
+
+
+
+--- 
 
 ## Syntax Documentation
 
