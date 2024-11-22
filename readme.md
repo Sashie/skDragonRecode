@@ -85,7 +85,7 @@ delete clientside players of effect "uniqueid"
 
 > Detailed syntax descriptions will be added here as the wiki is completed.
 
-For now, check out the [wiki](#) for syntax examples and explanations.
+For now, check out the [SkUnity docs](https://docs.skunity.com/syntax/search/addon:skdragon+) for syntax examples and explanations.
 
 ---
 
